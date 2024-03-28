@@ -20,11 +20,14 @@ class ViewController: UIViewController, PKCanvasViewDelegate {
     let IncorrectView = UIView()
     let CorrectView = UIView()
     let CardView = UIView()
-    var CardOverlay = UIView()
     let CardLabel = UILabel()
 //    let CardOverlayLabel = UIView()
     let CardDrawing = PKCanvasView()
     let CardImage = UIImageView()
+    let OverlayCard = UIView()
+    let OverlayLabel = UILabel()
+    let OverlayDrawing = PKCanvasView()
+    let OverlayIMage = UIImageView()
     
     let DrawingView = PKCanvasView()
     let TextField = UITextField()
@@ -41,6 +44,7 @@ class ViewController: UIViewController, PKCanvasViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -55,9 +59,9 @@ class ViewController: UIViewController, PKCanvasViewDelegate {
     
     
     func setup(){
-        for i in view.subviews {
-            i.removeFromSuperview()
-        }
+//        for i in view.subviews {
+//            i.removeFromSuperview()
+//        }
         
         IncorrectView.backgroundColor = .secondarySystemBackground
         IncorrectView.layer.cornerRadius = 10
@@ -79,7 +83,7 @@ class ViewController: UIViewController, PKCanvasViewDelegate {
         view.addSubview(DrawingView)
         
         if(view.layer.frame.width > view.layer.frame.height){
-            if(currentInput == "drawing"){
+            if(currentInput == "d-r"){
                 topHeight = (view.layer.frame.height - 100) * 0.6
                 bottomHeight = (view.layer.frame.height - 100) * 0.4
             }
@@ -89,7 +93,7 @@ class ViewController: UIViewController, PKCanvasViewDelegate {
             DrawingView.frame = CGRect(x: 20, y: 80 + topHeight, width: view.layer.frame.width - 40, height: bottomHeight)
         }else{
             var optionsHeight: CGFloat = 50
-            if(currentInput == "drawing"){
+            if(currentInput == "d-r"){
                 topHeight = (view.layer.frame.height - 120) * 0.45
                 optionsHeight = (view.layer.frame.height - 120) * 0.15
                 bottomHeight = (view.layer.frame.height - 120) * 0.4
@@ -100,20 +104,21 @@ class ViewController: UIViewController, PKCanvasViewDelegate {
             DrawingView.frame = CGRect(x: 20, y: 80 + buttonsHeight + optionsHeight + topHeight, width: view.layer.frame.width - 40, height: bottomHeight)
         }
         
-        let cardButton = UIButton()
-        cardButton.addTarget(self, action: #selector(self.CardButton(sender:)), for: .touchUpInside)
-        cardButton.frame = CGRect(x: 0, y: 0, width: CardView.frame.width, height: CardView.frame.height)
-        CardView.addSubview(cardButton)
-        
         CardLabel.font = .systemFont(ofSize: 40)
         CardLabel.textAlignment = .center
         CardLabel.frame = CGRect(x: 0, y: 0, width: CardView.frame.width, height: CardView.frame.height)
         CardView.addSubview(CardLabel)
-        if(startOnFront){
+        if(onFront){
             if(cards[cardOrder[index]][0] as! String == "s"){
                 CardLabel.text = cards[cardOrder[index]][1] as? String
             }
         }
+        
+        let cardButton = UIButton()
+        cardButton.addTarget(self, action: #selector(self.CardButton(sender:)), for: .touchUpInside)
+        cardButton.frame = CGRect(x: 0, y: 0, width: CardView.frame.width, height: CardView.frame.height)
+        CardView.addSubview(cardButton)
+        cardButton.bringSubviewToFront(cardButton)
         
         let incorrectImage = UIImageView()
         incorrectImage.image = UIImage(systemName: "xmark")
@@ -158,12 +163,20 @@ class ViewController: UIViewController, PKCanvasViewDelegate {
         settingsButton.addTarget(self, action: #selector(self.SettingsButton(sender:)), for: .touchUpInside)
         view.addSubview(settingsButton)
         cardCounter.frame = CGRect(x: 60, y: 20, width: view.frame.width - 120, height: 20)
-        cardCounter.font = .systemFont(ofSize: 10)
+        cardCounter.font = .systemFont(ofSize: 15)
         cardCounter.textAlignment = .center
         cardCounter.text = String(index + 1) + "/" + String(cardOrder.count)
         view.addSubview(cardCounter)
         
-        view.addSubview(CardOverlay)
+        OverlayCard.frame = CardView.frame
+        OverlayCard.layer.cornerRadius = 10
+        OverlayCard.backgroundColor = .secondarySystemBackground
+        OverlayLabel.font = .systemFont(ofSize: 40)
+        OverlayLabel.textAlignment = .center
+        OverlayLabel.frame = CGRect(x: 0, y: 0, width: CardView.frame.width, height: CardView.frame.height)
+        OverlayCard.addSubview(OverlayLabel)
+        OverlayCard.isHidden = true
+        view.addSubview(OverlayCard)
     }
     
     @objc func IncorrectButton(sender: UIButton) {
@@ -187,10 +200,22 @@ class ViewController: UIViewController, PKCanvasViewDelegate {
         UIView.animate(withDuration: 0.5, animations: {
             self.CorrectView.backgroundColor = .secondarySystemBackground
         })
-        if(index == cards.count){
+        if(index == cards.count - 1){
             //Next round
         }else{
-            CardOverlay = CardView
+            if(onFront){
+                if(cards[cardOrder[index]][0] as! String == "t"){
+                    OverlayLabel.text = cards[cardOrder[index]][1] as? String
+                }
+            }else{
+                if(cards[cardOrder[index]][2] as! String == "t"){
+                    OverlayLabel.text = cards[cardOrder[index]][3] as? String
+                }
+            }
+            OverlayCard.isHidden = false
+            OverlayCard.layer.transform = CATransform3DMakeRotation(CGFloat.pi, 0, 0, 0)
+            OverlayCard.alpha = 1
+            OverlayCard.layer.position = CardView.layer.position
             index+=1
             cardCounter.text = String(index + 1) + "/" + String(cardOrder.count)
             let oldInput = currentInput
@@ -208,11 +233,19 @@ class ViewController: UIViewController, PKCanvasViewDelegate {
             }else if(currentInput == "s-r"){
                 
             }
+            CardView.layer.transform = CATransform3DIdentity
+            CardLabel.layer.transform = CATransform3DIdentity
+            if(cards[cardOrder[index]][0] as! String == "t"){
+                CardLabel.text = cards[cardOrder[index]][0] as? String
+            }
             UIView.animate(withDuration: 0.5, animations: {
-                self.CardOverlay.layer.transform = CATransform3DMakeRotation(CGFloat.pi, 1, 1, 1)
-                self.CardOverlay.alpha = 0
-                self.CardOverlay.layer.position = CGPoint(x: self.view.frame.width, y: self.view.frame.height / 2)
+                self.OverlayCard.layer.transform = CATransform3DMakeRotation(CGFloat.pi, 1, 1, 1)
+                self.OverlayCard.alpha = 0
+                self.OverlayCard.layer.position = CGPoint(x: self.view.frame.width, y: self.view.frame.height / 2)
             })
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
+                self.OverlayCard.isHidden = true
+            }
         }
     }
     
@@ -221,10 +254,22 @@ class ViewController: UIViewController, PKCanvasViewDelegate {
         UIView.animate(withDuration: 0.5, animations: {
             self.IncorrectView.backgroundColor = .secondarySystemBackground
         })
-        if(index == cards.count){
+        if(index == cards.count - 1){
             //Next round
         }else{
-            CardOverlay = CardView
+            if(onFront){
+                if(cards[cardOrder[index]][0] as! String == "t"){
+                    OverlayLabel.text = cards[cardOrder[index]][1] as? String
+                }
+            }else{
+                if(cards[cardOrder[index]][2] as! String == "t"){
+                    OverlayLabel.text = cards[cardOrder[index]][3] as? String
+                }
+            }
+            OverlayCard.isHidden = false
+            OverlayCard.layer.transform = CATransform3DMakeRotation(CGFloat.pi, 0, 0, 0)
+            OverlayCard.alpha = 1
+            OverlayCard.layer.position = CardView.layer.position
             index+=1
             cardCounter.text = String(index + 1) + "/" + String(cardOrder.count)
             let oldInput = currentInput
@@ -242,15 +287,24 @@ class ViewController: UIViewController, PKCanvasViewDelegate {
             }else if(currentInput == "s-r"){
                 
             }
+            CardView.layer.transform = CATransform3DIdentity
+            CardLabel.layer.transform = CATransform3DIdentity
+            if(cards[cardOrder[index]][0] as! String == "t"){
+                CardLabel.text = cards[cardOrder[index]][0] as? String
+            }
             UIView.animate(withDuration: 0.5, animations: {
-                self.CardOverlay.layer.transform = CATransform3DMakeRotation(CGFloat.pi, 1, 1, 1)
-                self.CardOverlay.alpha = 0
-                self.CardOverlay.layer.position = CGPoint(x: 0, y: self.view.frame.height / 2)
+                self.OverlayCard.layer.transform = CATransform3DMakeRotation(CGFloat.pi, 1, 1, 1)
+                self.OverlayCard.alpha = 0
+                self.OverlayCard.layer.position = CGPoint(x: 0, y: self.view.frame.height / 2)
             })
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
+                self.OverlayCard.isHidden = true
+            }
         }
     }
     
     @objc func CardButton(sender: UIButton) {
+        print("zoinks")
         if(currentInput == "t"){
             if(startOnFront){
                 if(TextField.text == cards[cardOrder[index]][3] as? String){
