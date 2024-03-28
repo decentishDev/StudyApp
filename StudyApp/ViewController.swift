@@ -37,7 +37,7 @@ class ViewController: UIViewController, PKCanvasViewDelegate {
     var onFront = true
     var startOnFront = true
     var cardOrder: [Int] = [0, 1]
-    var cards: [[Any]] = [["s", "∫sin(x)", "d-r", "-cos(x)"], ["s", "∫cos(x)", "d-r", "sin(x)"]]
+    var cards: [[Any]] = [["t", "∫sin(x)", "d-r", "-cos(x)"], ["t", "∫cos(x)", "d-r", "sin(x)"], ["t", "What is the capital of Illinois?", "t", "Springfield"]]
     var known: [Bool] = []
     var index: Int = 0
     let cardAnimation = 0.6
