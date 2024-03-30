@@ -83,34 +83,58 @@ class ViewController: UIViewController, PKCanvasViewDelegate {
         view.addSubview(DrawingView)
         
         if(view.layer.frame.width > view.layer.frame.height){
-            if(currentInput == "d-r"){
+            if(currentInput == "t"){
+                topHeight = (view.layer.frame.height - 100) * 0.8
+                bottomHeight = (view.layer.frame.height - 100) * 0.2
+                
+                DrawingView.frame = CGRect(x: 20, y: 80 + topHeight, width: view.layer.frame.width - 40, height: bottomHeight)
+                DrawingView.isHidden = true
+                TextField.frame = CGRect(x: 20, y: 80 + topHeight, width: view.layer.frame.width - 30, height: 0)
+                TextField.isHidden = false
+            }else if(currentInput == "d" || currentInput == "d-r"){
                 topHeight = (view.layer.frame.height - 100) * 0.6
                 bottomHeight = (view.layer.frame.height - 100) * 0.4
+                
+                DrawingView.frame = CGRect(x: 20, y: 80 + topHeight, width: view.layer.frame.width - 40, height: bottomHeight)
+                DrawingView.isHidden = false
+                TextField.frame = CGRect(x: 20, y: 80 + topHeight, width: view.layer.frame.width - 30, height: 0)
+                TextField.isHidden = true
             }
             IncorrectView.frame = CGRect(x: 20, y: 40 + buttonsHeight, width: (view.layer.frame.width - 80) * 0.15, height: topHeight)
             CardView.frame = CGRect(x: 40 + IncorrectView.frame.width, y: 40 + buttonsHeight, width: (view.layer.frame.width - 80) * 0.7, height: topHeight)
             CorrectView.frame = CGRect(x: 60 + IncorrectView.frame.width + CardView.frame.width, y: 40 + buttonsHeight, width: (view.layer.frame.width - 80) * 0.15, height: topHeight)
-            DrawingView.frame = CGRect(x: 20, y: 80 + topHeight, width: view.layer.frame.width - 40, height: bottomHeight)
         }else{
             var optionsHeight: CGFloat = 50
             if(currentInput == "d-r"){
                 topHeight = (view.layer.frame.height - 120) * 0.45
                 optionsHeight = (view.layer.frame.height - 120) * 0.15
                 bottomHeight = (view.layer.frame.height - 120) * 0.4
+                
+                DrawingView.frame = CGRect(x: 20, y: 80 + buttonsHeight + optionsHeight + topHeight, width: view.layer.frame.width - 40, height: bottomHeight)
             }
+            
             IncorrectView.frame = CGRect(x: 20, y: 60 + buttonsHeight + topHeight, width: (view.layer.frame.width - 60) * 0.5, height: optionsHeight)
             CardView.frame = CGRect(x: 20, y: 40 + buttonsHeight, width: view.layer.frame.width - 40, height: topHeight)
             CorrectView.frame = CGRect(x: 40 + IncorrectView.frame.width, y: 60 + buttonsHeight + topHeight, width: (view.layer.frame.width - 60) * 0.5, height: optionsHeight)
-            DrawingView.frame = CGRect(x: 20, y: 80 + buttonsHeight + optionsHeight + topHeight, width: view.layer.frame.width - 40, height: bottomHeight)
+            
         }
         
         CardLabel.font = .systemFont(ofSize: 40)
         CardLabel.textAlignment = .center
         CardLabel.frame = CGRect(x: 0, y: 0, width: CardView.frame.width, height: CardView.frame.height)
         CardView.addSubview(CardLabel)
+        CardDrawing.frame = CGRect(x: 0, y: 0, width: CardView.frame.width, height: CardView.frame.height)
+        CardDrawing.isUserInteractionEnabled = false
+        CardView.addSubview(CardDrawing)
         if(onFront){
-            if(cards[cardOrder[index]][0] as! String == "s"){
+            if(cards[cardOrder[index]][0] as! String == "t"){
                 CardLabel.text = cards[cardOrder[index]][1] as? String
+                CardLabel.isHidden = false
+                CardDrawing.isHidden = true
+            }else if(cards[cardOrder[index]][0] as! String == "d"){
+                CardDrawing.drawing = (cards[cardOrder[index]][1] as? PKDrawing)!
+                CardLabel.isHidden = true
+                CardDrawing.isHidden = false
             }
         }
         
@@ -118,7 +142,7 @@ class ViewController: UIViewController, PKCanvasViewDelegate {
         cardButton.addTarget(self, action: #selector(self.CardButton(sender:)), for: .touchUpInside)
         cardButton.frame = CGRect(x: 0, y: 0, width: CardView.frame.width, height: CardView.frame.height)
         CardView.addSubview(cardButton)
-        cardButton.bringSubviewToFront(cardButton)
+        CardView.bringSubviewToFront(cardButton)
         
         let incorrectImage = UIImageView()
         incorrectImage.image = UIImage(systemName: "xmark")
@@ -175,6 +199,9 @@ class ViewController: UIViewController, PKCanvasViewDelegate {
         OverlayLabel.textAlignment = .center
         OverlayLabel.frame = CGRect(x: 0, y: 0, width: CardView.frame.width, height: CardView.frame.height)
         OverlayCard.addSubview(OverlayLabel)
+        OverlayDrawing.frame = CGRect(x: 0, y: 0, width: CardView.frame.width, height: CardView.frame.height)
+        OverlayDrawing.isUserInteractionEnabled = false
+        OverlayCard.addSubview(OverlayDrawing)
         OverlayCard.isHidden = true
         view.addSubview(OverlayCard)
     }
@@ -200,16 +227,29 @@ class ViewController: UIViewController, PKCanvasViewDelegate {
         UIView.animate(withDuration: 0.5, animations: {
             self.CorrectView.backgroundColor = .secondarySystemBackground
         })
+        known[cardOrder[index]] = true
         if(index == cards.count - 1){
             //Next round
         }else{
             if(onFront){
                 if(cards[cardOrder[index]][0] as! String == "t"){
                     OverlayLabel.text = cards[cardOrder[index]][1] as? String
+                    OverlayLabel.isHidden = false
+                    OverlayDrawing.isHidden = true
+                }else if(cards[cardOrder[index]][0] as! String == "d"){
+                    OverlayDrawing.drawing = (cards[cardOrder[index]][1] as? PKDrawing)!
+                    OverlayLabel.isHidden = true
+                    OverlayDrawing.isHidden = false
                 }
             }else{
                 if(cards[cardOrder[index]][2] as! String == "t"){
                     OverlayLabel.text = cards[cardOrder[index]][3] as? String
+                    OverlayLabel.isHidden = false
+                    OverlayDrawing.isHidden = true
+                }else if(cards[cardOrder[index]][2] as! String == "d"){
+                    OverlayDrawing.drawing = (cards[cardOrder[index]][3] as? PKDrawing)!
+                    OverlayLabel.isHidden = true
+                    OverlayDrawing.isHidden = false
                 }
             }
             OverlayCard.isHidden = false
@@ -233,10 +273,21 @@ class ViewController: UIViewController, PKCanvasViewDelegate {
             }else if(currentInput == "s-r"){
                 
             }
+            if(cards[cardOrder[index]][0] as! String == "t"){
+                CardLabel.text = cards[cardOrder[index]][1] as? String
+                CardLabel.isHidden = false
+                CardDrawing.isHidden = true
+            }else if(cards[cardOrder[index]][0] as! String == "d"){
+                CardDrawing.drawing = (cards[cardOrder[index]][1] as? PKDrawing)!
+                CardLabel.isHidden = true
+                CardDrawing.isHidden = false
+            }else{
+                //Sound?
+            }
             CardView.layer.transform = CATransform3DIdentity
             CardLabel.layer.transform = CATransform3DIdentity
             if(cards[cardOrder[index]][0] as! String == "t"){
-                CardLabel.text = cards[cardOrder[index]][0] as? String
+                CardLabel.text = cards[cardOrder[index]][1] as? String
             }
             UIView.animate(withDuration: 0.5, animations: {
                 self.OverlayCard.layer.transform = CATransform3DMakeRotation(CGFloat.pi, 1, 1, 1)
@@ -254,16 +305,29 @@ class ViewController: UIViewController, PKCanvasViewDelegate {
         UIView.animate(withDuration: 0.5, animations: {
             self.IncorrectView.backgroundColor = .secondarySystemBackground
         })
+        known[cardOrder[index]] = false
         if(index == cards.count - 1){
             //Next round
         }else{
             if(onFront){
                 if(cards[cardOrder[index]][0] as! String == "t"){
                     OverlayLabel.text = cards[cardOrder[index]][1] as? String
+                    OverlayLabel.isHidden = false
+                    OverlayDrawing.isHidden = true
+                }else if(cards[cardOrder[index]][0] as! String == "d"){
+                    OverlayDrawing.drawing = (cards[cardOrder[index]][1] as? PKDrawing)!
+                    OverlayLabel.isHidden = true
+                    OverlayDrawing.isHidden = false
                 }
             }else{
                 if(cards[cardOrder[index]][2] as! String == "t"){
                     OverlayLabel.text = cards[cardOrder[index]][3] as? String
+                    OverlayLabel.isHidden = false
+                    OverlayDrawing.isHidden = true
+                }else if(cards[cardOrder[index]][2] as! String == "d"){
+                    OverlayDrawing.drawing = (cards[cardOrder[index]][3] as? PKDrawing)!
+                    OverlayLabel.isHidden = true
+                    OverlayDrawing.isHidden = false
                 }
             }
             OverlayCard.isHidden = false
@@ -286,6 +350,17 @@ class ViewController: UIViewController, PKCanvasViewDelegate {
                 
             }else if(currentInput == "s-r"){
                 
+            }
+            if(cards[cardOrder[index]][0] as! String == "t"){
+                CardLabel.text = cards[cardOrder[index]][1] as? String
+                CardLabel.isHidden = false
+                CardDrawing.isHidden = true
+            }else if(cards[cardOrder[index]][0] as! String == "d"){
+                CardDrawing.drawing = (cards[cardOrder[index]][1] as? PKDrawing)!
+                CardLabel.isHidden = true
+                CardDrawing.isHidden = false
+            }else{
+                //Sound?
             }
             CardView.layer.transform = CATransform3DIdentity
             CardLabel.layer.transform = CATransform3DIdentity
@@ -337,7 +412,6 @@ class ViewController: UIViewController, PKCanvasViewDelegate {
                 let request = VNRecognizeTextRequest { (request, error) in
                     guard let observations = request.results as? [VNRecognizedTextObservation] else {return}
                     
-                    var words = ""
                     self.currentDrawing = PKDrawing()
                     self.DrawingView.drawing = self.currentDrawing
                     var processedText = ""
