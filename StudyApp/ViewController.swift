@@ -42,6 +42,11 @@ class ViewController: UIViewController, PKCanvasViewDelegate {
     var index: Int = 0
     let cardAnimation = 0.6
     
+    var recognizedText = ""
+    var mostRecentProcess = 0
+    var processing = false
+    var waitingOnResult = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -59,9 +64,9 @@ class ViewController: UIViewController, PKCanvasViewDelegate {
     
     
     func setup(){
-//        for i in view.subviews {
-//            i.removeFromSuperview()
-//        }
+        for i in view.subviews {
+            i.removeFromSuperview()
+        }
         
         IncorrectView.backgroundColor = .secondarySystemBackground
         IncorrectView.layer.cornerRadius = 10
@@ -263,11 +268,21 @@ class ViewController: UIViewController, PKCanvasViewDelegate {
             if(currentInput == oldInput){
                 //??
             }else if(currentInput == "t"){
+                topHeight = (view.layer.frame.height - 100) * 0.8
+                bottomHeight = (view.layer.frame.height - 100) * 0.2
                 
-            }else if(currentInput == "d"){
+                DrawingView.frame = CGRect(x: 20, y: 80 + topHeight, width: view.layer.frame.width - 40, height: bottomHeight)
+                DrawingView.isHidden = true
+                TextField.frame = CGRect(x: 20, y: 80 + topHeight, width: view.layer.frame.width - 30, height: 0)
+                TextField.isHidden = false
+            }else if(currentInput == "d" || currentInput == "d-r"){
+                topHeight = (view.layer.frame.height - 100) * 0.6
+                bottomHeight = (view.layer.frame.height - 100) * 0.4
                 
-            }else if(currentInput == "d-r"){
-                
+                DrawingView.frame = CGRect(x: 20, y: 80 + topHeight, width: view.layer.frame.width - 40, height: bottomHeight)
+                DrawingView.isHidden = false
+                TextField.frame = CGRect(x: 20, y: 80 + topHeight, width: view.layer.frame.width - 30, height: 0)
+                TextField.isHidden = true
             }else if(currentInput == "s"){
                 
             }else if(currentInput == "s-r"){
@@ -399,56 +414,27 @@ class ViewController: UIViewController, PKCanvasViewDelegate {
                 self.CardView.layer.transform = CATransform3DMakeRotation(CGFloat.pi, 1, 0, 0)
             })
         }else if(currentInput == "d-r"){
-            UIGraphicsBeginImageContextWithOptions(DrawingView.bounds.size, false, UIScreen.main.scale)
-                    
-            DrawingView.drawHierarchy(in: DrawingView.bounds, afterScreenUpdates: true)
-            
-            let image = UIGraphicsGetImageFromCurrentImageContext()?.cgImage
-            UIGraphicsEndImageContext()
-            
-            if(image != nil){
-                let requestHandler = VNImageRequestHandler(cgImage: image!)
-                
-                let request = VNRecognizeTextRequest { (request, error) in
-                    guard let observations = request.results as? [VNRecognizedTextObservation] else {return}
-                    
-                    self.currentDrawing = PKDrawing()
-                    self.DrawingView.drawing = self.currentDrawing
-                    var processedText = ""
-                    for observation in observations {
-                        guard let bestCandidate = observation.topCandidates(1).first else {continue}
-                        let detectedText = bestCandidate.string
-                        for i in detectedText {
-                            if(i != " "){
-                                processedText += i.lowercased()
-                            }
-                        }
-                    }
-                    var goal = ""
-                    for i in self.cards[self.cardOrder[self.index]][3] as! String {
-                        if(i != " "){
-                            goal += i.lowercased()
-                        }
-                    }
-                    if(self.startOnFront){
-                        if(processedText == self.cards[self.cardOrder[self.index]][3] as? String){
-                            self.Correct()
-                        }else{
-                            self.Incorrect()
-                        }
-                    }else{
-                        if(processedText == self.cards[self.cardOrder[self.index]][1] as? String){
-                            self.Correct()
-                        }else{
-                            self.Incorrect()
-                        }
+            if(processing){
+                waitingOnResult = true
+            }else{
+                var goal = ""
+                for i in self.cards[self.cardOrder[self.index]][3] as! String {
+                    if(i != " "){
+                        goal += i.lowercased()
                     }
                 }
-                
-                do {
-                    try requestHandler.perform([request])
-                } catch {
-                    print("Error: \(error)")
+                if(self.startOnFront){
+                    if(recognizedText == self.cards[self.cardOrder[self.index]][3] as? String){
+                        self.Correct()
+                    }else{
+                        self.Incorrect()
+                    }
+                }else{
+                    if(recognizedText == self.cards[self.cardOrder[self.index]][1] as? String){
+                        self.Correct()
+                    }else{
+                        self.Incorrect()
+                    }
                 }
             }
         }else if(currentInput == "s"){
@@ -470,6 +456,75 @@ class ViewController: UIViewController, PKCanvasViewDelegate {
     
     @objc func SettingsButton(sender: UIButton){
         
+    }
+    
+    func canvasViewDrawingDidChange(_ canvasView: PKCanvasView) {
+        if(canvasView != DrawingView){
+            return
+        }
+        
+        mostRecentProcess+=1
+        let thisProcess = mostRecentProcess
+        processing = true
+        
+        UIGraphicsBeginImageContextWithOptions(DrawingView.bounds.size, false, UIScreen.main.scale)
+                
+        DrawingView.drawHierarchy(in: DrawingView.bounds, afterScreenUpdates: true)
+        
+        let image = UIGraphicsGetImageFromCurrentImageContext()?.cgImage
+        UIGraphicsEndImageContext()
+        
+        if(image != nil){
+            let requestHandler = VNImageRequestHandler(cgImage: image!)
+            
+            let request = VNRecognizeTextRequest { (request, error) in
+                guard let observations = request.results as? [VNRecognizedTextObservation] else {return}
+                
+                self.currentDrawing = PKDrawing()
+                self.DrawingView.drawing = self.currentDrawing
+                var processedText = ""
+                for observation in observations {
+                    guard let bestCandidate = observation.topCandidates(1).first else {continue}
+                    let detectedText = bestCandidate.string
+                    for i in detectedText {
+                        if(i != " "){
+                            processedText += i.lowercased()
+                        }
+                    }
+                }
+                if(self.mostRecentProcess == thisProcess){
+                    self.recognizedText = processedText
+                    self.processing = false
+                    if(self.waitingOnResult){
+                        var goal = ""
+                        for i in self.cards[self.cardOrder[self.index]][3] as! String {
+                            if(i != " "){
+                                goal += i.lowercased()
+                            }
+                        }
+                        if(self.startOnFront){
+                            if(self.recognizedText == self.cards[self.cardOrder[self.index]][3] as? String){
+                                self.Correct()
+                            }else{
+                                self.Incorrect()
+                            }
+                        }else{
+                            if(self.recognizedText == self.cards[self.cardOrder[self.index]][1] as? String){
+                                self.Correct()
+                            }else{
+                                self.Incorrect()
+                            }
+                        }
+                    }
+                }
+            }
+            
+            do {
+                try requestHandler.perform([request])
+            } catch {
+                print("Error: \(error)")
+            }
+        }
     }
 
 }
