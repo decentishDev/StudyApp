@@ -90,5 +90,26 @@ class StandardSetVC: UIViewController {
         buttonsView.addSubview(learnButton)
         flashcardsButton.frame = CGRect(x: 0, y: 0, width: buttonsView.frame.width / 2, height: buttonsView.frame.height)
         learnButton.frame = CGRect(x: buttonsView.frame.width / 2, y: 0, width: buttonsView.frame.width / 2, height: buttonsView.frame.height)
+        let allTermsStackView = UIStackView()
+        allTermsStackView.axis = .vertical
+        allTermsStackView.spacing = 5
+    
+        for card in cards {
+            guard card.count == 4,
+                  let term = card[1] as? String,
+                  let definition = card[3] as? String else {
+                continue
+            }
+            let termLabel = UILabel()
+            termLabel.text = term
+            termLabel.numberOfLines = 0
+            let definitionLabel = UILabel()
+            definitionLabel.text = definition
+            definitionLabel.numberOfLines = 0
+            let termDefinitionStackView = UIStackView(arrangedSubviews: [termLabel, definitionLabel])
+            termDefinitionStackView.axis = .horizontal
+            termDefinitionStackView.spacing = 10
+            allTermsStackView.addArrangedSubview(termDefinitionStackView)
+        }
     }
 }
