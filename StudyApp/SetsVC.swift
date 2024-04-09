@@ -17,7 +17,7 @@ class SetsVC: UIViewController, UIDocumentPickerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         let image = UIImage(systemName: "xmark")?.pngData()
-        cards = [["s","string"], [image as Any, "yeahimage"], ["term3", 3]]
+        cards = [["t","string", "t", "answer"], ["i", image as Any, "t", "yeahimage"], ["t", "term3", "t", "yeah"]]
         // Do any additional setup after loading the view.
     }
     
