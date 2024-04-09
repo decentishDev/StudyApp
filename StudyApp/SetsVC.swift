@@ -38,7 +38,7 @@ class SetsVC: UIViewController, UIDocumentPickerDelegate {
         
         let temporaryDirectoryURL = FileManager.default.temporaryDirectory
         let timeString = DateFormatter.localizedString(from: Date(), dateStyle: .none, timeStyle: .medium)
-        let fileURL = temporaryDirectoryURL.appendingPathComponent("bestfile_" + timeString).appendingPathExtension("cards")
+        let fileURL = temporaryDirectoryURL.appendingPathComponent("examplename_" + timeString).appendingPathExtension("cards")
         
         do {
             try data.write(to: fileURL)
@@ -81,7 +81,7 @@ class SetsVC: UIViewController, UIDocumentPickerDelegate {
     }
     
     func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
-        print("Document picker was canclled")
+        print("Document picker was cancelled")
     }
     
     /*

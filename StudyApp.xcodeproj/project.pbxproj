@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8D074AEB2BC4BC84000E6D9A /* FlashcardsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D074AEA2BC4BC84000E6D9A /* FlashcardsVC.swift */; };
+		8D11FE6B2BC4CF6100143444 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8D11FE6A2BC4CF6100143444 /* LaunchScreen.storyboard */; };
 		8D4CDF7D2BB1DCD300474FCC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D4CDF7C2BB1DCD300474FCC /* AppDelegate.swift */; };
 		8D4CDF7F2BB1DCD300474FCC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D4CDF7E2BB1DCD300474FCC /* SceneDelegate.swift */; };
 		8D4CDF812BB1DCD300474FCC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D4CDF802BB1DCD300474FCC /* ViewController.swift */; };
@@ -17,6 +19,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8D074AEA2BC4BC84000E6D9A /* FlashcardsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlashcardsVC.swift; sourceTree = "<group>"; };
+		8D11FE6A2BC4CF6100143444 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8D4CDF792BB1DCD300474FCC /* StudyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StudyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D4CDF7C2BB1DCD300474FCC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8D4CDF7E2BB1DCD300474FCC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -58,6 +62,7 @@
 		8D4CDF7B2BB1DCD300474FCC /* StudyApp */ = {
 			isa = PBXGroup;
 			children = (
+				8D074AEA2BC4BC84000E6D9A /* FlashcardsVC.swift */,
 				8D4CDF7C2BB1DCD300474FCC /* AppDelegate.swift */,
 				8D4CDF7E2BB1DCD300474FCC /* SceneDelegate.swift */,
 				8D4CDF802BB1DCD300474FCC /* ViewController.swift */,
@@ -66,6 +71,7 @@
 				8D4CDF872BB1DCD800474FCC /* LaunchScreen.storyboard */,
 				8D4CDF8A2BB1DCD800474FCC /* Info.plist */,
 				8D4CDF902BB26EEF00474FCC /* SetsVC.swift */,
+				8D11FE6A2BC4CF6100143444 /* LaunchScreen.storyboard */,
 			);
 			path = StudyApp;
 			sourceTree = "<group>";
@@ -129,6 +135,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D4CDF892BB1DCD800474FCC /* LaunchScreen.storyboard in Resources */,
+				8D11FE6B2BC4CF6100143444 /* LaunchScreen.storyboard in Resources */,
 				8D4CDF862BB1DCD800474FCC /* Assets.xcassets in Resources */,
 				8D4CDF842BB1DCD300474FCC /* Main.storyboard in Resources */,
 			);
@@ -143,6 +150,7 @@
 			files = (
 				8D4CDF812BB1DCD300474FCC /* ViewController.swift in Sources */,
 				8D4CDF7D2BB1DCD300474FCC /* AppDelegate.swift in Sources */,
+				8D074AEB2BC4BC84000E6D9A /* FlashcardsVC.swift in Sources */,
 				8D4CDF7F2BB1DCD300474FCC /* SceneDelegate.swift in Sources */,
 				8D4CDF912BB26EEF00474FCC /* SetsVC.swift in Sources */,
 			);
@@ -299,6 +307,8 @@
 				DEVELOPMENT_TEAM = 366XTZF564;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = StudyApp/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Dendritic;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -327,6 +337,8 @@
 				DEVELOPMENT_TEAM = 366XTZF564;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = StudyApp/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Dendritic;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
