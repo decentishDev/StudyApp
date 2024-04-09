@@ -32,7 +32,7 @@ class StandardSetVC: UIViewController {
         ["t", "What is the largest ocean on Earth?", "t", "Pacific Ocean"],
         ["t", "What is the speed of light in a vacuum?", "t", "299,792,458 meters per second"],
         ["t", "Who was the first woman to win a Nobel Prize?", "t", "Marie Curie"],
-        ["t", "What is the capital of South Africa?", "t", "Pretoria"],
+        ["t", "What is the capital of South Africa?", "t", "Pretoria"]
     ]
     let name: String = "Trivia"
     
