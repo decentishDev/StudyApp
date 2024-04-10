@@ -51,49 +51,53 @@ class StandardSetVC: UIViewController {
             subview.removeFromSuperview()
         }
         stackView.axis = .vertical
-        stackView.spacing = 5
+        stackView.spacing = 10
         stackView.alignment = .fill
         scrollView.addSubview(stackView)
         view.addSubview(scrollView)
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         stackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalTo: view.topAnchor, constant: 65),
+            scrollView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            stackView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 10),
-            stackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -10),
-            stackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 10),
-            stackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -10),
-            stackView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: -20)
+            stackView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 50),
+            stackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -50),
+            stackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 50),
+            stackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -50),
+            stackView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: -100)
         ])
         
         let titleLabel = UILabel()
-        titleLabel.text = title
-        titleLabel.frame = CGRect(x: 0, y: 0, width: 200, height: 50)
+        titleLabel.text = name
         titleLabel.font = .boldSystemFont(ofSize: 30)
+        titleLabel.frame = CGRect(x: 0, y: 0, width: stackView.frame.width, height: 50)
         stackView.addArrangedSubview(titleLabel)
-        let buttonsView = UIView()
+        
+        let buttonsView = UIStackView(frame: CGRect(x: 0, y: 0, width: 400, height: 50))
         stackView.addArrangedSubview(buttonsView)
-        NSLayoutConstraint.activate([
-            buttonsView.leadingAnchor.constraint(equalTo: stackView.leadingAnchor),
-            buttonsView.trailingAnchor.constraint(equalTo: stackView.trailingAnchor),
-            buttonsView.heightAnchor.constraint(equalToConstant: 50)
-        ])
+        buttonsView.axis = .horizontal
+        buttonsView.spacing = 10
+        buttonsView.alignment = .fill
         
         let flashcardsButton = UIButton()
         flashcardsButton.backgroundColor = .red
+        flashcardsButton.layer.cornerRadius = 5
+        flashcardsButton.frame = CGRect(x: 0, y: 0, width: 100, height: buttonsView.frame.height)
+        buttonsView.addArrangedSubview(flashcardsButton)
         let learnButton = UIButton()
         learnButton.backgroundColor = .green
-        buttonsView.addSubview(flashcardsButton)
-        buttonsView.addSubview(learnButton)
-        flashcardsButton.frame = CGRect(x: 0, y: 0, width: buttonsView.frame.width / 2, height: buttonsView.frame.height)
-        learnButton.frame = CGRect(x: buttonsView.frame.width / 2, y: 0, width: buttonsView.frame.width / 2, height: buttonsView.frame.height)
+        learnButton.layer.cornerRadius = 5
+        learnButton.frame = CGRect(x: 0, y: 0, width: 100, height: buttonsView.frame.height)
+        buttonsView.addArrangedSubview(learnButton)
+        
         let allTermsStackView = UIStackView()
         allTermsStackView.axis = .vertical
         allTermsStackView.spacing = 5
-    
+        print(learnButton.frame)
+        print(flashcardsButton.frame)
+        print(buttonsView.frame)
         for card in cards {
             guard card.count == 4,
                   let term = card[1] as? String,
@@ -111,5 +115,6 @@ class StandardSetVC: UIViewController {
             termDefinitionStackView.spacing = 10
             allTermsStackView.addArrangedSubview(termDefinitionStackView)
         }
+        stackView.addArrangedSubview(allTermsStackView)
     }
 }
