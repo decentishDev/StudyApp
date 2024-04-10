@@ -82,14 +82,16 @@ class StandardSetVC: UIViewController {
         buttonsView.alignment = .fill
         
         let flashcardsButton = UIButton()
-        flashcardsButton.backgroundColor = .red
+        flashcardsButton.backgroundColor = .secondarySystemBackground
         flashcardsButton.layer.cornerRadius = 5
         flashcardsButton.frame = CGRect(x: 0, y: 0, width: 100, height: buttonsView.frame.height)
+        flashcardsButton.setTitle("Flashcards", for: .normal)
         buttonsView.addArrangedSubview(flashcardsButton)
         let learnButton = UIButton()
-        learnButton.backgroundColor = .green
+        learnButton.backgroundColor = .secondarySystemBackground
         learnButton.layer.cornerRadius = 5
         learnButton.frame = CGRect(x: 0, y: 0, width: 100, height: buttonsView.frame.height)
+        learnButton.setTitle("Learn", for: .normal)
         buttonsView.addArrangedSubview(learnButton)
         
         let allTermsStackView = UIStackView()
