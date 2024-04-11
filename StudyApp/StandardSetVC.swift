@@ -40,16 +40,6 @@ class StandardSetVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let backgroundImage = UIImageView(image: UIImage(named: "pawel-czerwinski-rsaHwOFpmRI-unsplash.jpg"))
-        backgroundImage.contentMode = .scaleAspectFill
-        view.addSubview(backgroundImage)
-        backgroundImage.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            backgroundImage.topAnchor.constraint(equalTo: view.topAnchor),
-            backgroundImage.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            backgroundImage.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            backgroundImage.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-        ])
         setup()
         //["CabinetGroteskVariable-Bold_Regular", "CabinetGroteskVariable-Bold_Thin", "CabinetGroteskVariable-Bold_Extralight", "CabinetGroteskVariable-Bold_Light", "CabinetGroteskVariable-Bold_Medium", "CabinetGroteskVariable-Bold_Bold", "CabinetGroteskVariable-Bold_Extrabold", "CabinetGroteskVariable-Bold"]
         
@@ -69,6 +59,16 @@ class StandardSetVC: UIViewController {
         for subview in view.subviews {
             subview.removeFromSuperview()
         }
+        let backgroundImage = UIImageView(image: UIImage(named: "pawel-czerwinski-rsaHwOFpmRI-unsplash"))
+        backgroundImage.contentMode = .scaleAspectFill
+        view.addSubview(backgroundImage)
+        backgroundImage.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            backgroundImage.topAnchor.constraint(equalTo: view.topAnchor),
+            backgroundImage.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            backgroundImage.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            backgroundImage.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
         stackView.axis = .vertical
         stackView.spacing = 0
         stackView.alignment = .leading
@@ -142,16 +142,44 @@ class StandardSetVC: UIViewController {
             termLabel.text = term
             termLabel.numberOfLines = 0
             termLabel.font = UIFont(name: "CabinetGroteskVariable-Bold_Regular", size: 20)
+
             let definitionLabel = UILabel()
             definitionLabel.text = definition
             definitionLabel.numberOfLines = 0
             definitionLabel.font = UIFont(name: "CabinetGroteskVariable-Bold_Regular", size: 20)
-            let termDefinitionStackView = UIStackView(arrangedSubviews: [termLabel, definitionLabel])
+            
+            let termDefinitionStackView = UIStackView()
+            termDefinitionStackView.isLayoutMarginsRelativeArrangement = true
+            termDefinitionStackView.layoutMargins = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
+            
+            let breakView = UIView()
+            breakView.backgroundColor = .label.withAlphaComponent(0.5)
+            breakView.widthAnchor.constraint(equalToConstant: 1).isActive = true
+            
+            termDefinitionStackView.addArrangedSubview(termLabel)
+            termDefinitionStackView.addArrangedSubview(breakView)
+            termDefinitionStackView.addArrangedSubview(definitionLabel)
+            
             termDefinitionStackView.axis = .horizontal
             termDefinitionStackView.spacing = 10
             allTermsStackView.addArrangedSubview(termDefinitionStackView)
+            breakView.heightAnchor.constraint(equalTo: termLabel.heightAnchor, multiplier: 1).isActive = true
+            
+            
+            // Apply blur effect
+            let blurEffect = UIBlurEffect(style: .systemThinMaterial)
+            let blurredEffectView = UIVisualEffectView(effect: blurEffect)
+            blurredEffectView.frame = termDefinitionStackView.frame
+            blurredEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+            blurredEffectView.layer.cornerRadius = 10
+            blurredEffectView.clipsToBounds = true
+            termDefinitionStackView.insertSubview(blurredEffectView, at: 0)
         }
         stackView.addArrangedSubview(allTermsStackView)
+        NSLayoutConstraint.activate([
+            allTermsStackView.leadingAnchor.constraint(equalTo: stackView.leadingAnchor),
+            allTermsStackView.trailingAnchor.constraint(equalTo: stackView.trailingAnchor)
+        ])
     }
     
     func createButton(withTitle title: String) -> UIButton {
@@ -169,7 +197,7 @@ class StandardSetVC: UIViewController {
         let blurredEffectView = UIVisualEffectView(effect: blurEffect)
         blurredEffectView.frame = button.bounds
         blurredEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        button.addSubview(blurredEffectView)
+        button.insertSubview(blurredEffectView, at: 0)
 
         return button
     }
