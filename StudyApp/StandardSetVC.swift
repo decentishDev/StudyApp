@@ -35,13 +35,32 @@ class StandardSetVC: UIViewController {
         ["t", "What is the capital of South Africa?", "t", "Pretoria"]
     ]
     let name: String = "Trivia"
+    let date: String = "Last edited: April 10th, 2024"
+    let cabinetGrotesk: [UIFont] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let backgroundImage = UIImageView(image: UIImage(named: "pawel-czerwinski-rsaHwOFpmRI-unsplash.jpg"))
+        backgroundImage.contentMode = .scaleAspectFill
+        view.addSubview(backgroundImage)
+        backgroundImage.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            backgroundImage.topAnchor.constraint(equalTo: view.topAnchor),
+            backgroundImage.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            backgroundImage.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            backgroundImage.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
         setup()
+        //["CabinetGroteskVariable-Bold_Regular", "CabinetGroteskVariable-Bold_Thin", "CabinetGroteskVariable-Bold_Extralight", "CabinetGroteskVariable-Bold_Light", "CabinetGroteskVariable-Bold_Medium", "CabinetGroteskVariable-Bold_Bold", "CabinetGroteskVariable-Bold_Extrabold", "CabinetGroteskVariable-Bold"]
+        
     }
     
     func setup(){
+//        for family in UIFont.familyNames.sorted() {
+//            let names = UIFont.fontNames(forFamilyName: family)
+//            print("Family: \(family) Font names: \(names)")
+//        }
+        
         for subview in stackView.arrangedSubviews {
             stackView.removeArrangedSubview(subview)
             subview.removeFromSuperview()
@@ -51,8 +70,8 @@ class StandardSetVC: UIViewController {
             subview.removeFromSuperview()
         }
         stackView.axis = .vertical
-        stackView.spacing = 10
-        stackView.alignment = .fill
+        stackView.spacing = 0
+        stackView.alignment = .leading
         scrollView.addSubview(stackView)
         view.addSubview(scrollView)
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -71,35 +90,48 @@ class StandardSetVC: UIViewController {
         
         let titleLabel = UILabel()
         titleLabel.text = name
-        titleLabel.font = .boldSystemFont(ofSize: 30)
-        titleLabel.frame = CGRect(x: 0, y: 0, width: stackView.frame.width, height: 50)
+        titleLabel.font = UIFont(name: "CabinetGroteskVariable-Bold_Extrabold", size: 50)
+        titleLabel.sizeToFit()
         stackView.addArrangedSubview(titleLabel)
         
-        let buttonsView = UIStackView(frame: CGRect(x: 0, y: 0, width: 400, height: 50))
-        stackView.addArrangedSubview(buttonsView)
-        buttonsView.axis = .horizontal
-        buttonsView.spacing = 10
-        buttonsView.alignment = .fill
+        let dateLabel = UILabel()
+        dateLabel.text = date
+        dateLabel.font = UIFont(name: "CabinetGroteskVariable-Bold_Light", size: 20)
+        dateLabel.sizeToFit()
+        stackView.addArrangedSubview(dateLabel)
         
-        let flashcardsButton = UIButton()
-        flashcardsButton.backgroundColor = .secondarySystemBackground
-        flashcardsButton.layer.cornerRadius = 5
-        flashcardsButton.frame = CGRect(x: 0, y: 0, width: 100, height: buttonsView.frame.height)
-        flashcardsButton.setTitle("Flashcards", for: .normal)
-        buttonsView.addArrangedSubview(flashcardsButton)
-        let learnButton = UIButton()
-        learnButton.backgroundColor = .secondarySystemBackground
-        learnButton.layer.cornerRadius = 5
-        learnButton.frame = CGRect(x: 0, y: 0, width: 100, height: buttonsView.frame.height)
-        learnButton.setTitle("Learn", for: .normal)
-        buttonsView.addArrangedSubview(learnButton)
+        let breakView1 = UIView()
+        breakView1.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        breakView1.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        stackView.addArrangedSubview(breakView1)
+        
+        // Add buttons
+        let learnButton = createButton(withTitle: "Learn")
+        let flashcardsButton = createButton(withTitle: "Flashcards")
+        let testButton = createButton(withTitle: "Test")
+		
+        let buttonsStackView = UIStackView(arrangedSubviews: [learnButton, flashcardsButton, testButton])
+        buttonsStackView.axis = .horizontal
+        buttonsStackView.widthAnchor.constraint(equalToConstant: 600).isActive = true
+        buttonsStackView.spacing = 20
+        buttonsStackView.distribution = .fillProportionally
+        stackView.addArrangedSubview(buttonsStackView)
+        
+        let breakView2 = UIView()
+        breakView2.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        breakView2.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        breakView2.backgroundColor = .clear
+        stackView.addArrangedSubview(breakView2)
+        
+        let termsLabel = UILabel()
+        termsLabel.text = "Terms"
+        termsLabel.font = UIFont(name: "CabinetGroteskVariable-Bold_Bold", size: 30)
+        termsLabel.sizeToFit()
+        stackView.addArrangedSubview(termsLabel)
         
         let allTermsStackView = UIStackView()
         allTermsStackView.axis = .vertical
         allTermsStackView.spacing = 5
-        print(learnButton.frame)
-        print(flashcardsButton.frame)
-        print(buttonsView.frame)
         for card in cards {
             guard card.count == 4,
                   let term = card[1] as? String,
@@ -109,14 +141,61 @@ class StandardSetVC: UIViewController {
             let termLabel = UILabel()
             termLabel.text = term
             termLabel.numberOfLines = 0
+            termLabel.font = UIFont(name: "CabinetGroteskVariable-Bold_Regular", size: 20)
             let definitionLabel = UILabel()
             definitionLabel.text = definition
             definitionLabel.numberOfLines = 0
+            definitionLabel.font = UIFont(name: "CabinetGroteskVariable-Bold_Regular", size: 20)
             let termDefinitionStackView = UIStackView(arrangedSubviews: [termLabel, definitionLabel])
             termDefinitionStackView.axis = .horizontal
             termDefinitionStackView.spacing = 10
             allTermsStackView.addArrangedSubview(termDefinitionStackView)
         }
         stackView.addArrangedSubview(allTermsStackView)
+    }
+    
+    func createButton(withTitle title: String) -> UIButton {
+        let button = UIButton()
+        button.setTitle(title, for: .normal)
+        button.titleLabel!.font = UIFont(name: "CabinetGroteskVariable-Bold_Bold", size: 30)
+//        button.backgroundColor = UIColor(white: 1, alpha: 0.5) // Adjust alpha for transparency
+        button.layer.cornerRadius = 10
+        button.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
+        button.heightAnchor.constraint(equalToConstant: 70).isActive = true
+        button.layer.masksToBounds = true
+
+        // Apply blur effect
+        let blurEffect = UIBlurEffect(style: .systemThinMaterial)
+        let blurredEffectView = UIVisualEffectView(effect: blurEffect)
+        blurredEffectView.frame = button.bounds
+        blurredEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        button.addSubview(blurredEffectView)
+
+        return button
+    }
+
+    @objc func buttonTapped(_ sender: UIButton) {
+        switch sender.titleLabel?.text {
+        case "Learn":
+            startLearn()
+        case "Flashcards":
+            startFlashcards()
+        case "Test":
+            startTest()
+        default:
+            break
+        }
+    }
+
+    @objc func startLearn() {
+        // Implement action for learn mode button
+    }
+
+    @objc func startFlashcards() {
+        // Implement action for flashcards mode button
+    }
+
+    @objc func startTest() {
+        // Implement action for test mode button
     }
 }

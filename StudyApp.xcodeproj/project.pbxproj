@@ -17,6 +17,7 @@
 		8D4CDF862BB1DCD800474FCC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8D4CDF852BB1DCD800474FCC /* Assets.xcassets */; };
 		8D4CDF892BB1DCD800474FCC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8D4CDF872BB1DCD800474FCC /* LaunchScreen.storyboard */; };
 		8D4CDF912BB26EEF00474FCC /* SetsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D4CDF902BB26EEF00474FCC /* SetsVC.swift */; };
+		8D6996AF2BC7499A00814B3F /* CabinetGrotesk-Variable.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8D6996AE2BC7499A00814B3F /* CabinetGrotesk-Variable.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		8D4CDF882BB1DCD800474FCC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8D4CDF8A2BB1DCD800474FCC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D4CDF902BB26EEF00474FCC /* SetsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetsVC.swift; sourceTree = "<group>"; };
+		8D6996AE2BC7499A00814B3F /* CabinetGrotesk-Variable.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "CabinetGrotesk-Variable.ttf"; path = "../../Downloads/CabinetGrotesk_Complete/Fonts/Variable/CabinetGrotesk-Variable.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,6 +50,7 @@
 		8D4CDF702BB1DCD300474FCC = {
 			isa = PBXGroup;
 			children = (
+				8D6996AE2BC7499A00814B3F /* CabinetGrotesk-Variable.ttf */,
 				8D4CDF7B2BB1DCD300474FCC /* StudyApp */,
 				8D4CDF7A2BB1DCD300474FCC /* Products */,
 			);
@@ -139,6 +142,7 @@
 			files = (
 				8D4CDF892BB1DCD800474FCC /* LaunchScreen.storyboard in Resources */,
 				8D11FE6B2BC4CF6100143444 /* LaunchScreen.storyboard in Resources */,
+				8D6996AF2BC7499A00814B3F /* CabinetGrotesk-Variable.ttf in Resources */,
 				8D4CDF862BB1DCD800474FCC /* Assets.xcassets in Resources */,
 				8D4CDF842BB1DCD300474FCC /* Main.storyboard in Resources */,
 			);
