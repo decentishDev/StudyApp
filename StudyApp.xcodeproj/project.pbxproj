@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0EF03BB02BC570A600B50550 /* StandardSetVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF03BAF2BC570A600B50550 /* StandardSetVC.swift */; };
 		8D074AEB2BC4BC84000E6D9A /* FlashcardsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D074AEA2BC4BC84000E6D9A /* FlashcardsVC.swift */; };
+		8D18F0262BCDD28F008BA006 /* FadeAndSlideSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D18F0252BCDD28F008BA006 /* FadeAndSlideSegue.swift */; };
 		8D4CDF7D2BB1DCD300474FCC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D4CDF7C2BB1DCD300474FCC /* AppDelegate.swift */; };
 		8D4CDF7F2BB1DCD300474FCC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D4CDF7E2BB1DCD300474FCC /* SceneDelegate.swift */; };
 		8D4CDF842BB1DCD300474FCC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8D4CDF822BB1DCD300474FCC /* Main.storyboard */; };
@@ -23,6 +24,7 @@
 /* Begin PBXFileReference section */
 		0EF03BAF2BC570A600B50550 /* StandardSetVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardSetVC.swift; sourceTree = "<group>"; };
 		8D074AEA2BC4BC84000E6D9A /* FlashcardsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlashcardsVC.swift; sourceTree = "<group>"; };
+		8D18F0252BCDD28F008BA006 /* FadeAndSlideSegue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FadeAndSlideSegue.swift; sourceTree = "<group>"; };
 		8D4CDF792BB1DCD300474FCC /* StudyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StudyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D4CDF7C2BB1DCD300474FCC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8D4CDF7E2BB1DCD300474FCC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -78,6 +80,7 @@
 				0EF03BAF2BC570A600B50550 /* StandardSetVC.swift */,
 				8D71F6742BCB415F0097DF26 /* WebSetVC.swift */,
 				8D71F6762BCB41BB0097DF26 /* StandardLearnVC.swift */,
+				8D18F0252BCDD28F008BA006 /* FadeAndSlideSegue.swift */,
 			);
 			path = StudyApp;
 			sourceTree = "<group>";
@@ -161,6 +164,7 @@
 				8D4CDF7F2BB1DCD300474FCC /* SceneDelegate.swift in Sources */,
 				0EF03BB02BC570A600B50550 /* StandardSetVC.swift in Sources */,
 				8D4CDF912BB26EEF00474FCC /* SetsVC.swift in Sources */,
+				8D18F0262BCDD28F008BA006 /* FadeAndSlideSegue.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

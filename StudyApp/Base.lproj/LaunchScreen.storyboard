@@ -15,7 +15,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="DendriticLearning_banner_2000x1125" translatesAutoresizingMaskIntoConstraints="NO" id="xzR-yV-XFo">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="DendriticLearning" translatesAutoresizingMaskIntoConstraints="NO" id="xzR-yV-XFo">
                                 <rect key="frame" x="22" y="131" width="348" height="590"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
@@ -30,6 +30,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="DendriticLearning_banner_2000x1125" width="2000" height="1125"/>
+        <image name="DendriticLearning" width="1920" height="1080"/>
     </resources>
 </document>

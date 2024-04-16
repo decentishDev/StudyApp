@@ -84,14 +84,12 @@ class SetsVC: UIViewController, UIDocumentPickerDelegate {
         print("Document picker was cancelled")
     }
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    @IBAction func PlaceholderStandardSetButton(_ sender: UIButton) {
+        performSegue(withIdentifier: "viewStandardSet", sender: self)
     }
-    */
-
+    
+    @IBAction func PlaceholderWebSetButton(_ sender: UIButton) {
+        performSegue(withIdentifier: "viewWebSet", sender: self)
+    }
+    
 }

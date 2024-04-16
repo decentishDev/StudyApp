@@ -36,7 +36,6 @@ class StandardSetVC: UIViewController {
     ]
     let name: String = "Trivia"
     let date: String = "Last edited: April 10th, 2024"
-    let cabinetGrotesk: [UIFont] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -233,5 +232,10 @@ class StandardSetVC: UIViewController {
     
     @objc func backButton(sender: UIButton){
         print("back")
+        performSegue(withIdentifier: "standardSetVC_unwind", sender: nil)
+    }
+    
+    @IBAction func cancel (_ unwindSegue: UIStoryboardSegue){
+        
     }
 }
