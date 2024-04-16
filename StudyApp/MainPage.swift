@@ -4,18 +4,14 @@
 //
 //  Created by Tirth D. Patel on 4/16/24.
 //
-//
-//  MainPage.swift
-//  StudyApp
-//
-//  Created by Tirth D. Patel on 4/16/24.
-//
 import UIKit
 
-class ViewController: UIViewController {
+class MainPage: UIViewController {
     var isDarkMode = false // State variable to track dark mode
     
     let buttonSize: CGFloat = 170 // Adjust button size here
+    
+    let sets: [[String]] = [["Trivia", "standard"], ["American Revolution", "web"], ["Set 3", "standard"], ["Set 4", "standard"]]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -83,6 +79,15 @@ class ViewController: UIViewController {
     }
     
     @objc func buttonTapped(_ sender: UIButton) {
-        // Handle button tap action here
+        //performSegue(withIdentifier: "viewStandardSet", sender: self)
+        performSegue(withIdentifier: "viewWebSet", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        segue.destination.modalPresentationStyle = .fullScreen
+    }
+    
+    @IBAction func cancel (_ unwindSegue: UIStoryboardSegue){
+        
     }
 }

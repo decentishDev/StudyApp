@@ -94,7 +94,4 @@ class WebSetVC: UIViewController {
         performSegue(withIdentifier: "webSetVC_unwind", sender: nil)
     }
     
-    @IBAction func cancel (_ unwindSegue: UIStoryboardSegue){
-        
-    }
 }

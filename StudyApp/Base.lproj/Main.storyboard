@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22154" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="mb1-kt-CUM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22154" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="hw7-sh-ECA">
     <device id="ipad10_2" orientation="landscape" layout="fullscreen" appearance="dark"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22130"/>
@@ -8,83 +8,19 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--SetsVC-->
-        <scene sceneID="95t-oJ-H3d">
-            <objects>
-                <viewController id="mb1-kt-CUM" customClass="SetsVC" customModule="StudyApp" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="3iC-Be-q5D">
-                        <rect key="frame" x="0.0" y="0.0" width="1080" height="810"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y9L-AY-Bdk">
-                                <rect key="frame" x="503" y="450" width="75" height="35"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Button"/>
-                                <connections>
-                                    <action selector="importCards:" destination="mb1-kt-CUM" eventType="touchUpInside" id="8Hq-sS-Fpt"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rrl-lQ-N9n">
-                                <rect key="frame" x="503" y="386" width="75" height="35"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Button"/>
-                                <connections>
-                                    <action selector="exportCards:" destination="mb1-kt-CUM" eventType="touchUpInside" id="UDg-ti-BHW"/>
-                                </connections>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B6n-7e-9hJ">
-                                <rect key="frame" x="519" y="325" width="42" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VBn-xS-Byp">
-                                <rect key="frame" x="225" y="514" width="260" height="35"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="PlaceholderStandardSetButton"/>
-                                <connections>
-                                    <action selector="PlaceholderStandardSetButton:" destination="mb1-kt-CUM" eventType="touchUpInside" id="EmG-4J-wYZ"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k4r-pJ-RwF">
-                                <rect key="frame" x="242" y="557" width="225" height="35"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="PlaceholderWebSetButton"/>
-                                <connections>
-                                    <action selector="PlaceholderWebSetButton:" destination="mb1-kt-CUM" eventType="touchUpInside" id="iM1-yG-mUQ"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="2rM-dE-3Y8"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="pbz-Qk-R8L"/>
-                    <connections>
-                        <segue destination="FIP-K8-yah" kind="custom" identifier="viewStandardSet" customClass="FadeAndSlideSegue" customModule="StudyApp" id="eUO-2V-VdA"/>
-                        <segue destination="o57-tv-PwE" kind="custom" identifier="viewWebSet" customClass="FadeAndSlideSegue" customModule="StudyApp" customModuleProvider="target" id="f19-T6-lcQ"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="5kH-4e-TDV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="634" y="-1752"/>
-        </scene>
         <!--Standard SetVC-->
         <scene sceneID="Guk-E4-4ck">
             <objects>
                 <viewController id="FIP-K8-yah" customClass="StandardSetVC" customModule="StudyApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Cwc-Eq-mnx">
-                        <rect key="frame" x="0.0" y="0.0" width="1080" height="810"/>
+                        <rect key="frame" x="0.0" y="0.0" width="704" height="770"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="l27-JP-IAh"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
+                    <navigationItem key="navigationItem" id="P7A-TL-8Km"/>
                     <connections>
-                        <segue destination="lP9-U8-zXT" kind="unwind" identifier="standardSetVC_unwind" unwindAction="cancel:" id="ynu-ao-3Om"/>
+                        <segue destination="lP9-U8-zXT" kind="unwind" identifier="standardSetVC_unwind" unwindAction="cancel:" id="XPC-uJ-LW5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1aP-U6-MTS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -97,13 +33,14 @@
             <objects>
                 <viewController id="o57-tv-PwE" customClass="WebSetVC" customModule="StudyApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="TUI-B2-tRt">
-                        <rect key="frame" x="0.0" y="0.0" width="1080" height="810"/>
+                        <rect key="frame" x="0.0" y="0.0" width="704" height="770"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="ury-Yf-eZA"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
+                    <navigationItem key="navigationItem" id="RXg-Es-FhM"/>
                     <connections>
-                        <segue destination="y4f-Rr-eRH" kind="unwind" identifier="webSetVC_unwind" unwindAction="cancel:" id="RBK-TX-ADK"/>
+                        <segue destination="y4f-Rr-eRH" kind="unwind" identifier="webSetVC_unwind" unwindAction="cancel:" id="GFj-oO-Xhn"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gi6-rD-c4i" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -140,6 +77,25 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-518" y="-930"/>
+        </scene>
+        <!--Main Page-->
+        <scene sceneID="QaO-3V-Ppz">
+            <objects>
+                <viewController id="hw7-sh-ECA" customClass="MainPage" customModule="StudyApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="l6C-GA-Qkv">
+                        <rect key="frame" x="0.0" y="0.0" width="1080" height="810"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="0eg-OR-uTT"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <connections>
+                        <segue destination="FIP-K8-yah" kind="show" identifier="viewStandardSet" id="rHk-hI-Fbs"/>
+                        <segue destination="o57-tv-PwE" kind="show" identifier="viewWebSet" id="s1d-gY-Yty"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="QPn-Te-KUs" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="651" y="-1765"/>
         </scene>
     </scenes>
     <resources>

@@ -235,7 +235,4 @@ class StandardSetVC: UIViewController {
         performSegue(withIdentifier: "standardSetVC_unwind", sender: nil)
     }
     
-    @IBAction func cancel (_ unwindSegue: UIStoryboardSegue){
-        
-    }
 }
