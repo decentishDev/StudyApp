@@ -63,6 +63,22 @@
             </objects>
             <point key="canvasLocation" x="195" y="-202"/>
         </scene>
+        <!--Web Term EditorVC-->
+        <scene sceneID="fYY-f4-Xlu">
+            <objects>
+                <viewController id="NGI-gz-n9n" customClass="WebTermEditorVC" customModule="StudyApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="1O3-LE-xVI">
+                        <rect key="frame" x="0.0" y="0.0" width="704" height="770"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="903-Pl-PlX"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="v6c-u9-JD5"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="TuW-J0-oYt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1052" y="533"/>
+        </scene>
         <!--Standard LearnVC-->
         <scene sceneID="tne-QT-ifu">
             <objects>
@@ -107,6 +123,9 @@
                         <viewLayoutGuide key="safeArea" id="mDS-tq-Vzg"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
+                    <connections>
+                        <segue destination="NGI-gz-n9n" kind="presentation" identifier="editWebTerm" modalPresentationStyle="automatic" id="HhI-8r-Wmd"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0ke-Se-ROy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

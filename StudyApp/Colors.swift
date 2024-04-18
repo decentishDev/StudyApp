@@ -8,5 +8,5 @@ struct Colors {
     static let text = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
 }
 
-//	Reference by using: Colors.colorname
-//	Remember it returns a UIColor!
+//    Reference by using: Colors.colorname
+//    Remember it returns a UIColor!
