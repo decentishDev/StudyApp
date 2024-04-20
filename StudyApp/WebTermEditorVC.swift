@@ -1,10 +1,3 @@
-//
-//  WebTermEditorVC.swift
-//  StudyApp
-//
-//  Created by Matthew Lundeen on 4/17/24.
-//
-
 import UIKit
 
 protocol EditorDelegate: AnyObject {
@@ -20,37 +13,53 @@ class WebTermEditorVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        preferredContentSize = CGSize(width: 140, height: 140)
+        
+        // Set preferred content size
+//        preferredContentSize = CGSize(width: 600, height: 600)
+        
+        view.backgroundColor = Colors.background
+        view.layer.cornerRadius = 10
+        view.clipsToBounds = true
+        
+        termField.placeholder = "Term"
+        termField.textAlignment = .center
+        termField.backgroundColor = Colors.secondaryBackground
+        termField.layer.cornerRadius = 5
+        termField.frame = CGRect(x: 20, y: 40, width: 260, height: 40)
         view.addSubview(termField)
+        
+        defField.placeholder = "Definition"
+        defField.textAlignment = .center
+        defField.backgroundColor = Colors.secondaryBackground
+        defField.layer.cornerRadius = 5
+        defField.frame = CGRect(x: 20, y: 100, width: 260, height: 40)
         view.addSubview(defField)
-        termField.frame = CGRect(x: 20, y: 20, width: 100, height: 20)
-        defField.frame = CGRect(x: 20, y: 60, width: 100, height: 20)
-        termField.backgroundColor = .red
-        defField.backgroundColor = .orange
         
-        let cancelButton = UIButton()
-        view.addSubview(cancelButton)
-        cancelButton.frame = CGRect(x: 20, y: 100, width: 40, height: 20)
+        let cancelButton = UIButton(type: .system)
         cancelButton.setTitle("Cancel", for: .normal)
-        cancelButton.setTitleColor(Colors.highlight, for: .normal)
-        cancelButton.backgroundColor = .yellow
+        cancelButton.setTitleColor(Colors.text, for: .normal)
+        cancelButton.backgroundColor = Colors.darkHighlight
+        cancelButton.layer.cornerRadius = 5
+        cancelButton.frame = CGRect(x: 20, y: 160, width: 120, height: 40)
         cancelButton.addTarget(self, action: #selector(cancel(_:)), for: .touchUpInside)
+        view.addSubview(cancelButton)
         
-        let confirmButton = UIButton()
-        view.addSubview(confirmButton)
-        confirmButton.frame = CGRect(x: 80, y: 100, width: 40, height: 20)
-        confirmButton.setTitle("Add term", for: .normal)
-        confirmButton.setTitleColor(Colors.highlight, for: .normal)
-        confirmButton.backgroundColor = .green
+        let confirmButton = UIButton(type: .system)
+        confirmButton.setTitle("Add Term", for: .normal)
+        confirmButton.setTitleColor(Colors.text, for: .normal)
+        confirmButton.backgroundColor = Colors.darkHighlight
+        confirmButton.layer.cornerRadius = 5
+        confirmButton.frame = CGRect(x: 160, y: 160, width: 120, height: 40)
         confirmButton.addTarget(self, action: #selector(confirm(_:)), for: .touchUpInside)
+        view.addSubview(confirmButton)
     }
     
-    @objc func cancel(_ sender: UIButton){
+    @objc func cancel(_ sender: UIButton) {
         dismiss(animated: true, completion: nil)
     }
     
-    @objc func confirm(_ sender: UIButton){
-        delegate?.didAddTerm(data: [termField.text, defField.text, 0, 0, []])
+    @objc func confirm(_ sender: UIButton) {
+        delegate?.didAddTerm(data: [termField.text ?? "", defField.text ?? "", 0, 0, []])
         dismiss(animated: true, completion: nil)
     }
 }

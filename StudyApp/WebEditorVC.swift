@@ -41,7 +41,10 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate {
     }
     
     @objc func addButtonTapped(_ sender: UIButton) {
-        performSegue(withIdentifier: "editWebTerm", sender: nil)
+        let popupVC = WebTermEditorVC()
+        popupVC.delegate = self
+        present(popupVC, animated: true, completion: nil)
+        
     }
     
     @objc func handlePan(_ gestureRecognizer: UIPanGestureRecognizer) {
@@ -91,6 +94,7 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate {
         termLabel.text = data[0] as? String
         termLabel.textColor = Colors.text
         termLabel.font = UIFont(name: "CabinetGroteskVariable-Bold_Normal", size: 15)
+        termLabel.textAlignment = .center
         rectangle.addSubview(termLabel)
         
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
@@ -108,12 +112,16 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "editWebTerm" {
-            if let popupVC = segue.destination as? WebTermEditorVC {
-                popupVC.delegate = self
-                popupVC.preferredContentSize = CGSize(width: 140, height: 140)
-                segue.destination.presentedViewController?.preferredContentSize = CGSize(width: 140, height: 140)
-            }
+//        if segue.identifier == "editWebTerm" {
+//            if let popupVC = segue.destination as? WebTermEditorVC {
+//                popupVC.delegate = self
+//                popupVC.preferredContentSize = CGSize(width: 140, height: 140)
+//                segue.destination.presentedViewController?.preferredContentSize = CGSize(width: 140, height: 140)
+//            }
+//        }
+        
+        if let popupVC = segue.destination as? WebTermEditorVC {
+            popupVC.delegate = self
         }
     }
 }

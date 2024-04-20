@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22154" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="oae-sW-4Va">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22154" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="f2G-xL-ZWJ">
     <device id="ipad10_2" orientation="landscape" layout="fullscreen" appearance="dark"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22130"/>
@@ -63,22 +63,6 @@
             </objects>
             <point key="canvasLocation" x="195" y="-202"/>
         </scene>
-        <!--Web Term EditorVC-->
-        <scene sceneID="fYY-f4-Xlu">
-            <objects>
-                <viewController id="NGI-gz-n9n" customClass="WebTermEditorVC" customModule="StudyApp" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="1O3-LE-xVI">
-                        <rect key="frame" x="0.0" y="0.0" width="704" height="770"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="903-Pl-PlX"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="v6c-u9-JD5"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="TuW-J0-oYt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1052" y="533"/>
-        </scene>
         <!--Standard LearnVC-->
         <scene sceneID="tne-QT-ifu">
             <objects>
@@ -114,20 +98,17 @@
             <point key="canvasLocation" x="651" y="-1765"/>
         </scene>
         <!--Web EditorVC-->
-        <scene sceneID="qRK-hv-7ne">
+        <scene sceneID="X0a-7W-hl5">
             <objects>
-                <viewController id="oae-sW-4Va" customClass="WebEditorVC" customModule="StudyApp" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="bhO-5e-ec7">
+                <viewController id="f2G-xL-ZWJ" customClass="WebEditorVC" customModule="StudyApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="tME-Ed-Uq7">
                         <rect key="frame" x="0.0" y="0.0" width="1080" height="810"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="mDS-tq-Vzg"/>
+                        <viewLayoutGuide key="safeArea" id="57C-Ob-5yJ"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <connections>
-                        <segue destination="NGI-gz-n9n" kind="presentation" identifier="editWebTerm" modalPresentationStyle="automatic" id="HhI-8r-Wmd"/>
-                    </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="0ke-Se-ROy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qJ3-nX-XDJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1052" y="-202"/>
         </scene>
