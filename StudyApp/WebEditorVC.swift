@@ -13,10 +13,11 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate {
     var scrollView: UIScrollView!
     var addButton: UIButton!
     var web: [[Any]] = []
-    var currentEdit: Int = 0
+    var currentEdit: Int = -1
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(view.frame)
         view.backgroundColor = Colors.background
         
         scrollView = UIScrollView(frame: view.bounds)
@@ -43,6 +44,8 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate {
     @objc func addButtonTapped(_ sender: UIButton) {
         let popupVC = WebTermEditorVC()
         popupVC.delegate = self
+        popupVC.modalPresentationStyle = .overCurrentContext
+        popupVC.modalTransitionStyle = .crossDissolve
         present(popupVC, animated: true, completion: nil)
         
     }
@@ -77,38 +80,48 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate {
     }
     
     func didAddTerm(data: [Any]){
-        let rectWidth: CGFloat = 175
-        let rectHeight: CGFloat = 125
-        
-        let centerX = scrollView.contentOffset.x + scrollView.bounds.width / 2
-        let centerY = scrollView.contentOffset.y + scrollView.bounds.height / 2
-        
-        let newX = centerX - rectWidth / 2
-        let newY = centerY - rectHeight / 2
-        
-        let rectangle = UIView(frame: CGRect(x: newX, y: newY, width: rectWidth, height: rectHeight))
-        rectangle.backgroundColor = Colors.secondaryBackground
-        rectangle.layer.cornerRadius = 10
-        
-        let termLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 175, height: 125))
-        termLabel.text = data[0] as? String
-        termLabel.textColor = Colors.text
-        termLabel.font = UIFont(name: "CabinetGroteskVariable-Bold_Normal", size: 15)
-        termLabel.textAlignment = .center
-        rectangle.addSubview(termLabel)
-        
-        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
-        rectangle.addGestureRecognizer(panGesture)
-        
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
-        rectangle.addGestureRecognizer(tapGesture)
-        
-        scrollView.addSubview(rectangle)
-        rectangles.append(rectangle)
-        
-        web.append(data)
-        web[web.count - 1][2] = newX
-        web[web.count - 1][3] = newY
+        if(currentEdit == -1){
+            let rectWidth: CGFloat = 175
+            let rectHeight: CGFloat = 125
+            
+            let centerX = scrollView.contentOffset.x + scrollView.bounds.width / 2
+            let centerY = scrollView.contentOffset.y + scrollView.bounds.height / 2
+            
+            let newX = centerX - rectWidth / 2
+            let newY = centerY - rectHeight / 2
+            
+            let rectangle = UIView(frame: CGRect(x: newX, y: newY, width: rectWidth, height: rectHeight))
+            rectangle.backgroundColor = Colors.secondaryBackground
+            rectangle.layer.cornerRadius = 10
+            let topConnections = UIStackView()
+            let bottomConnections = UIStackView()
+            topConnections.axis = .horizontal
+            bottomConnections.axis = .horizontal
+            let addConnection = UIButton(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
+            addConnection.addTarget(self, action: #selector(newConnection(_:)), for: .touchUpInside)
+            bottomConnections.addArrangedSubview(addConnection)
+            
+            let termLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 175, height: 125))
+            termLabel.text = data[0] as? String
+            termLabel.textColor = Colors.text
+            termLabel.font = UIFont(name: "CabinetGroteskVariable-Bold_Normal", size: 15)
+            termLabel.textAlignment = .center
+            rectangle.addSubview(termLabel)
+            
+            let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
+            rectangle.addGestureRecognizer(panGesture)
+            
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
+            rectangle.addGestureRecognizer(tapGesture)
+            
+            scrollView.addSubview(rectangle)
+            rectangles.append(rectangle)
+            web.append([data[0], data[1], newX, newY, []])
+            web[web.count - 1][2] = newX
+            web[web.count - 1][3] = newY
+        }else{
+            web[currentEdit] = [data[0], data[1], web[currentEdit][2], web[currentEdit][3], web[currentEdit][4]]
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -120,8 +133,14 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate {
 //            }
 //        }
         
-        if let popupVC = segue.destination as? WebTermEditorVC {
-            popupVC.delegate = self
-        }
+//        if let popupVC = segue.destination as? WebTermEditorVC {
+//            popupVC.delegate = self
+//            popupVC.modalPresentationStyle = .popover
+//            popupVC.preferredContentSize = CGSize(width: 600, height: 800)
+//        }
+    }
+    
+    @objc func newConnection(_ sender: UIButton){
+        
     }
 }
