@@ -19,8 +19,6 @@ class WebTermEditorVC: UIViewController {
         view.backgroundColor = .black.withAlphaComponent(0.5)
         let centeredView = UIView(frame: CGRect(x: 0, y: 0, width: 500, height: 320))
         view.addSubview(centeredView)
-        print(view.frame)
-        print(view.bounds)
         centeredView.center = view.center
         view.layer.cornerRadius = 10
         view.clipsToBounds = true
@@ -64,7 +62,6 @@ class WebTermEditorVC: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         view.subviews[0].center = view.center
-        print(view.frame)
     }
     
     @objc func cancel(_ sender: UIButton) {
@@ -77,12 +74,12 @@ class WebTermEditorVC: UIViewController {
     }
     
     @objc func cancelTap(_ gestureRecognizer: UITapGestureRecognizer) {
-        guard let rectangle = gestureRecognizer.view else { return }
+        guard gestureRecognizer.view != nil else { return }
         dismiss(animated: true, completion: nil)
     }
     
     @objc func backgroundTap(_ gestureRecognizer: UITapGestureRecognizer) {
-        guard let rectangle = gestureRecognizer.view else { return }
+        guard gestureRecognizer.view != nil else { return }
         resignFirstResponder()
     }
 }

@@ -14,10 +14,10 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate {
     var addButton: UIButton!
     var web: [[Any]] = []
     var currentEdit: Int = -1
+    var selectedButton: UIButton? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(view.frame)
         view.backgroundColor = Colors.background
         
         scrollView = UIScrollView(frame: view.bounds)
@@ -25,6 +25,7 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate {
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.delegate = self
+        scrollView.isScrollEnabled = false
         
         view.addSubview(scrollView)
         
@@ -93,13 +94,42 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate {
             let rectangle = UIView(frame: CGRect(x: newX, y: newY, width: rectWidth, height: rectHeight))
             rectangle.backgroundColor = Colors.secondaryBackground
             rectangle.layer.cornerRadius = 10
+            
             let topConnections = UIStackView()
             let bottomConnections = UIStackView()
             topConnections.axis = .horizontal
+            topConnections.backgroundColor = .red
+            topConnections.alignment = .center
+            topConnections.distribution = .equalSpacing
+            topConnections.translatesAutoresizingMaskIntoConstraints = false
             bottomConnections.axis = .horizontal
-            let addConnection = UIButton(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
+            bottomConnections.backgroundColor = .green
+            bottomConnections.alignment = .center
+            bottomConnections.distribution = .fillProportionally
+            bottomConnections.translatesAutoresizingMaskIntoConstraints = false
+            
+            let addConnection = UIButton()
+            bottomConnections.widthAnchor.constraint(equalToConstant: 30).isActive = true
+            addConnection.heightAnchor.constraint(equalToConstant: 30).isActive = true
+//            addConnection.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+            addConnection.setImage(UIImage(systemName: "plus.circle.fill"), for: .normal)
+            addConnection.backgroundColor = .blue
+            addConnection.isUserInteractionEnabled = true
+            addConnection.isEnabled = true
+            addConnection.layer.masksToBounds = true
             addConnection.addTarget(self, action: #selector(newConnection(_:)), for: .touchUpInside)
             bottomConnections.addArrangedSubview(addConnection)
+//            rectangle.addSubview(addConnection)
+            rectangle.addSubview(topConnections)
+            rectangle.addSubview(bottomConnections)
+            NSLayoutConstraint.activate([
+                topConnections.topAnchor.constraint(equalTo: rectangle.topAnchor, constant: -30),
+                topConnections.centerXAnchor.constraint(equalTo: rectangle.centerXAnchor),
+                topConnections.heightAnchor.constraint(equalToConstant: 30),
+                bottomConnections.bottomAnchor.constraint(equalTo: rectangle.bottomAnchor, constant: 30),
+                bottomConnections.centerXAnchor.constraint(equalTo: rectangle.centerXAnchor),
+                bottomConnections.heightAnchor.constraint(equalToConstant: 30),
+            ])
             
             let termLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 175, height: 125))
             termLabel.text = data[0] as? String
@@ -141,6 +171,36 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate {
     }
     
     @objc func newConnection(_ sender: UIButton){
-        
+        sender.backgroundColor = .red
+        print("hi")
+        selectedButton = sender
+        sender.isEnabled = false
+        for rectangle in rectangles {
+            if(rectangle != sender.superview?.superview){
+                let addConnection = UIButton()
+                addConnection.widthAnchor.constraint(equalToConstant: 30).isActive = true
+                addConnection.heightAnchor.constraint(equalToConstant: 30).isActive = true
+                addConnection.setImage(UIImage(systemName: "plus.circle.fill"), for: .normal)
+                addConnection.backgroundColor = .blue
+                addConnection.addTarget(self, action: #selector(finishConnection(_:)), for: .touchUpInside)
+                (rectangle.subviews[0] as! UIStackView).addArrangedSubview(addConnection)
+            }
+        }
     }
+    
+    @objc func finishConnection(_ sender: UIButton){
+        selectedButton?.setImage(nil, for: .normal)
+        selectedButton?.isEnabled = true
+        sender.setImage(nil, for: .normal)
+        
+        let lineLayer = CAShapeLayer()
+        let linePath = UIBezierPath()
+        linePath.move(to: selectedButton!.center)
+        linePath.addLine(to: sender.center)
+        lineLayer.path = linePath.cgPath
+        lineLayer.strokeColor = Colors.text.cgColor
+        lineLayer.lineWidth = 2.0
+        selectedButton?.superview?.superview?.layer.addSublayer(lineLayer)
+    }
+    
 }
