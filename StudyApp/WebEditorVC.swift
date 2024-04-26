@@ -7,11 +7,11 @@
 
 import UIKit
 
-class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate {
+class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITextFieldDelegate {
     
+    var name = "Revolutionary War"
     var rectangles: [UIView] = []
     var scrollView: UIScrollView!
-    var addButton: UIButton!
     var web: [[Any]] = []
     var currentEdit: Int = -1
     var selectedButton: UIButton? = nil
@@ -30,14 +30,56 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate {
         
         view.addSubview(scrollView)
         
-        addButton = UIButton(type: .system)
-        addButton.setTitle("Add term", for: .normal)
+        let backButton = UIButton()
+        backButton.setImage(UIImage(systemName: "arrowshape.backward.fill"), for: .normal)
+        backButton.addTarget(self, action: #selector(back(_:)), for: .touchUpInside)
+        backButton.frame = CGRect(x: 30, y: 30, width: 50, height: 50)
+        backButton.backgroundColor = Colors.secondaryBackground
+        backButton.layer.cornerRadius = 10
+        backButton.tintColor = Colors.highlight
+        
+        view.addSubview(backButton)
+        
+        let titleField = UITextField()
+        titleField.delegate = self
+        titleField.text = name
+        titleField.placeholder = "Set name"
+        titleField.frame = CGRect(x: 90, y: 30, width: 350, height: 50)
+        titleField.font = UIFont(name: "CabinetGroteskVariable-Bold_Bold", size: 25)
+        titleField.textColor = Colors.highlight
+        titleField.backgroundColor = Colors.secondaryBackground
+        titleField.layer.cornerRadius = 10
+        let paddingView = UIView(frame: CGRectMake(0, 0, 15, titleField.frame.height))
+        titleField.leftView = paddingView
+        titleField.leftViewMode = .always
+        
+        view.addSubview(titleField)
+        
+        let addButton = UIButton()
+//        addButton = UIButton(type: .custom)
+        addButton.setTitle("+ Add term", for: .normal)
         addButton.setTitleColor(Colors.highlight, for: .normal)
-        addButton.titleLabel?.font = UIFont(name: "CabinetGroteskVariable-Bold_Normal", size: 15)
+        addButton.titleLabel?.font = UIFont(name: "CabinetGroteskVariable-Bold_Bold", size: 25)
         addButton.addTarget(self, action: #selector(addButtonTapped(_:)), for: .touchUpInside)
-        addButton.frame = CGRect(x: 20, y: 20, width: 120, height: 40)
+        addButton.frame = CGRect(x: view.frame.width - 300, y: 30, width: 150, height: 50)
+        addButton.backgroundColor = Colors.secondaryBackground
+        addButton.layer.cornerRadius = 10
         
         view.addSubview(addButton)
+        
+        let themesButton = UIButton()
+//        addButton = UIButton(type: .custom)
+        themesButton.setTitle("Themes", for: .normal)
+        themesButton.setTitleColor(Colors.highlight, for: .normal)
+        themesButton.titleLabel?.font = UIFont(name: "CabinetGroteskVariable-Bold_Bold", size: 25)
+        themesButton.addTarget(self, action: #selector(addButtonTapped(_:)), for: .touchUpInside)
+        themesButton.frame = CGRect(x: view.frame.width - 140, y: 30, width: 110, height: 50)
+        themesButton.backgroundColor = Colors.secondaryBackground
+        themesButton.layer.cornerRadius = 10
+        
+        view.addSubview(themesButton)
+        
+        
         
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handleBackgroundPan(_:)))
         scrollView.addGestureRecognizer(panGesture)
@@ -52,21 +94,26 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate {
         
     }
     
+    @objc func back(_ sender: UIButton) {
+        performSegue(withIdentifier: "webEditorVC_unwind", sender: nil)
+    }
+    
     @objc func handlePan(_ gestureRecognizer: UIPanGestureRecognizer) {
         let translation = gestureRecognizer.translation(in: view)
         guard let view = gestureRecognizer.view else { return }
         
-        if view != addButton {
+//        if view != addButton {
             let newX = view.center.x + translation.x
             let newY = view.center.y + translation.y
             view.center = CGPoint(x: newX, y: newY)
-        } else {
-            let newX = addButton.center.x + translation.x
-            let newY = addButton.center.y + translation.y
-            addButton.center = CGPoint(x: newX, y: newY)
-            scrollView.contentOffset = CGPoint(x: scrollView.contentOffset.x - translation.x, y: scrollView.contentOffset.y - translation.y)
-        }
-        
+//        } else {
+//            print("yeah")
+//            let newX = addButton.center.x + translation.x
+//            let newY = addButton.center.y + translation.y
+//            addButton.center = CGPoint(x: newX, y: newY)
+//            scrollView.contentOffset = CGPoint(x: scrollView.contentOffset.x - translation.x, y: scrollView.contentOffset.y - translation.y)
+//        }
+//        
         gestureRecognizer.setTranslation(.zero, in: view)
     }
     
@@ -199,6 +246,7 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate {
     }
     
     @objc func finishConnection(_ sender: UIButton){
+        
         selectedButton?.setImage(nil, for: .normal)
         selectedButton?.isEnabled = true
         sender.setImage(nil, for: .normal)
@@ -212,7 +260,7 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate {
         lineLayer.lineWidth = 10.0
         selectedButton?.superview?.superview?.layer.addSublayer(lineLayer)
         print(lineLayer)
-        print(selectedButton?.superview?.superview?.layer)
+        print(selectedButton?.superview?.superview?.layer as Any)
         print(linePath)
         for rectangle in rectangles {
             if(rectangle != sender.superview?.superview){
@@ -220,6 +268,10 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate {
                 addedButtons.remove(at: 0)
             }
         }
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        print(textField.text!)
     }
     
 }

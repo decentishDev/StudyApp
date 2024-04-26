@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22154" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="f2G-xL-ZWJ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22154" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="hw7-sh-ECA">
     <device id="ipad10_2" orientation="landscape" layout="fullscreen" appearance="dark"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22130"/>
@@ -41,6 +41,7 @@
                     <navigationItem key="navigationItem" id="RXg-Es-FhM"/>
                     <connections>
                         <segue destination="y4f-Rr-eRH" kind="unwind" identifier="webSetVC_unwind" unwindAction="cancel:" id="GFj-oO-Xhn"/>
+                        <segue destination="f2G-xL-ZWJ" kind="show" identifier="editWebSet" id="3mK-3r-PdI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gi6-rD-c4i" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -102,13 +103,18 @@
             <objects>
                 <viewController id="f2G-xL-ZWJ" customClass="WebEditorVC" customModule="StudyApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="tME-Ed-Uq7">
-                        <rect key="frame" x="0.0" y="0.0" width="1080" height="810"/>
+                        <rect key="frame" x="0.0" y="0.0" width="704" height="770"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="57C-Ob-5yJ"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
+                    <navigationItem key="navigationItem" id="Fa5-Zs-LLB"/>
+                    <connections>
+                        <segue destination="fHV-gJ-jc7" kind="unwind" identifier="webEditorVC_unwind" unwindAction="cancel:" id="TOk-OC-LGP"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qJ3-nX-XDJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="fHV-gJ-jc7" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1052" y="-202"/>
         </scene>

@@ -113,6 +113,7 @@ class WebSetVC: UIViewController {
         let blurredEffectView = UIVisualEffectView(effect: blurEffect)
         blurredEffectView.frame = button.bounds
         blurredEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        blurredEffectView.isUserInteractionEnabled = false
         button.insertSubview(blurredEffectView, at: 0)
 
         return button
@@ -140,12 +141,18 @@ class WebSetVC: UIViewController {
     }
 
     @objc func editWeb() {
-        print("edit")
+        performSegue(withIdentifier: "editWebSet", sender: self)
     }
     
     @objc func backButton(sender: UIButton){
-        print("back")
         performSegue(withIdentifier: "webSetVC_unwind", sender: nil)
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        segue.destination.modalPresentationStyle = .fullScreen
+    }
+    
+    @IBAction func cancel (_ unwindSegue: UIStoryboardSegue){
+        
+    }
 }
