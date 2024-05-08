@@ -21,6 +21,7 @@
                     <navigationItem key="navigationItem" id="P7A-TL-8Km"/>
                     <connections>
                         <segue destination="lP9-U8-zXT" kind="unwind" identifier="standardSetVC_unwind" unwindAction="cancel:" id="XPC-uJ-LW5"/>
+                        <segue destination="p2I-rF-R5p" kind="show" identifier="flashcards" id="aXo-84-qxA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1aP-U6-MTS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -54,13 +55,18 @@
             <objects>
                 <viewController id="p2I-rF-R5p" customClass="FlashcardsVC" customModule="StudyApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="NVv-6G-daE">
-                        <rect key="frame" x="0.0" y="0.0" width="1080" height="810"/>
+                        <rect key="frame" x="0.0" y="0.0" width="704" height="770"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="sQc-UA-dnk"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
+                    <navigationItem key="navigationItem" id="EAM-WD-zt5"/>
+                    <connections>
+                        <segue destination="ITH-bJ-YO5" kind="unwind" identifier="flashcardsVC_unwind" unwindAction="cancel:" id="nJ2-MS-pWs"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="c8W-XO-VkC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="ITH-bJ-YO5" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="195" y="-202"/>
         </scene>

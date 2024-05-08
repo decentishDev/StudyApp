@@ -56,7 +56,8 @@ class FlashcardsVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        view.backgroundColor = Colors.background
+        setup()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -75,12 +76,12 @@ class FlashcardsVC: UIViewController {
             i.removeFromSuperview()
         }
         
-        IncorrectView.backgroundColor = .secondarySystemBackground
+        IncorrectView.backgroundColor = Colors.secondaryBackground
         IncorrectView.layer.cornerRadius = 10
-        CardView.backgroundColor = .secondarySystemBackground
+        CardView.backgroundColor = Colors.secondaryBackground
         CardView.layer.cornerRadius = 10
         
-        CorrectView.backgroundColor = .secondarySystemBackground
+        CorrectView.backgroundColor = Colors.secondaryBackground
         CorrectView.layer.cornerRadius = 10
         
         view.addSubview(CorrectView)
@@ -92,8 +93,8 @@ class FlashcardsVC: UIViewController {
             CardView.frame = CGRect(x: 40 + IncorrectView.frame.width, y: 60, width: (view.layer.frame.width - 80) * 0.7, height: view.frame.height - 80)
             CorrectView.frame = CGRect(x: 60 + IncorrectView.frame.width + CardView.frame.width, y: 60, width: (view.layer.frame.width - 80) * 0.15, height: view.frame.height - 80)
         }else{
-            var optionsHeight: CGFloat = (view.layer.frame.height - 100) * 0.3
-            var topHeight: CGFloat = (view.layer.frame.height - 100) * 0.7
+            let optionsHeight: CGFloat = (view.layer.frame.height - 100) * 0.3
+            let topHeight: CGFloat = (view.layer.frame.height - 100) * 0.7
             
             IncorrectView.frame = CGRect(x: 20, y: 80 + topHeight, width: (view.layer.frame.width - 60) * 0.5, height: optionsHeight)
             CardView.frame = CGRect(x: 20, y: 60, width: view.layer.frame.width - 40, height: topHeight)
@@ -101,7 +102,7 @@ class FlashcardsVC: UIViewController {
             
         }
         
-        CardLabel.font = .systemFont(ofSize: 40)
+        CardLabel.font = UIFont(name: "CabinetGroteskVariable-Bold_Regular", size: 40)
         CardLabel.textAlignment = .center
         CardLabel.frame = CGRect(x: 20, y: 0, width: CardView.frame.width - 40, height: CardView.frame.height)
         CardLabel.numberOfLines = 0
@@ -129,6 +130,7 @@ class FlashcardsVC: UIViewController {
         
         let incorrectImage = UIImageView()
         incorrectImage.image = UIImage(systemName: "xmark")
+        incorrectImage.tintColor = Colors.text
         incorrectImage.layer.frame = CGRect(x: (IncorrectView.layer.frame.width / 2) - 25, y: (IncorrectView.layer.frame.height / 2) - 25, width: 50, height: 50)
         incorrectImage.contentMode = .scaleAspectFit
         IncorrectView.addSubview(incorrectImage)
@@ -148,6 +150,7 @@ class FlashcardsVC: UIViewController {
         
         let correctImage = UIImageView()
         correctImage.image = UIImage(systemName: "checkmark")
+        correctImage.tintColor = Colors.text
         correctImage.layer.position = CorrectView.center
         correctImage.layer.frame = CGRect(x: (CorrectView.layer.frame.width / 2) - 25, y: (CorrectView.layer.frame.height / 2) - 25, width: 50, height: 50)
         correctImage.contentMode = .scaleAspectFit
@@ -160,25 +163,28 @@ class FlashcardsVC: UIViewController {
         let backButton = UIButton()
         backButton.frame = CGRect(x: 20, y: 20, width: 20, height: 20)
         backButton.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
+        backButton.tintColor = Colors.highlight
         backButton.contentMode = .scaleAspectFit
         backButton.addTarget(self, action: #selector(self.BackButton(sender:)), for: .touchUpInside)
         view.addSubview(backButton)
         let settingsButton = UIButton()
         settingsButton.frame = CGRect(x: view.layer.frame.width - 40, y: 20, width: 20, height: 20)
         settingsButton.setImage(UIImage(systemName: "gearshape.fill"), for: .normal)
+        settingsButton.tintColor = Colors.highlight
         settingsButton.contentMode = .scaleAspectFit
         settingsButton.addTarget(self, action: #selector(self.SettingsButton(sender:)), for: .touchUpInside)
         view.addSubview(settingsButton)
         cardCounter.frame = CGRect(x: 60, y: 20, width: view.frame.width - 120, height: 20)
-        cardCounter.font = .systemFont(ofSize: 15)
+        cardCounter.font = UIFont(name: "CabinetGroteskVariable-Bold_Bold", size: 15)
         cardCounter.textAlignment = .center
         cardCounter.text = String(index + 1) + "/" + String(cardOrder.count)
+        cardCounter.textColor = Colors.text
         view.addSubview(cardCounter)
         
         OverlayCard.frame = CardView.frame
         OverlayCard.layer.cornerRadius = 10
-        OverlayCard.backgroundColor = .secondarySystemBackground
-        OverlayLabel.font = .systemFont(ofSize: 40)
+        OverlayCard.backgroundColor = Colors.secondaryBackground
+        OverlayLabel.font = UIFont(name: "CabinetGroteskVariable-Bold_Regular", size: 40)
         OverlayLabel.textAlignment = .center
         OverlayLabel.frame = CGRect(x: 20, y: 0, width: CardView.frame.width - 40, height: CardView.frame.height)
         OverlayLabel.numberOfLines = 0
@@ -210,7 +216,7 @@ class FlashcardsVC: UIViewController {
     func Correct(){
         CorrectView.backgroundColor = .green
         UIView.animate(withDuration: 0.5, animations: {
-            self.CorrectView.backgroundColor = .secondarySystemBackground
+            self.CorrectView.backgroundColor = Colors.secondaryBackground
         })
         known[cardOrder[index]] = true
         if(index == cards.count - 1){
@@ -277,7 +283,7 @@ class FlashcardsVC: UIViewController {
     func Incorrect(){
         IncorrectView.backgroundColor = .red
         UIView.animate(withDuration: 0.5, animations: {
-            self.IncorrectView.backgroundColor = .secondarySystemBackground
+            self.IncorrectView.backgroundColor = Colors.secondaryBackground
         })
         known[cardOrder[index]] = false
         if(index == cards.count - 1){
@@ -362,10 +368,13 @@ class FlashcardsVC: UIViewController {
     }
     
     @objc func BackButton(sender: UIButton){
-        
+        performSegue(withIdentifier: "flashcardsVC_unwind", sender: nil)
     }
     
     @objc func SettingsButton(sender: UIButton){
+        
+    }
+    @IBAction func cancel (_ unwindSegue: UIStoryboardSegue){
         
     }
 

@@ -7,84 +7,289 @@
 import UIKit
 
 class MainPage: UIViewController {
-    var isDarkMode = false // State variable to track dark mode
+//    var isDarkMode = false // State variable to track dark mode
     
-    let buttonSize: CGFloat = 170 // Adjust button size here
+    //let buttonSize: CGFloat = 170 // Adjust button size here
     
-    let sets: [[String]] = [["Trivia", "standard"], ["American Revolution", "web"], ["Set 3", "standard"], ["Set 4", "standard"]]
+    let scrollView = UIScrollView()
+    let stackView = UIStackView()
+    
+    var destination = -1
+    
+    var sets: [[String]] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //view.backgroundColor = isDarkMode ? .black : .white
         
-        view.backgroundColor = isDarkMode ? .black : .white
+//        let titleLabel = UILabel()
+//        titleLabel.text = "Dendritic Learning"
+//        titleLabel.font = UIFont(name: "Times New Roman", size: 35)
+//        titleLabel.textColor = .white
+//        view.addSubview(titleLabel)
+//        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+//        titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+//        titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
+        
+//        let darkModeToggle = UISwitch()
+//        view.addSubview(darkModeToggle)
+//        darkModeToggle.translatesAutoresizingMaskIntoConstraints = false
+//        darkModeToggle.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
+//        darkModeToggle.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor).isActive = true
+//        darkModeToggle.addTarget(self, action: #selector(toggleDarkMode), for: .valueChanged)
+        
+//        let button1 = createButton(title: "Button 1", color: .blue)
+//        let button2 = createButton(title: "Button 2", color: .green)
+//        let flashcardsButton = createButton(title: "Flashcards", color: .red)
+//        let button4 = createButton(title: "Button 4", color: .orange)
+//        
+//        let stackView1 = UIStackView(arrangedSubviews: [button1, button2])
+//        stackView1.axis = .horizontal
+//        stackView1.spacing = 20
+//        stackView1.distribution = .fillEqually
+//        view.addSubview(stackView1)
+//        stackView1.translatesAutoresizingMaskIntoConstraints = false
+//        stackView1.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+//        stackView1.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
+//        stackView1.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20).isActive = true
+//        
+//        let stackView2 = UIStackView(arrangedSubviews: [flashcardsButton, button4])
+//        stackView2.axis = .horizontal
+//        stackView2.spacing = 20
+//        stackView2.distribution = .fillEqually
+//        view.addSubview(stackView2)
+//        stackView2.translatesAutoresizingMaskIntoConstraints = false
+//        stackView2.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+//        stackView2.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
+//        stackView2.bottomAnchor.constraint(equalTo: stackView1.topAnchor, constant: -20).isActive = true
+        
+        if let data = UserDefaults.standard.value(forKey: "sets") as? [Dictionary<String, Any>]{
+            //print("yeah")
+            //print(data)
+            for i in data {
+                sets.append([(i["name"] as! String), i["type"] as! String])
+            }
+        }else{
+            //PLACEHOLDER SETS - add blank stuff and 'create first set' screen soon
+            
+            var revwar: Dictionary<String, Any> = Dictionary()
+            revwar["name"] = "American Revolution"
+            revwar["type"] = "web"
+            revwar["author"] = "mlundeen5270"
+            revwar["date"] = "Last edited: May 20th, 2024"
+            revwar["set"] = []
+            var trivia: Dictionary<String, Any> = Dictionary()
+            trivia["name"] = "Trivia"
+            trivia["type"] = "standard"
+            trivia["author"] = "mlundeen5270"
+            trivia["date"] = "Last edited: May 20th, 2024"
+            trivia["set"] = [
+                ["t", "What is the boiling point of water in Celsius?", "t", "100°C"],
+                ["t", "Who wrote the novel 'Pride and Prejudice'?", "t", "Jane Austen"],
+                ["t", "What is the chemical symbol for gold?", "t", "Au"],
+                ["t", "What is the tallest mountain in the world?", "t", "Mount Everest"],
+                ["t", "What year did the Titanic sink?", "t", "1912"],
+                ["t", "What is the capital of Brazil?", "t", "Brasília"],
+                ["t", "Who painted the 'Mona Lisa'?", "t", "Leonardo da Vinci"],
+                ["t", "What is the currency of Japan?", "t", "Japanese yen"],
+                ["t", "What is the largest mammal in the world?", "t", "Blue whale"],
+                ["t", "What is the chemical formula for water?", "t", "H2O"],
+                ["t", "Who discovered penicillin?", "t", "Alexander Fleming"],
+                ["t", "What is the main ingredient in guacamole?", "t", "Avocado"],
+                ["t", "What is the capital of Australia?", "t", "Canberra"],
+                ["t", "What is the square root of 144?", "t", "12"],
+                ["t", "Who wrote 'To Kill a Mockingbird'?", "t", "Harper Lee"],
+                ["t", "What is the chemical symbol for iron?", "t", "Fe"],
+                ["t", "What is the largest ocean on Earth?", "t", "Pacific Ocean"],
+                ["t", "What is the speed of light in a vacuum?", "t", "299,792,458 meters per second"],
+                ["t", "Who was the first woman to ever win a Nobel Prize in the whole entire large global world?", "t", "Marie Curie"],
+                ["t", "What is the capital of South Africa?", "t", "Pretoria"]
+            ]
+            UserDefaults.standard.setValue([trivia, revwar], forKey: "sets")
+            sets.append(["Trivia", "standard"])
+            sets.append(["American Revolution", "web"])
+        }
+        
+        setup()
+    }
+    
+//    @objc func toggleDarkMode(_ sender: UISwitch) {
+//        isDarkMode = sender.isOn
+//        view.backgroundColor = isDarkMode ? .black : .white
+//    }
+    
+    func setup(){
+        for subview in stackView.arrangedSubviews {
+            stackView.removeArrangedSubview(subview)
+            subview.removeFromSuperview()
+        }
+        stackView.removeFromSuperview()
+        for subview in view.subviews {
+            subview.removeFromSuperview()
+        }
+        
+        view.backgroundColor = Colors.background
+        
+        stackView.axis = .vertical
+        stackView.spacing = 20
+        stackView.alignment = .leading
+        scrollView.addSubview(stackView)
+        view.addSubview(scrollView)
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            stackView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 60),
+            stackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -60),
+            stackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 60),
+            stackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -60),
+//            stackView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: -100)
+        ])
+        
+        let topBar = UIView()
+        //topBar.frame = CGRect(x: 0, y: 0, width: stackView.frame.width, height: 50)
+        topBar.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        stackView.addArrangedSubview(topBar)
+        topBar.widthAnchor.constraint(equalTo: stackView.widthAnchor).isActive = true
+        //topBar.translatesAutoresizingMaskIntoConstraints = false
+        //topBar.backgroundColor = .red
         
         let titleLabel = UILabel()
         titleLabel.text = "Dendritic Learning"
-        titleLabel.font = UIFont(name: "Times New Roman", size: 35)
-        titleLabel.textColor = .white
-        view.addSubview(titleLabel)
+        titleLabel.textColor = Colors.text
+        titleLabel.font = UIFont(name: "CabinetGroteskVariable-Bold_Extrabold", size: 30)
+        topBar.addSubview(titleLabel)
+        titleLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        titleLabel.widthAnchor.constraint(equalToConstant: 400).isActive = true
+        titleLabel.leadingAnchor.constraint(equalTo: topBar.leadingAnchor).isActive = true
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-        titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
+        //titleLabel.backgroundColor = .green
         
-        let darkModeToggle = UISwitch()
-        view.addSubview(darkModeToggle)
-        darkModeToggle.translatesAutoresizingMaskIntoConstraints = false
-        darkModeToggle.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
-        darkModeToggle.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor).isActive = true
-        darkModeToggle.addTarget(self, action: #selector(toggleDarkMode), for: .valueChanged)
+        let settingsIcon = UIImageView()
+        //settingsButton.setImage(UIImage(systemName: "gear"), for: .normal)
+        settingsIcon.image = UIImage(systemName: "gear")
+        settingsIcon.contentMode = .scaleAspectFit
+        settingsIcon.tintColor = Colors.highlight
+        settingsIcon.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        settingsIcon.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        topBar.addSubview(settingsIcon)
+        settingsIcon.trailingAnchor.constraint(equalTo: topBar.trailingAnchor).isActive = true
+        settingsIcon.translatesAutoresizingMaskIntoConstraints = false
         
-        let button1 = createButton(title: "Button 1", color: .blue)
-        let button2 = createButton(title: "Button 2", color: .green)
-        let flashcardsButton = createButton(title: "Flashcards", color: .red)
-        let button4 = createButton(title: "Button 4", color: .orange)
+        let settingsButton = UIButton()
+        //settingsButton.setImage(UIImage(systemName: "gear"), for: .normal)
+        settingsButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        settingsButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        topBar.addSubview(settingsButton)
+        settingsButton.trailingAnchor.constraint(equalTo: topBar.trailingAnchor).isActive = true
+        settingsButton.translatesAutoresizingMaskIntoConstraints = false
         
-        let stackView1 = UIStackView(arrangedSubviews: [button1, button2])
-        stackView1.axis = .horizontal
-        stackView1.spacing = 20
-        stackView1.distribution = .fillEqually
-        view.addSubview(stackView1)
-        stackView1.translatesAutoresizingMaskIntoConstraints = false
-        stackView1.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-        stackView1.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
-        stackView1.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20).isActive = true
+        let breakView0 = UIView()
+        breakView0.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        breakView0.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        stackView.addArrangedSubview(breakView0)
         
-        let stackView2 = UIStackView(arrangedSubviews: [flashcardsButton, button4])
-        stackView2.axis = .horizontal
-        stackView2.spacing = 20
-        stackView2.distribution = .fillEqually
-        view.addSubview(stackView2)
-        stackView2.translatesAutoresizingMaskIntoConstraints = false
-        stackView2.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-        stackView2.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
-        stackView2.bottomAnchor.constraint(equalTo: stackView1.topAnchor, constant: -20).isActive = true
+        let recentLabel = UILabel()
+        recentLabel.text = "Your sets"
+        recentLabel.font = UIFont(name: "CabinetGroteskVariable-Bold_Extrabold", size: 50)
+        recentLabel.sizeToFit()
+        stackView.addArrangedSubview(recentLabel)
+        //recentLabel.backgroundColor = .purple
+        if(sets.count > 0){
+            for i in 0...((sets.count - 1)/3) {
+                let row = UIStackView()
+                row.axis = .horizontal
+                row.spacing = 20
+                row.alignment = .leading
+                row.translatesAutoresizingMaskIntoConstraints = false
+                stackView.addArrangedSubview(row)
+                NSLayoutConstraint.activate([
+                    row.widthAnchor.constraint(equalTo: stackView.widthAnchor),
+                    row.heightAnchor.constraint(equalToConstant: 100)
+                ])
+                for j in 3*i...(3*i) + 2 {
+                    if(sets.count > j){
+                        let setView = UIView()
+                        row.addArrangedSubview(setView)
+                        let setLabel = UILabel()
+                        setLabel.text = sets[j][0]
+                        setView.addSubview(setLabel)
+                        setView.backgroundColor = Colors.secondaryBackground
+                        setView.translatesAutoresizingMaskIntoConstraints = false
+                        setLabel.translatesAutoresizingMaskIntoConstraints = false
+                        setLabel.textColor = Colors.text
+                        setLabel.textAlignment = .center
+                        setLabel.font = UIFont(name: "CabinetGroteskVariable-Bold_Regular", size: 25)
+                        setView.layer.cornerRadius = 10
+                        let setButton = UIButton()
+                        setButton.accessibilityIdentifier = String(j)
+                        setButton.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
+                        setButton.translatesAutoresizingMaskIntoConstraints = false
+                        setView.addSubview(setButton)
+                        NSLayoutConstraint.activate([
+                            setView.widthAnchor.constraint(equalToConstant: (view.frame.width - 160)/3),
+                            setView.heightAnchor.constraint(equalTo: row.heightAnchor),
+                            setLabel.topAnchor.constraint(equalTo: setView.topAnchor),
+                            setLabel.bottomAnchor.constraint(equalTo: setView.bottomAnchor),
+                            setLabel.leadingAnchor.constraint(equalTo: setView.leadingAnchor),
+                            setLabel.trailingAnchor.constraint(equalTo: setView.trailingAnchor),
+                            setButton.topAnchor.constraint(equalTo: setView.topAnchor),
+                            setButton.bottomAnchor.constraint(equalTo: setView.bottomAnchor),
+                            setButton.leadingAnchor.constraint(equalTo: setView.leadingAnchor),
+                            setButton.trailingAnchor.constraint(equalTo: setView.trailingAnchor),
+                        ])
+                    }else{
+                        let setView = UIView()
+                        row.addArrangedSubview(setView)
+                        NSLayoutConstraint.activate([
+                            setView.widthAnchor.constraint(equalToConstant: (view.frame.width - 160)/3),
+                            setView.heightAnchor.constraint(equalTo: row.heightAnchor),
+                        ])
+                    }
+                }
+            }
+        }
     }
     
-    @objc func toggleDarkMode(_ sender: UISwitch) {
-        isDarkMode = sender.isOn
-        view.backgroundColor = isDarkMode ? .black : .white
-    }
-    
-    func createButton(title: String, color: UIColor) -> UIButton {
-        let button = UIButton()
-        button.setTitle(title, for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = color
-        button.layer.cornerRadius = 25
-        button.titleLabel?.font = UIFont(name: "Times New Roman", size: 20)
-        button.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
-        button.layer.borderWidth = 2
-        button.layer.borderColor = UIColor.white.cgColor
-        return button
-    }
+//    func createButton(title: String, color: UIColor) -> UIButton {
+//        let button = UIButton()
+//        button.setTitle(title, for: .normal)
+//        button.setTitleColor(.white, for: .normal)
+//        button.backgroundColor = color
+//        button.layer.cornerRadius = 25
+//        button.titleLabel?.font = UIFont(name: "Times New Roman", size: 20)
+//        button.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
+//        button.layer.borderWidth = 2
+//        button.layer.borderColor = UIColor.white.cgColor
+//        return button
+//    }
     
     @objc func buttonTapped(_ sender: UIButton) {
         //performSegue(withIdentifier: "viewStandardSet", sender: self)
-        performSegue(withIdentifier: "viewWebSet", sender: self)
+        //performSegue(withIdentifier: "viewWebSet", sender: self)
+        destination = Int(sender.accessibilityIdentifier!)!
+        if(sets[Int(sender.accessibilityIdentifier!)!][1] == "standard"){
+            performSegue(withIdentifier: "viewStandardSet", sender: self)
+        }else{
+            performSegue(withIdentifier: "viewWebSet", sender: self)
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         segue.destination.modalPresentationStyle = .fullScreen
+        if(destination == -1){
+            //settings
+        }else if(sets[destination][1] == "standard"){
+            guard let vc = segue.destination as? StandardSetVC else {return}
+            vc.set = destination
+        }else{
+            guard let vc = segue.destination as? WebSetVC else {return}
+            vc.set = destination
+        }
+        destination = -1
     }
     
     @IBAction func cancel (_ unwindSegue: UIStoryboardSegue){

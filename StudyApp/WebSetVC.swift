@@ -9,16 +9,27 @@ import UIKit
 
 class WebSetVC: UIViewController {
 
+    let defaults = UserDefaults.standard
+    
     let scrollView = UIScrollView()
     let stackView = UIStackView()
     
-    let web = 0 //No need to pass actual web with the content since we can't view it on this screen
+    var set = 0 //No need to pass actual web with the content since we can't view it on this screen
     
-    let name: String = "Revolutionary War"
-    let date: String = "Last edited: April 14th, 2024"
+    var name: String = ""
+    var date: String = ""
+    
+    var image: NSData? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let data = (defaults.value(forKey: "sets") as! [Dictionary<String, Any>])[set]
+        print(data)
+        name = data["name"] as! String
+        date = data["date"] as! String
+        //cards = data["set"] as! [[Any]]
+        
         setup()
     }
     
@@ -31,16 +42,20 @@ class WebSetVC: UIViewController {
         for subview in view.subviews {
             subview.removeFromSuperview()
         }
-        let backgroundImage = UIImageView(image: UIImage(named: "pawel-czerwinski-rsaHwOFpmRI-unsplash"))
-        backgroundImage.contentMode = .scaleAspectFill
-        view.addSubview(backgroundImage)
-        backgroundImage.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            backgroundImage.topAnchor.constraint(equalTo: view.topAnchor),
-            backgroundImage.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            backgroundImage.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            backgroundImage.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-        ])
+        if(image == nil){
+            view.backgroundColor = Colors.background
+        }else{
+            let backgroundImage = UIImageView(image: UIImage(named: "pawel-czerwinski-rsaHwOFpmRI-unsplash"))
+            backgroundImage.contentMode = .scaleAspectFill
+            view.addSubview(backgroundImage)
+            backgroundImage.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                backgroundImage.topAnchor.constraint(equalTo: view.topAnchor),
+                backgroundImage.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+                backgroundImage.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                backgroundImage.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            ])
+        }
         stackView.axis = .vertical
         stackView.spacing = 0
         stackView.alignment = .leading
@@ -63,6 +78,7 @@ class WebSetVC: UIViewController {
         let backButton = UIButton()
         backButton.setTitle("< Back", for: .normal)
         backButton.titleLabel!.font = UIFont(name: "CabinetGroteskVariable-Bold_Normal", size: 20)
+        backButton.titleLabel?.textColor = Colors.text
         backButton.addTarget(self, action: #selector(self.backButton(sender:)), for: .touchUpInside)
         stackView.addArrangedSubview(backButton)
         
@@ -74,12 +90,14 @@ class WebSetVC: UIViewController {
         let titleLabel = UILabel()
         titleLabel.text = name
         titleLabel.font = UIFont(name: "CabinetGroteskVariable-Bold_Extrabold", size: 50)
+        titleLabel.textColor = Colors.text
         titleLabel.sizeToFit()
         stackView.addArrangedSubview(titleLabel)
         
         let dateLabel = UILabel()
         dateLabel.text = date
         dateLabel.font = UIFont(name: "CabinetGroteskVariable-Bold_Light", size: 20)
+        dateLabel.textColor = Colors.text
         dateLabel.sizeToFit()
         stackView.addArrangedSubview(dateLabel)
         
@@ -104,17 +122,22 @@ class WebSetVC: UIViewController {
         let button = UIButton()
         button.setTitle(title, for: .normal)
         button.titleLabel!.font = UIFont(name: "CabinetGroteskVariable-Bold_Bold", size: 30)
+        button.titleLabel?.textColor = Colors.text
         button.layer.cornerRadius = 10
         button.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
         button.heightAnchor.constraint(equalToConstant: 70).isActive = true
         button.layer.masksToBounds = true
 
-        let blurEffect = UIBlurEffect(style: .systemThinMaterial)
-        let blurredEffectView = UIVisualEffectView(effect: blurEffect)
-        blurredEffectView.frame = button.bounds
-        blurredEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        blurredEffectView.isUserInteractionEnabled = false
-        button.insertSubview(blurredEffectView, at: 0)
+        if(image == nil){
+            button.backgroundColor = Colors.secondaryBackground
+        }else{
+            let blurEffect = UIBlurEffect(style: .systemThinMaterial)
+            let blurredEffectView = UIVisualEffectView(effect: blurEffect)
+            blurredEffectView.frame = button.bounds
+            blurredEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+            blurredEffectView.isUserInteractionEnabled = false
+            button.insertSubview(blurredEffectView, at: 0)
+        }
 
         return button
     }

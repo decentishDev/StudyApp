@@ -9,36 +9,27 @@ import UIKit
 
 class StandardSetVC: UIViewController {
 
+    let defaults = UserDefaults.standard
+    
     let scrollView = UIScrollView()
     let stackView = UIStackView()
     
-    var cards: [[Any]] = [ //t: text, d: drawing, s: speech - maybe
-        ["t", "What is the boiling point of water in Celsius?", "t", "100°C"],
-        ["t", "Who wrote the novel 'Pride and Prejudice'?", "t", "Jane Austen"],
-        ["t", "What is the chemical symbol for gold?", "t", "Au"],
-        ["t", "What is the tallest mountain in the world?", "t", "Mount Everest"],
-        ["t", "What year did the Titanic sink?", "t", "1912"],
-        ["t", "What is the capital of Brazil?", "t", "Brasília"],
-        ["t", "Who painted the 'Mona Lisa'?", "t", "Leonardo da Vinci"],
-        ["t", "What is the currency of Japan?", "t", "Japanese yen"],
-        ["t", "What is the largest mammal in the world?", "t", "Blue whale"],
-        ["t", "What is the chemical formula for water?", "t", "H2O"],
-        ["t", "Who discovered penicillin?", "t", "Alexander Fleming"],
-        ["t", "What is the main ingredient in guacamole?", "t", "Avocado"],
-        ["t", "What is the capital of Australia?", "t", "Canberra"],
-        ["t", "What is the square root of 144?", "t", "12"],
-        ["t", "Who wrote 'To Kill a Mockingbird'?", "t", "Harper Lee"],
-        ["t", "What is the chemical symbol for iron?", "t", "Fe"],
-        ["t", "What is the largest ocean on Earth?", "t", "Pacific Ocean"],
-        ["t", "What is the speed of light in a vacuum?", "t", "299,792,458 meters per second"],
-        ["t", "Who was the first woman to ever win a Nobel Prize in the whole entire large global world?", "t", "Marie Curie"],
-        ["t", "What is the capital of South Africa?", "t", "Pretoria"]
-    ]
-    let name: String = "Trivia"
-    let date: String = "Last edited: April 10th, 2024"
+    var set = 0 // passed through mainpage
+    var cards: [[Any]] = [] //t: text, d: drawing, s: speech - maybe
+    var name: String = ""
+    var date: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let data = (defaults.value(forKey: "sets") as! [Dictionary<String, Any>])[set]
+        name = data["name"] as! String
+        date = data["date"] as! String
+        cards = data["set"] as! [[Any]]
+        print(data)
+        print("//////////////////////////////////////////////")
+        print(cards)
+        
         setup()
     }
     
@@ -51,7 +42,7 @@ class StandardSetVC: UIViewController {
         for subview in view.subviews {
             subview.removeFromSuperview()
         }
-        let backgroundImage = UIImageView(image: UIImage(named: "pawel-czerwinski-rsaHwOFpmRI-unsplash"))
+        let backgroundImage = UIImageView(image: UIImage(named: "pawel-czerwinski-rsaHwOFpmRI-unsplash")) //need to add background image to data
         backgroundImage.contentMode = .scaleAspectFill
         view.addSubview(backgroundImage)
         backgroundImage.translatesAutoresizingMaskIntoConstraints = false
@@ -194,6 +185,7 @@ class StandardSetVC: UIViewController {
         let blurredEffectView = UIVisualEffectView(effect: blurEffect)
         blurredEffectView.frame = button.bounds
         blurredEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        blurredEffectView.isUserInteractionEnabled = false
         button.insertSubview(blurredEffectView, at: 0)
 
         return button
@@ -219,7 +211,7 @@ class StandardSetVC: UIViewController {
     }
 
     @objc func startFlashcards() {
-        print("flashcards")
+        performSegue(withIdentifier: "flashcards", sender: nil)
     }
 
     @objc func startTest() {
@@ -234,5 +226,11 @@ class StandardSetVC: UIViewController {
         print("back")
         performSegue(withIdentifier: "standardSetVC_unwind", sender: nil)
     }
+    @IBAction func cancel (_ unwindSegue: UIStoryboardSegue){
+        
+    }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        segue.destination.modalPresentationStyle = .fullScreen
+    }
 }
