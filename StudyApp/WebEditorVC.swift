@@ -9,6 +9,9 @@ import UIKit
 
 class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITextFieldDelegate {
     
+    let defaults = UserDefaults.standard
+
+    var set = 0
     var name = "Revolutionary War"
     var rectangles: [UIView] = []
     var scrollView: UIScrollView!
@@ -24,6 +27,11 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = Colors.background
+
+        let data = (defaults.value(forKey: "sets") as! [Dictionary<String, Any>])[set]
+        print(data)
+        name = data["name"] as! String
+        web = data["set"] as! [[Any]]
         
         scrollView = UIScrollView(frame: view.bounds)
         scrollView.contentSize = CGSize(width: view.bounds.width, height: view.bounds.height)
@@ -60,7 +68,6 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
         view.addSubview(titleField)
         
         let addButton = UIButton()
-//        addButton = UIButton(type: .custom)
         addButton.setTitle("+ Add term", for: .normal)
         addButton.setTitleColor(Colors.highlight, for: .normal)
         addButton.titleLabel?.font = UIFont(name: "CabinetGroteskVariable-Bold_Bold", size: 25)
@@ -72,7 +79,6 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
         view.addSubview(addButton)
         
         let themesButton = UIButton()
-//        addButton = UIButton(type: .custom)
         themesButton.setTitle("Themes", for: .normal)
         themesButton.setTitleColor(Colors.highlight, for: .normal)
         themesButton.titleLabel?.font = UIFont(name: "CabinetGroteskVariable-Bold_Bold", size: 25)
@@ -86,10 +92,118 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
         
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handleBackgroundPan(_:)))
         scrollView.addGestureRecognizer(panGesture)
-    }
-    
-    func moveLines(completion: @escaping () -> Void){
-        
+
+        for term in web {
+            let rectWidth: CGFloat = 180
+            let rectHeight: CGFloat = 180
+            
+            let centerX = term[2]
+            let centerY = term[3]
+            
+            let newX = centerX - rectWidth / 2
+            let newY = centerY - rectHeight / 2
+            
+            let rectangle = UIView(frame: CGRect(x: newX, y: newY, width: rectWidth, height: rectHeight))
+            rectangle.backgroundColor = .clear
+            
+            let visible = UIView(frame: CGRect(x: 0, y: 30, width: rectWidth, height: rectHeight - 60))
+            visible.backgroundColor = Colors.secondaryBackground
+            visible.layer.cornerRadius = 10
+            rectangle.addSubview(visible)
+            
+            let topConnections = UIStackView()
+            let bottomConnections = UIStackView()
+            topConnections.axis = .horizontal
+            //topConnections.backgroundColor = .purple
+            topConnections.alignment = .fill
+            topConnections.distribution = .fillProportionally
+            topConnections.translatesAutoresizingMaskIntoConstraints = false
+            topConnections.isUserInteractionEnabled = true
+            topConnections.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+            topConnections.autoresizesSubviews = false
+            bottomConnections.axis = .horizontal
+            //bottomConnections.backgroundColor = .orange
+            bottomConnections.alignment = .fill
+            bottomConnections.distribution = .fillProportionally
+            bottomConnections.translatesAutoresizingMaskIntoConstraints = false
+            bottomConnections.isUserInteractionEnabled = true
+            bottomConnections.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+            bottomConnections.autoresizesSubviews = false
+            
+            rectangle.addSubview(topConnections)
+            rectangle.addSubview(bottomConnections)
+            NSLayoutConstraint.activate([
+                topConnections.topAnchor.constraint(equalTo: rectangle.topAnchor),
+                topConnections.centerXAnchor.constraint(equalTo: rectangle.centerXAnchor),
+                bottomConnections.bottomAnchor.constraint(equalTo: rectangle.bottomAnchor),
+                bottomConnections.centerXAnchor.constraint(equalTo: rectangle.centerXAnchor)
+            ])
+            
+            let termLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 180, height: 180))
+            termLabel.text = data[0] as? String
+            termLabel.textColor = Colors.text
+            termLabel.font = UIFont(name: "CabinetGroteskVariable-Bold_Normal", size: 15)
+            termLabel.textAlignment = .center
+            rectangle.addSubview(termLabel)
+            
+            let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
+            rectangle.addGestureRecognizer(panGesture)
+            
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(editCard(_:)))
+            rectangle.addGestureRecognizer(tapGesture)
+            
+            scrollView.addSubview(rectangle)
+            rectangles.append(rectangle)
+            web.append([data[0], data[1], newX, newY, []])
+            web[web.count - 1][2] = newX
+            web[web.count - 1][3] = newY
+        }
+        for (i, rect) in rectangles{
+            for connection in web[i][4]{
+                let connectButton = UIButton()
+                connectButton.addTarget(self, action: #selector(editConnection(_:)))
+                connectButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+                connectButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
+                connectButton.translatesAutoresizingMaskIntoConstraints = false
+                rect.subviews[2].addArrangedSubview(connectButton)
+                
+
+                let otherButton = UIButton()
+                otherButton.addTarget(self, action: #selector(editConnection(_:)))
+                otherButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+                otherButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
+                otherButton.translatesAutoresizingMaskIntoConstraints = false
+                rectangles[connection].subviews[1].addArrangedSubview(otherButtonI)
+
+
+                let endPoint = sender.convert(otherButton.frame.origin, to: connectButton)
+                // print(sender.center)
+                // print(endPoint)
+                let lineLayer = CAShapeLayer()
+                let linePath = UIBezierPath()
+                linePath.move(to: CGPoint(x: 15, y: 15))
+                linePath.addLine(to: CGPoint(x: endPoint.x + 15, y: endPoint.y + 15))
+                lineLayer.path = linePath.cgPath
+                lineLayer.strokeColor = Colors.text.cgColor
+                lineLayer.lineWidth = 2.0 // Adjust line width as needed
+                
+                connectButton!.layer.addSublayer(lineLayer)
+            }
+
+            let addConnection = UIButton()
+            addConnection.setImage(UIImage(systemName: "plus.circle.fill"), for: .normal)
+            addConnection.imageView?.tintColor = Colors.highlight
+            addConnection.imageView?.translatesAutoresizingMaskIntoConstraints = false
+            //addConnection.backgroundColor = .red
+            addConnection.addTarget(self, action: #selector(newConnection(_:)), for: .touchUpInside)
+            bottomConnections.addArrangedSubview(addConnection)
+//            rectangle.addSubview(addConnection)
+//            addConnection.frame = CGRect(x: rectangle.frame.width / 2 - 15, y: rectangle.frame.height, width: 30, height: 30)
+            addConnection.heightAnchor.constraint(equalToConstant: 30).isActive = true
+            addConnection.translatesAutoresizingMaskIntoConstraints = false
+            addConnection.widthAnchor.constraint(equalToConstant: 30).isActive = true
+
+        }
     }
     
     @objc func addButtonTapped(_ sender: UIButton) {
@@ -119,6 +233,11 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
         movedView.center = CGPoint(x: newX, y: newY)
  
         gestureRecognizer.setTranslation(.zero, in: movedView)
+
+        let rectI = rectangles.firstIndex(movedView)
+
+        web[rectI][2] = movedView.frame.x
+        web[rectI][3] = movedView.frame.y
         
         updateLines()
     }
@@ -187,7 +306,7 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
             let topConnections = UIStackView()
             let bottomConnections = UIStackView()
             topConnections.axis = .horizontal
-            topConnections.backgroundColor = .purple
+            //topConnections.backgroundColor = .purple
             topConnections.alignment = .fill
             topConnections.distribution = .fillProportionally
             topConnections.translatesAutoresizingMaskIntoConstraints = false
@@ -195,7 +314,7 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
             topConnections.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
             topConnections.autoresizesSubviews = false
             bottomConnections.axis = .horizontal
-            bottomConnections.backgroundColor = .orange
+            //bottomConnections.backgroundColor = .orange
             bottomConnections.alignment = .fill
             bottomConnections.distribution = .fillProportionally
             bottomConnections.translatesAutoresizingMaskIntoConstraints = false
@@ -208,7 +327,7 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
             addConnection.setImage(UIImage(systemName: "plus.circle.fill"), for: .normal)
             addConnection.imageView?.tintColor = Colors.highlight
             addConnection.imageView?.translatesAutoresizingMaskIntoConstraints = false
-            addConnection.backgroundColor = .red
+            //addConnection.backgroundColor = .red
             addConnection.addTarget(self, action: #selector(newConnection(_:)), for: .touchUpInside)
             bottomConnections.addArrangedSubview(addConnection)
 //            rectangle.addSubview(addConnection)
@@ -273,7 +392,7 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
                     addConnection.imageView?.translatesAutoresizingMaskIntoConstraints = false
                     addConnection.imageView!.layoutIfNeeded()
                     addConnection.accessibilityIdentifier = String((rectangle.subviews[1] as! UIStackView).arrangedSubviews.count)
-                    addConnection.backgroundColor = .green
+                    //addConnection.backgroundColor = .green
                     addConnection.addTarget(self, action: #selector(finishConnection(_:)), for: .touchUpInside)
 //                    addConnection.layoutIfNeeded()
                     (rectangle.subviews[1] as! UIStackView).addArrangedSubview(addConnection)
@@ -305,7 +424,7 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
         addConnection.imageView?.tintColor = Colors.highlight
         addConnection.imageView?.translatesAutoresizingMaskIntoConstraints = false
 //        addConnection.accessibilityIdentifier = String((selectedButton?.superview as! UIStackView).arrangedSubviews.count)
-        addConnection.backgroundColor = .blue
+        //addConnection.backgroundColor = .blue
         addConnection.addTarget(self, action: #selector(newConnection(_:)), for: .touchUpInside)
         (selectedButton?.superview as! UIStackView).addArrangedSubview(addConnection)
         
