@@ -22,6 +22,7 @@
                     <connections>
                         <segue destination="lP9-U8-zXT" kind="unwind" identifier="standardSetVC_unwind" unwindAction="cancel:" id="XPC-uJ-LW5"/>
                         <segue destination="p2I-rF-R5p" kind="show" identifier="flashcards" id="aXo-84-qxA"/>
+                        <segue destination="5am-Nv-7bx" kind="show" id="jK2-7A-mz0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1aP-U6-MTS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -84,6 +85,26 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-518" y="-930"/>
+        </scene>
+        <!--Standard EditorVC-->
+        <scene sceneID="5be-fr-Src">
+            <objects>
+                <viewController id="5am-Nv-7bx" customClass="StandardEditorVC" customModule="StudyApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="CBS-Yn-s6a">
+                        <rect key="frame" x="0.0" y="0.0" width="704" height="770"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="doo-W2-Qax"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="S7I-of-fmw"/>
+                    <connections>
+                        <segue destination="oFd-DI-ZPD" kind="unwind" unwindAction="cancel:" id="pzC-o1-W6o"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="XqE-MA-A9a" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="oFd-DI-ZPD" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="-518" y="-202"/>
         </scene>
         <!--Main Page-->
         <scene sceneID="QaO-3V-Ppz">

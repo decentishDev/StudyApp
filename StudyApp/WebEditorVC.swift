@@ -29,7 +29,7 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
         view.backgroundColor = Colors.background
 
         let data = (defaults.value(forKey: "sets") as! [Dictionary<String, Any>])[set]
-        print(data)
+        //print(data)
         name = data["name"] as! String
         web = data["set"] as! [[Any]]
         
@@ -97,8 +97,8 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
             let rectWidth: CGFloat = 180
             let rectHeight: CGFloat = 180
             
-            let centerX = term[2]
-            let centerY = term[3]
+            let centerX = term[2] as! CGFloat
+            let centerY = term[3] as! CGFloat
             
             let newX = centerX - rectWidth / 2
             let newY = centerY - rectHeight / 2
@@ -140,7 +140,7 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
             ])
             
             let termLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 180, height: 180))
-            termLabel.text = data[0] as? String
+            termLabel.text = term[0] as? String
             termLabel.textColor = Colors.text
             termLabel.font = UIFont(name: "CabinetGroteskVariable-Bold_Normal", size: 15)
             termLabel.textAlignment = .center
@@ -154,29 +154,37 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
             
             scrollView.addSubview(rectangle)
             rectangles.append(rectangle)
-            web.append([data[0], data[1], newX, newY, []])
-            web[web.count - 1][2] = newX
-            web[web.count - 1][3] = newY
+//            web.append([term[0], term[1], newX, newY, []])
+//            web[web.count - 1][2] = newX
+//            web[web.count - 1][3] = newY
         }
-        for (i, rect) in rectangles{
-            for connection in web[i][4]{
+        for (i, rect) in rectangles.enumerated(){
+            for connection in (web[i][4] as! [Int]){
                 let connectButton = UIButton()
-                connectButton.addTarget(self, action: #selector(editConnection(_:)))
+                connectButton.addTarget(self, action: #selector(editConnection(_:)), for: .touchUpInside)
+                connectButton.setImage(UIImage(systemName: "plus.circle.fill"), for: .normal)
+                connectButton.tintColor = .clear
+                //connectButton.setImage(nil, for: .normal)
                 connectButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
                 connectButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
                 connectButton.translatesAutoresizingMaskIntoConstraints = false
-                rect.subviews[2].addArrangedSubview(connectButton)
-                
+                (rect.subviews[2] as! UIStackView).addArrangedSubview(connectButton)
+                //connectButton.backgroundColor = .blue
 
                 let otherButton = UIButton()
-                otherButton.addTarget(self, action: #selector(editConnection(_:)))
+                otherButton.addTarget(self, action: #selector(editConnection(_:)), for: .touchUpInside)
+                otherButton.setImage(UIImage(systemName: "plus.circle.fill"), for: .normal)
+                otherButton.tintColor = .clear
+                //otherButton.setImage(nil, for: .normal)
                 otherButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
                 otherButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
                 otherButton.translatesAutoresizingMaskIntoConstraints = false
-                rectangles[connection].subviews[1].addArrangedSubview(otherButtonI)
+                otherButton.accessibilityIdentifier = String(i)
+                //otherButton.backgroundColor = .brown
+                (rectangles[connection].subviews[1] as! UIStackView).addArrangedSubview(otherButton)
 
 
-                let endPoint = sender.convert(otherButton.frame.origin, to: connectButton)
+                let endPoint = otherButton.convert(otherButton.frame.origin, to: connectButton)
                 // print(sender.center)
                 // print(endPoint)
                 let lineLayer = CAShapeLayer()
@@ -187,7 +195,7 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
                 lineLayer.strokeColor = Colors.text.cgColor
                 lineLayer.lineWidth = 2.0 // Adjust line width as needed
                 
-                connectButton!.layer.addSublayer(lineLayer)
+                connectButton.layer.addSublayer(lineLayer)
             }
 
             let addConnection = UIButton()
@@ -196,7 +204,7 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
             addConnection.imageView?.translatesAutoresizingMaskIntoConstraints = false
             //addConnection.backgroundColor = .red
             addConnection.addTarget(self, action: #selector(newConnection(_:)), for: .touchUpInside)
-            bottomConnections.addArrangedSubview(addConnection)
+            (rect.subviews[2] as! UIStackView).addArrangedSubview(addConnection)
 //            rectangle.addSubview(addConnection)
 //            addConnection.frame = CGRect(x: rectangle.frame.width / 2 - 15, y: rectangle.frame.height, width: 30, height: 30)
             addConnection.heightAnchor.constraint(equalToConstant: 30).isActive = true
@@ -216,7 +224,7 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
     }
     
     @objc func themeButtonTapped(_ sender: UIButton) {
-        print("themes")
+        //print("themes")
         
     }
     
@@ -234,12 +242,20 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
  
         gestureRecognizer.setTranslation(.zero, in: movedView)
 
-        let rectI = rectangles.firstIndex(movedView)
+        let rectI = rectangles.firstIndex(of: movedView)
 
-        web[rectI][2] = movedView.frame.x
-        web[rectI][3] = movedView.frame.y
+        web[rectI!][2] = movedView.center.x
+        web[rectI!][3] = movedView.center.y
+        
+        save()
         
         updateLines()
+    }
+    
+    func save(){
+        var previousData = defaults.object(forKey: "sets") as! [Dictionary<String, Any>]
+        previousData[set]["set"] = web
+        defaults.set(previousData, forKey: "sets")
     }
     
     func updateLines(){
@@ -253,21 +269,22 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
                     
                     for button in (rectangles[outgoing![i]].subviews[1] as! UIStackView).arrangedSubviews{
                         otherButtonI += 1
-                        if(Int(button.accessibilityIdentifier!) == rectI){
+                        if(Int(button.accessibilityIdentifier!) == rectI){ //Unexpectedly found nil while unwrapping an optional value
                             break
                         }
                     }
                     
                     let otherButton = (rectangles[outgoing![i]].subviews[1] as! UIStackView).arrangedSubviews[otherButtonI]
                     let endPoint = otherButton.convert(otherButton.frame.origin, to: thisButton)
-                    print(thisButton.center)
+                    //print(thisButton.center)
                     let linePath = UIBezierPath()
                     linePath.move(to: CGPoint(x: 15, y: 15))
                     linePath.addLine(to: CGPoint(x: endPoint.x + 15, y: endPoint.y + 15))
                     
                     //print(thisButton.layer.sublayers!.count)
-                    //print(thisButton.layer.sublayers![0])
-                    (thisButton.layer.sublayers![1] as! CAShapeLayer).path = linePath.cgPath
+                    //print(thisButton.layer.sublayers!)
+                    (thisButton.layer.sublayers![1] as! CAShapeLayer).path = linePath.cgPath //Could not cast value of type '_UILabelLayer' (0x1f494d310) to 'CAShapeLayer' (0x1f49a2870).
+                    
                 }
             }
         }
@@ -367,6 +384,8 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
             
 //            print(bottomConnections.frame)
 //            print(addConnection.frame)
+            
+            save()
         }else{
             web[currentEdit] = [data[0], data[1], web[currentEdit][2], web[currentEdit][3], web[currentEdit][4]]
         }
@@ -433,8 +452,8 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
         addConnection.heightAnchor.constraint(equalToConstant: 30).isActive = true
             
         let endPoint = sender.convert(sender.frame.origin, to: selectedButton)
-        print(sender.center)
-        print(endPoint)
+        //print(sender.center)
+        //print(endPoint)
         let lineLayer = CAShapeLayer()
         let linePath = UIBezierPath()
         linePath.move(to: CGPoint(x: 15, y: 15))
@@ -469,10 +488,12 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
         selectedButton?.addTarget(self, action: #selector(editConnection(_:)), for: .touchUpInside)
         
         updateLines()
+        
+        save()
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        print(textField.text!)
+        //print(textField.text!)
     }
     
     @objc func editConnection(_ sender: UIButton){

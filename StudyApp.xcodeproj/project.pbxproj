@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0EF03BB02BC570A600B50550 /* StandardSetVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF03BAF2BC570A600B50550 /* StandardSetVC.swift */; };
 		8D074AEB2BC4BC84000E6D9A /* FlashcardsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D074AEA2BC4BC84000E6D9A /* FlashcardsVC.swift */; };
+		8D0EC1442BEDB0CD00717BA4 /* StandardEditorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D0EC1432BEDB0CD00717BA4 /* StandardEditorVC.swift */; };
 		8D395AEA2BCF2D7E00346BB0 /* CabinetGrotesk-Variable.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8D395AE92BCF2D7E00346BB0 /* CabinetGrotesk-Variable.ttf */; };
 		8D4CDF7D2BB1DCD300474FCC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D4CDF7C2BB1DCD300474FCC /* AppDelegate.swift */; };
 		8D4CDF7F2BB1DCD300474FCC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D4CDF7E2BB1DCD300474FCC /* SceneDelegate.swift */; };
@@ -28,6 +29,7 @@
 		0EF03BAF2BC570A600B50550 /* StandardSetVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardSetVC.swift; sourceTree = "<group>"; };
 		3E9C72A22BCEDA0500D78A46 /* MainePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainePage.swift; sourceTree = "<group>"; };
 		8D074AEA2BC4BC84000E6D9A /* FlashcardsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlashcardsVC.swift; sourceTree = "<group>"; };
+		8D0EC1432BEDB0CD00717BA4 /* StandardEditorVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardEditorVC.swift; sourceTree = "<group>"; };
 		8D395AE92BCF2D7E00346BB0 /* CabinetGrotesk-Variable.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "CabinetGrotesk-Variable.ttf"; path = "../../../Downloads/CabinetGrotesk_Complete/Fonts/Variable/CabinetGrotesk-Variable.ttf"; sourceTree = "<group>"; };
 		8D4CDF792BB1DCD300474FCC /* StudyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StudyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D4CDF7C2BB1DCD300474FCC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -92,6 +94,7 @@
 				8D91B5542BCF476F003A625B /* WebEditorVC.swift */,
 				8D89FD102BD073280038F597 /* Colors.swift */,
 				8D89FD122BD07BDA0038F597 /* WebTermEditorVC.swift */,
+				8D0EC1432BEDB0CD00717BA4 /* StandardEditorVC.swift */,
 			);
 			path = StudyApp;
 			sourceTree = "<group>";
@@ -178,6 +181,7 @@
 				8D71F6772BCB41BB0097DF26 /* StandardLearnVC.swift in Sources */,
 				8D4CDF7F2BB1DCD300474FCC /* SceneDelegate.swift in Sources */,
 				0EF03BB02BC570A600B50550 /* StandardSetVC.swift in Sources */,
+				8D0EC1442BEDB0CD00717BA4 /* StandardEditorVC.swift in Sources */,
 				8D4CDF912BB26EEF00474FCC /* SetsVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

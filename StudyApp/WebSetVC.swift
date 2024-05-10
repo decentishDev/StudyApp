@@ -173,6 +173,9 @@ class WebSetVC: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         segue.destination.modalPresentationStyle = .fullScreen
+        if let destination = segue.destination as? WebEditorVC{
+            destination.set = set
+        }
     }
     
     @IBAction func cancel (_ unwindSegue: UIStoryboardSegue){
