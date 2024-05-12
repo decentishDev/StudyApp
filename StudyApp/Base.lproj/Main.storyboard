@@ -22,7 +22,7 @@
                     <connections>
                         <segue destination="lP9-U8-zXT" kind="unwind" identifier="standardSetVC_unwind" unwindAction="cancel:" id="XPC-uJ-LW5"/>
                         <segue destination="p2I-rF-R5p" kind="show" identifier="flashcards" id="aXo-84-qxA"/>
-                        <segue destination="5am-Nv-7bx" kind="show" id="jK2-7A-mz0"/>
+                        <segue destination="5am-Nv-7bx" kind="show" identifier="standardEditor" id="jK2-7A-mz0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1aP-U6-MTS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -44,12 +44,33 @@
                     <connections>
                         <segue destination="y4f-Rr-eRH" kind="unwind" identifier="webSetVC_unwind" unwindAction="cancel:" id="GFj-oO-Xhn"/>
                         <segue destination="f2G-xL-ZWJ" kind="show" identifier="editWebSet" id="3mK-3r-PdI"/>
+                        <segue destination="xrB-Kn-VpP" kind="show" identifier="webStudy" id="a5f-Eb-SYI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gi6-rD-c4i" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="y4f-Rr-eRH" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1052" y="-930"/>
+        </scene>
+        <!--Web StudyVC-->
+        <scene sceneID="l1y-64-ywZ">
+            <objects>
+                <viewController id="xrB-Kn-VpP" customClass="WebStudyVC" customModule="StudyApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="VAv-uT-3uf">
+                        <rect key="frame" x="0.0" y="0.0" width="704" height="770"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="nU7-8o-Slr"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="zPr-hE-r8j"/>
+                    <connections>
+                        <segue destination="Vl4-KV-FNS" kind="unwind" identifier="webStudyVC_unwind" unwindAction="cancel:" id="5ZV-HB-R6w"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="c1y-6E-YBT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="Vl4-KV-FNS" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="1734" y="-930"/>
         </scene>
         <!--FlashcardsVC-->
         <scene sceneID="6xP-LW-9nb">
@@ -98,7 +119,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="S7I-of-fmw"/>
                     <connections>
-                        <segue destination="oFd-DI-ZPD" kind="unwind" unwindAction="cancel:" id="pzC-o1-W6o"/>
+                        <segue destination="oFd-DI-ZPD" kind="unwind" identifier="standardEditorVC_unwind" unwindAction="cancel:" id="pzC-o1-W6o"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XqE-MA-A9a" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

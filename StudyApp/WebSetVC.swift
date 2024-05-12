@@ -19,21 +19,29 @@ class WebSetVC: UIViewController {
     var name: String = ""
     var date: String = ""
     
-    var image: NSData? = nil
+    var image: Data? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let data = (defaults.value(forKey: "sets") as! [Dictionary<String, Any>])[set]
-        print(data)
-        name = data["name"] as! String
-        date = data["date"] as! String
+        
         //cards = data["set"] as! [[Any]]
         
         setup()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        setup()
+    }
+    
     func setup(){
+        
+        let data = (defaults.value(forKey: "sets") as! [Dictionary<String, Any>])[set]
+        //print(data)
+        name = data["name"] as! String
+        date = data["date"] as! String
+        image = data["image"] as! Data?
+        
         for subview in stackView.arrangedSubviews {
             stackView.removeArrangedSubview(subview)
             subview.removeFromSuperview()
@@ -45,7 +53,7 @@ class WebSetVC: UIViewController {
         if(image == nil){
             view.backgroundColor = Colors.background
         }else{
-            let backgroundImage = UIImageView(image: UIImage(named: "pawel-czerwinski-rsaHwOFpmRI-unsplash"))
+            let backgroundImage = UIImageView(image: UIImage(data: image!))
             backgroundImage.contentMode = .scaleAspectFill
             view.addSubview(backgroundImage)
             backgroundImage.translatesAutoresizingMaskIntoConstraints = false
@@ -109,12 +117,13 @@ class WebSetVC: UIViewController {
         let viewButton = createButton(withTitle: "View")
         let studyButton = createButton(withTitle: "Study")
         let editButton = createButton(withTitle: "Edit")
+        let spacer = UIView()
         
-        let buttonsStackView = UIStackView(arrangedSubviews: [viewButton, studyButton, editButton])
+        let buttonsStackView = UIStackView(arrangedSubviews: [viewButton, studyButton, editButton, spacer])
         buttonsStackView.axis = .horizontal
         buttonsStackView.widthAnchor.constraint(equalToConstant: 400).isActive = true
         buttonsStackView.spacing = 20
-        buttonsStackView.distribution = .fillProportionally
+        buttonsStackView.distribution = .fill
         stackView.addArrangedSubview(buttonsStackView)
     }
     
@@ -126,6 +135,7 @@ class WebSetVC: UIViewController {
         button.layer.cornerRadius = 10
         button.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
         button.heightAnchor.constraint(equalToConstant: 70).isActive = true
+        conW(button, (title as NSString).size(withAttributes: [NSAttributedString.Key.font: UIFont(name: "CabinetGroteskVariable-Bold_Bold", size: 30)!]).width + 40)
         button.layer.masksToBounds = true
 
         if(image == nil){
@@ -160,7 +170,7 @@ class WebSetVC: UIViewController {
     }
 
     @objc func studyWeb() {
-        print("study")
+        performSegue(withIdentifier: "webStudy", sender: self)
     }
 
     @objc func editWeb() {
@@ -174,6 +184,9 @@ class WebSetVC: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         segue.destination.modalPresentationStyle = .fullScreen
         if let destination = segue.destination as? WebEditorVC{
+            destination.set = set
+        }
+        if let destination = segue.destination as? WebStudyVC{
             destination.set = set
         }
     }

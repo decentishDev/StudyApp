@@ -10,6 +10,8 @@ import PencilKit
 
 class FlashcardsVC: UIViewController {
     
+    var set = 0
+    
     let cardCounter = UILabel()
     
     let IncorrectView = UIView()
@@ -26,37 +28,42 @@ class FlashcardsVC: UIViewController {
     
     var onFront = true
     var startOnFront = true
-    var cardOrder: [Int] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
-    var cards: [[Any]] = [ //t: text, d: drawing, s: speech - maybe
-        ["t", "What is the boiling point of water in Celsius?", "t", "100°C"],
-        ["t", "Who wrote the novel 'Pride and Prejudice'?", "t", "Jane Austen"],
-        ["t", "What is the chemical symbol for gold?", "t", "Au"],
-        ["t", "What is the tallest mountain in the world?", "t", "Mount Everest"],
-        ["t", "What year did the Titanic sink?", "t", "1912"],
-        ["t", "What is the capital of Brazil?", "t", "Brasília"],
-        ["t", "Who painted the 'Mona Lisa'?", "t", "Leonardo da Vinci"],
-        ["t", "What is the currency of Japan?", "t", "Japanese yen"],
-        ["t", "What is the largest mammal in the world?", "t", "Blue whale"],
-        ["t", "What is the chemical formula for water?", "t", "H2O"],
-        ["t", "Who discovered penicillin?", "t", "Alexander Fleming"],
-        ["t", "What is the main ingredient in guacamole?", "t", "Avocado"],
-        ["t", "What is the capital of Australia?", "t", "Canberra"],
-        ["t", "What is the square root of 144?", "t", "12"],
-        ["t", "Who wrote 'To Kill a Mockingbird'?", "t", "Harper Lee"],
-        ["t", "What is the chemical symbol for iron?", "t", "Fe"],
-        ["t", "What is the largest ocean on Earth?", "t", "Pacific Ocean"],
-        ["t", "What is the speed of light in a vacuum?", "t", "299,792,458 meters per second"],
-        ["t", "Who was the first woman to win a Nobel Prize?", "t", "Marie Curie"],
-        ["t", "What is the capital of South Africa?", "t", "Pretoria"],
-    ]
+    var random = true
+    var cardOrder: [Int] = []
+    let defaults = UserDefaults.standard
+    var cards: [[Any]] = [] //t: text, d: drawing, s: speech - maybe
 
-    var known: [Bool] = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]
+    var known: [Bool] = []
     var index: Int = 0
     let cardAnimation = 0.6
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = Colors.background
+        
+        let data = (defaults.value(forKey: "sets") as! [Dictionary<String, Any>])[set]
+        cards = data["set"] as! [[Any]]
+        known = data["flashcards"] as! [Bool]
+        var t = true
+        for i in known {
+            if(!i){
+                t = false
+                break
+            }
+        }
+        if t {
+            for i in 0..<known.count {
+                known[i] = false
+            }
+        }
+        for i in 0 ..< cards.count{
+            if(!known[i]){
+                cardOrder.append(i)
+            }
+        }
+        if(random){
+            cardOrder.shuffle()
+        }
         setup()
     }
     
@@ -219,7 +226,7 @@ class FlashcardsVC: UIViewController {
             self.CorrectView.backgroundColor = Colors.secondaryBackground
         })
         known[cardOrder[index]] = true
-        if(index == cards.count - 1){
+        if(index == cardOrder.count - 1){
             //Next round
         }else{
             if(onFront){
@@ -278,6 +285,7 @@ class FlashcardsVC: UIViewController {
                 self.OverlayCard.isHidden = true
             }
         }
+        save()
     }
     
     func Incorrect(){
@@ -286,7 +294,7 @@ class FlashcardsVC: UIViewController {
             self.IncorrectView.backgroundColor = Colors.secondaryBackground
         })
         known[cardOrder[index]] = false
-        if(index == cards.count - 1){
+        if(index == cardOrder.count - 1){
             //Next round
         }else{
             if(onFront){
@@ -340,6 +348,13 @@ class FlashcardsVC: UIViewController {
                 self.OverlayCard.isHidden = true
             }
         }
+        save()
+    }
+    
+    func save(){
+        var previousData = defaults.object(forKey: "sets") as! [Dictionary<String, Any>]
+        previousData[set]["flashcards"] = known
+        defaults.set(previousData, forKey: "sets")
     }
     
     @objc func CardButton(sender: UIButton) {

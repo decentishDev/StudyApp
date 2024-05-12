@@ -19,21 +19,28 @@ class StandardSetVC: UIViewController {
     var name: String = ""
     var date: String = ""
     
+    var image: Data? = nil
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let data = (defaults.value(forKey: "sets") as! [Dictionary<String, Any>])[set]
-        name = data["name"] as! String
-        date = data["date"] as! String
-        cards = data["set"] as! [[Any]]
-        print(data)
-        print("//////////////////////////////////////////////")
-        print(cards)
         
+//        print(data)
+//        print("//////////////////////////////////////////////")
+//        print(cards)
+        
+        setup()
+    }
+    override func viewDidAppear(_ animated: Bool) {
         setup()
     }
     
     func setup(){
+        let data = (defaults.value(forKey: "sets") as! [Dictionary<String, Any>])[set]
+        name = data["name"] as! String
+        date = data["date"] as! String
+        cards = data["set"] as! [[Any]]
+        image = data["image"] as! Data?
         for subview in stackView.arrangedSubviews {
             stackView.removeArrangedSubview(subview)
             subview.removeFromSuperview()
@@ -42,16 +49,20 @@ class StandardSetVC: UIViewController {
         for subview in view.subviews {
             subview.removeFromSuperview()
         }
-        let backgroundImage = UIImageView(image: UIImage(named: "pawel-czerwinski-rsaHwOFpmRI-unsplash")) //need to add background image to data
-        backgroundImage.contentMode = .scaleAspectFill
-        view.addSubview(backgroundImage)
-        backgroundImage.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            backgroundImage.topAnchor.constraint(equalTo: view.topAnchor),
-            backgroundImage.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            backgroundImage.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            backgroundImage.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-        ])
+        if(image == nil){
+            view.backgroundColor = Colors.background
+        }else{
+            let backgroundImage = UIImageView(image: UIImage(data: image!))
+            backgroundImage.contentMode = .scaleAspectFill
+            view.addSubview(backgroundImage)
+            backgroundImage.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                backgroundImage.topAnchor.constraint(equalTo: view.topAnchor),
+                backgroundImage.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+                backgroundImage.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                backgroundImage.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            ])
+        }
         stackView.axis = .vertical
         stackView.spacing = 0
         stackView.alignment = .leading
@@ -103,12 +114,14 @@ class StandardSetVC: UIViewController {
         let flashcardsButton = createButton(withTitle: "Flashcards")
         let testButton = createButton(withTitle: "Test")
         let editButton = createButton(withTitle: "Edit")
+        let spacer = UIView()
 		
-        let buttonsStackView = UIStackView(arrangedSubviews: [learnButton, flashcardsButton, testButton, editButton])
+        let buttonsStackView = UIStackView(arrangedSubviews: [learnButton, flashcardsButton, testButton, editButton, spacer])
         buttonsStackView.axis = .horizontal
         buttonsStackView.widthAnchor.constraint(equalToConstant: 600).isActive = true
         buttonsStackView.spacing = 20
-        buttonsStackView.distribution = .fillProportionally
+        buttonsStackView.distribution = .fill
+        buttonsStackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.addArrangedSubview(buttonsStackView)
         
         let breakView2 = UIView()
@@ -134,6 +147,7 @@ class StandardSetVC: UIViewController {
             termLabel.text = term
             termLabel.numberOfLines = 0
             termLabel.font = UIFont(name: "CabinetGroteskVariable-Bold_Regular", size: 20)
+            termLabel.widthAnchor.constraint(equalToConstant: (view.frame.width - 141)/2).isActive = true
 
             let definitionLabel = UILabel()
             definitionLabel.text = definition
@@ -157,13 +171,18 @@ class StandardSetVC: UIViewController {
             allTermsStackView.addArrangedSubview(termDefinitionStackView)
             breakView.heightAnchor.constraint(equalTo: termLabel.heightAnchor, multiplier: 1).isActive = true
             
-            let blurEffect = UIBlurEffect(style: .systemThinMaterial)
-            let blurredEffectView = UIVisualEffectView(effect: blurEffect)
-            blurredEffectView.frame = termDefinitionStackView.frame
-            blurredEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-            blurredEffectView.layer.cornerRadius = 10
-            blurredEffectView.clipsToBounds = true
-            termDefinitionStackView.insertSubview(blurredEffectView, at: 0)
+            if(image == nil){
+                termDefinitionStackView.backgroundColor = Colors.secondaryBackground
+                termDefinitionStackView.layer.cornerRadius = 10
+            }else{
+                let blurEffect = UIBlurEffect(style: .systemThinMaterial)
+                let blurredEffectView = UIVisualEffectView(effect: blurEffect)
+                blurredEffectView.frame = termDefinitionStackView.frame
+                blurredEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+                blurredEffectView.layer.cornerRadius = 10
+                blurredEffectView.clipsToBounds = true
+                termDefinitionStackView.insertSubview(blurredEffectView, at: 0)
+            }
         }
         stackView.addArrangedSubview(allTermsStackView)
         NSLayoutConstraint.activate([
@@ -178,15 +197,21 @@ class StandardSetVC: UIViewController {
         button.titleLabel!.font = UIFont(name: "CabinetGroteskVariable-Bold_Bold", size: 30)
         button.layer.cornerRadius = 10
         button.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
         button.heightAnchor.constraint(equalToConstant: 70).isActive = true
+        conW(button, (title as NSString).size(withAttributes: [NSAttributedString.Key.font: UIFont(name: "CabinetGroteskVariable-Bold_Bold", size: 30)!]).width + 40)
         button.layer.masksToBounds = true
 
-        let blurEffect = UIBlurEffect(style: .systemThinMaterial)
-        let blurredEffectView = UIVisualEffectView(effect: blurEffect)
-        blurredEffectView.frame = button.bounds
-        blurredEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        blurredEffectView.isUserInteractionEnabled = false
-        button.insertSubview(blurredEffectView, at: 0)
+        if(image == nil){
+            button.backgroundColor = Colors.secondaryBackground
+        }else{
+            let blurEffect = UIBlurEffect(style: .systemThinMaterial)
+            let blurredEffectView = UIVisualEffectView(effect: blurEffect)
+            blurredEffectView.frame = button.bounds
+            blurredEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+            blurredEffectView.isUserInteractionEnabled = false
+            button.insertSubview(blurredEffectView, at: 0)
+        }
 
         return button
     }
@@ -219,7 +244,7 @@ class StandardSetVC: UIViewController {
     }
     
     @objc func editSet() {
-        print("edit")
+        performSegue(withIdentifier: "standardEditor", sender: nil)
     }
     
     @objc func backButton(sender: UIButton){
@@ -232,5 +257,8 @@ class StandardSetVC: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         segue.destination.modalPresentationStyle = .fullScreen
+        if let destination = segue.destination as? StandardEditorVC {
+            destination.set = set
+        }
     }
 }

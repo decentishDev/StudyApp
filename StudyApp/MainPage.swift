@@ -6,7 +6,7 @@
 //
 import UIKit
 
-class MainPage: UIViewController {
+class MainPage: UIViewController, NewSetDelegate {
 //    var isDarkMode = false // State variable to track dark mode
     
     //let buttonSize: CGFloat = 170 // Adjust button size here
@@ -63,6 +63,20 @@ class MainPage: UIViewController {
 //        stackView2.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
 //        stackView2.bottomAnchor.constraint(equalTo: stackView1.topAnchor, constant: -20).isActive = true
         
+       //setup()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        setup()
+    }
+    
+//    @objc func toggleDarkMode(_ sender: UISwitch) {
+//        isDarkMode = sender.isOn
+//        view.backgroundColor = isDarkMode ? .black : .white
+//    }
+    
+    func setup(){
+        sets = []
         if let data = UserDefaults.standard.value(forKey: "sets") as? [Dictionary<String, Any>]{
             //print("yeah")
             //print(data)
@@ -77,12 +91,16 @@ class MainPage: UIViewController {
             revwar["type"] = "web"
             revwar["author"] = "mlundeen5270"
             revwar["date"] = "Last edited: May 20th, 2024"
+            revwar["image"] = UIImage(named: "samuel-branch-ZPVisr0s_hQ-unsplash.jpg")?.pngData()
             revwar["set"] = []
             var trivia: Dictionary<String, Any> = Dictionary()
             trivia["name"] = "Trivia"
             trivia["type"] = "standard"
             trivia["author"] = "mlundeen5270"
+            trivia["flashcards"] = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]
+
             trivia["date"] = "Last edited: May 20th, 2024"
+            trivia["image"] = Data?(nil)
             trivia["set"] = [
                 ["t", "What is the boiling point of water in Celsius?", "t", "100°C"],
                 ["t", "Who wrote the novel 'Pride and Prejudice'?", "t", "Jane Austen"],
@@ -110,15 +128,6 @@ class MainPage: UIViewController {
             sets.append(["American Revolution", "web"])
         }
         
-        setup()
-    }
-    
-//    @objc func toggleDarkMode(_ sender: UISwitch) {
-//        isDarkMode = sender.isOn
-//        view.backgroundColor = isDarkMode ? .black : .white
-//    }
-    
-    func setup(){
         for subview in stackView.arrangedSubviews {
             stackView.removeArrangedSubview(subview)
             subview.removeFromSuperview()
@@ -195,8 +204,17 @@ class MainPage: UIViewController {
         let recentLabel = UILabel()
         recentLabel.text = "Your sets"
         recentLabel.font = UIFont(name: "CabinetGroteskVariable-Bold_Extrabold", size: 50)
-        recentLabel.sizeToFit()
+        con(recentLabel, 300, 50)
         stackView.addArrangedSubview(recentLabel)
+        let newButton = UIButton()
+        newButton.frame = CGRect(x: 250, y: 5, width: 40, height: 40)
+        recentLabel.addSubview(newButton)
+        newButton.setImage(UIImage(systemName: "plus.app.fill"), for: .normal)
+        newButton.contentHorizontalAlignment = .fill
+        newButton.contentVerticalAlignment = .fill
+        newButton.imageView?.contentMode = .scaleAspectFit
+        newButton.tintColor = Colors.highlight
+        newButton.addTarget(self, action: #selector(newSet(_:)), for: .touchUpInside)
         //recentLabel.backgroundColor = .purple
         if(sets.count > 0){
             for i in 0...((sets.count - 1)/3) {
@@ -267,6 +285,14 @@ class MainPage: UIViewController {
 //        return button
 //    }
     
+    @objc func newSet(_ sender: UIButton){
+        let popupVC = NewSetVC()
+        popupVC.delegate = self
+        popupVC.modalPresentationStyle = .overCurrentContext
+        popupVC.modalTransitionStyle = .crossDissolve
+        present(popupVC, animated: true, completion: nil)
+    }
+    
     @objc func buttonTapped(_ sender: UIButton) {
         //performSegue(withIdentifier: "viewStandardSet", sender: self)
         //performSegue(withIdentifier: "viewWebSet", sender: self)
@@ -294,5 +320,13 @@ class MainPage: UIViewController {
     
     @IBAction func cancel (_ unwindSegue: UIStoryboardSegue){
         
+    }
+    
+    func newSetType(type: String){
+        if(type == "Standard"){
+            
+        }else if(type == "Web"){
+            
+        }
     }
 }

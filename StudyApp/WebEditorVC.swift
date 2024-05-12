@@ -255,6 +255,7 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
     func save(){
         var previousData = defaults.object(forKey: "sets") as! [Dictionary<String, Any>]
         previousData[set]["set"] = web
+        previousData[set]["name"] = name
         defaults.set(previousData, forKey: "sets")
     }
     
@@ -396,7 +397,7 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
     }
     
     @objc func newConnection(_ sender: UIButton){
-        sender.backgroundColor = .red
+        //sender.backgroundColor = .red
         if(rectangles.count > 1){
             selectedButton = sender
             
@@ -494,6 +495,7 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         //print(textField.text!)
+        name = textField.text!
     }
     
     @objc func editConnection(_ sender: UIButton){
