@@ -21,6 +21,8 @@ class WebSetVC: UIViewController {
     
     var image: Data? = nil
     
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -125,6 +127,7 @@ class WebSetVC: UIViewController {
         buttonsStackView.spacing = 20
         buttonsStackView.distribution = .fill
         stackView.addArrangedSubview(buttonsStackView)
+        
     }
     
     func createButton(withTitle title: String) -> UIButton {

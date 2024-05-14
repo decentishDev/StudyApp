@@ -23,6 +23,7 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
     var moveRequestNumber = 0
     
     var canUpdate = true
+    let loadingView = UILabel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,6 +42,11 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
         scrollView.isScrollEnabled = false
         
         view.addSubview(scrollView)
+        
+        loadingView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
+        loadingView.text = "Loading web . . ."
+        loadingView.font = UIFont(name: "CabinetGroteskVariable-Bold_Bold", size: 25)
+        loadingView.backgroundColor = Colors.background
         
         let backButton = UIButton()
         backButton.setImage(UIImage(systemName: "arrowshape.backward.fill"), for: .normal)
@@ -184,7 +190,7 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
                 (rectangles[connection].subviews[1] as! UIStackView).addArrangedSubview(otherButton)
 
 
-                let endPoint = otherButton.convert(otherButton.frame.origin, to: connectButton)
+                let endPoint = otherButton.convert(otherButton.anchorPoint, to: connectButton)
                 // print(sender.center)
                 // print(endPoint)
                 let lineLayer = CAShapeLayer()
@@ -212,9 +218,20 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
             addConnection.widthAnchor.constraint(equalToConstant: 30).isActive = true
 
         }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1){
+            self.updateLines()
+            UIView.animate(withDuration: 0.25, animations: {
+                self.loadingView.layer.opacity = 0
+            }, completion: {_ in 
+                self.loadingView.removeFromSuperview()
+            })
+        }
     }
     
     @objc func addButtonTapped(_ sender: UIButton) {
+        currentEdit = -1
+        
         let popupVC = WebTermEditorVC()
         popupVC.delegate = self
         popupVC.modalPresentationStyle = .overCurrentContext
@@ -276,7 +293,7 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
                     }
                     
                     let otherButton = (rectangles[outgoing![i]].subviews[1] as! UIStackView).arrangedSubviews[otherButtonI]
-                    let endPoint = otherButton.convert(otherButton.frame.origin, to: thisButton)
+                    let endPoint = otherButton.convert(otherButton.anchorPoint, to: thisButton)
                     //print(thisButton.center)
                     let linePath = UIBezierPath()
                     linePath.move(to: CGPoint(x: 15, y: 15))
@@ -294,6 +311,18 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
     @objc func editCard(_ gestureRecognizer: UITapGestureRecognizer) {
         //guard let rectangle = gestureRecognizer.view else { return }
         //rectangle.backgroundColor = Colors.darkHighlight
+        let popupVC = WebTermEditorVC()
+        popupVC.delegate = self
+        popupVC.modalPresentationStyle = .overCurrentContext
+        popupVC.modalTransitionStyle = .crossDissolve
+        
+        let i = rectangles.firstIndex(of: gestureRecognizer.view!)!
+        currentEdit = i
+        popupVC.defField.text = web[i][1] as? String
+        popupVC.termField.text = web[i][0] as? String
+        popupVC.addingTerm = false
+        
+        present(popupVC, animated: true, completion: nil)
     }
     
     @objc func handleBackgroundPan(_ gestureRecognizer: UIPanGestureRecognizer) {
@@ -389,6 +418,7 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
             save()
         }else{
             web[currentEdit] = [data[0], data[1], web[currentEdit][2], web[currentEdit][3], web[currentEdit][4]]
+            (rectangles[currentEdit].subviews[3] as! UILabel).text = data[0] as? String
         }
     }
     
@@ -496,6 +526,8 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
     func textFieldDidEndEditing(_ textField: UITextField) {
         //print(textField.text!)
         name = textField.text!
+        
+        save()
     }
     
     @objc func editConnection(_ sender: UIButton){
@@ -505,4 +537,40 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
     @IBAction func cancel (_ unwindSegue: UIStoryboardSegue){
         
     }
+    
+    func deleteTerm() {
+        rectangles[currentEdit].removeFromSuperview()
+        rectangles.remove(at: currentEdit)
+        for i in (web[currentEdit][4] as! [Int]){
+            for button in (rectangles[i].subviews[1] as! UIStackView).arrangedSubviews { //Swift/ContiguousArrayBuffer.swift:600: Fatal error: Index out of range
+                if button.accessibilityIdentifier == String(currentEdit){
+                    button.removeFromSuperview()
+                }
+            }
+        }
+        web.remove(at: currentEdit)
+        for (i, term) in web.enumerated() {
+            if var indices = term[4] as? [Int], let index = indices.firstIndex(of: currentEdit) {
+                indices.remove(at: index)
+                for (j, I) in indices.enumerated() {
+                    if I > currentEdit{
+                        indices.remove(at: j)
+                    }
+                }
+                web[i][4] = indices // Update the original array with the modified one
+                (rectangles[i].subviews[2] as! UIStackView).arrangedSubviews[index].removeFromSuperview()
+            }
+        }
+        
+        for rectangle in rectangles {
+            for button in (rectangle.subviews[1] as! UIStackView).arrangedSubviews {
+                if(button.accessibilityIdentifier != nil && Int(button.accessibilityIdentifier!)! > currentEdit){
+                    button.accessibilityIdentifier = String(Int(button.accessibilityIdentifier!)! - 1)
+                }
+            }
+        }
+        
+        save()
+    }
+
 }

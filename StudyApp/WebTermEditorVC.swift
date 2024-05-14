@@ -2,12 +2,14 @@ import UIKit
 
 protocol EditorDelegate: AnyObject {
     func didAddTerm(data: [Any])
+    func deleteTerm()
 }
 
 class WebTermEditorVC: UIViewController {
     
     var termField = UITextField()
     var defField = UITextField()
+    var addingTerm = true
     
     weak var delegate: EditorDelegate?
     
@@ -18,6 +20,9 @@ class WebTermEditorVC: UIViewController {
         self.definesPresentationContext = true
         view.backgroundColor = .black.withAlphaComponent(0.5)
         let centeredView = UIView(frame: CGRect(x: 0, y: 0, width: 500, height: 320))
+        if !addingTerm {
+            centeredView.frame = CGRect(x: 0, y: 0, width: 500, height: 390)
+        }
         view.addSubview(centeredView)
         centeredView.center = view.center
         view.layer.cornerRadius = 10
@@ -52,16 +57,35 @@ class WebTermEditorVC: UIViewController {
         
         let confirmButton = UIButton(type: .system)
         centeredView.addSubview(confirmButton)
-        confirmButton.setTitle("Add Term", for: .normal)
+        if addingTerm {
+            confirmButton.setTitle("Add Term", for: .normal)
+        }else{
+            confirmButton.setTitle("Update", for: .normal)
+        }
         confirmButton.setTitleColor(Colors.text, for: .normal)
         confirmButton.backgroundColor = Colors.darkHighlight
         confirmButton.layer.cornerRadius = 5
         confirmButton.frame = CGRect(x: 260, y: 220, width: 190, height: 50)
         confirmButton.addTarget(self, action: #selector(confirm(_:)), for: .touchUpInside)
+        if !addingTerm {
+            let deleteButton = UIButton(type: .system)
+            centeredView.addSubview(deleteButton)
+            deleteButton.setTitle("Delete term", for: .normal)
+            deleteButton.setTitleColor(Colors.text, for: .normal)
+            deleteButton.backgroundColor = .init(red: 0.6, green: 0.3, blue: 0.3, alpha: 1)
+            deleteButton.layer.cornerRadius = 5
+            deleteButton.frame = CGRect(x: 50, y: 290, width: 400, height: 50)
+            deleteButton.addTarget(self, action: #selector(deleteTerm(_:)), for: .touchUpInside)
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
         view.subviews[0].center = view.center
+    }
+    
+    @objc func deleteTerm(_ sender: UIButton){
+        delegate?.deleteTerm()
+        dismiss(animated: true, completion: nil)
     }
     
     @objc func cancel(_ sender: UIButton) {

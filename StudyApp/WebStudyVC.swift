@@ -23,9 +23,27 @@ class WebStudyVC: UIViewController, UITextFieldDelegate {
     var answerList = UIStackView()
     
     var mainLabel = UILabel()
+    let inputField = UITextField()
+    
+    var roundOverlay = UIView()
+    var endLabel = UILabel()
+    var perfectCounter: [Bool] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let hideKeyboard = UITapGestureRecognizer()
+        hideKeyboard.addTarget(self, action: #selector(dismissKeyboards(_:)))
+//        hideKeyboard.isEnabled = true
+//        view.isUserInteractionEnabled = true
+        let gestureView = UIView(frame: CGRect(x: 0, y: 60, width: view.frame.width, height: view.frame.height - 60))
+        //gestureView.backgroundColor = .red
+        gestureView.addGestureRecognizer(hideKeyboard)
+        //hideKeyboard.view?.isUserInteractionEnabled = true
+        view.addSubview(gestureView)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardDidChangeFrameNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         view.backgroundColor = Colors.background
         let data = (defaults.value(forKey: "sets") as! [Dictionary<String, Any>])[set]
         web = data["set"] as! [[Any]]
@@ -51,34 +69,105 @@ class WebStudyVC: UIViewController, UITextFieldDelegate {
         termCounter.textColor = Colors.text
         view.addSubview(termCounter)
         
-        mainLabel.frame = CGRect(x: 20, y: 60, width: view.frame.width - 40, height: 200)
+        mainLabel.frame = CGRect(x: 20, y: 60, width: view.frame.width - 40, height: view.frame.height - 60 - 210)
         mainLabel.font = UIFont(name: "CabinetGroteskVariable-Bold_Bold", size: 50)
         mainLabel.textColor = Colors.text
         mainLabel.textAlignment = .center
+        mainLabel.isUserInteractionEnabled = false
         view.addSubview(mainLabel)
         
         answerList.axis = .horizontal
-        answerList.frame = CGRect(x: 20, y: 280, width: view.frame.width - 40, height: 100)
+        answerList.frame = CGRect(x: 20, y: 80 + mainLabel.frame.height, width: view.frame.width - 40, height: 100)
         answerList.spacing = 20
         answerList.distribution = .fillEqually
         view.addSubview(answerList)
         
-        let inputField = UITextField()
-        inputField.frame = CGRect(x: 20, y: 400, width: view.frame.width - 40, height: 50)
+        
+        inputField.frame = CGRect(x: 20, y: 80 + mainLabel.frame.height + 20 + answerList.frame.height, width: view.frame.width - 40, height: 50)
         inputField.font = UIFont(name: "CabinetGroteskVariable-Bold_Regular", size: 30)
         inputField.placeholder = "Type your answer here . . ."
         inputField.delegate = self
         inputField.backgroundColor = Colors.secondaryBackground
         inputField.layer.cornerRadius = 10
+        let paddingView = UIView(frame: CGRectMake(0, 0, 10, inputField.frame.height))
+        inputField.leftView = paddingView
+        inputField.leftViewMode = .always
         
         view.addSubview(inputField)
         
         for i in 0..<web.count {
             round.append(i)
+            perfectCounter.append(true)
         }
         round.shuffle()
         termCounter.text = String(index + 1) + "/" + String(round.count)
         nextTerm()
+        
+        roundOverlay.frame = CGRect(x: 20, y: 60, width: view.frame.width - 40, height: view.frame.height - 80)
+        view.addSubview(roundOverlay)
+        roundOverlay.layer.cornerRadius = 10
+        roundOverlay.backgroundColor = Colors.secondaryBackground
+        
+        let nextButton = UIButton()
+        roundOverlay.addSubview(nextButton)
+        nextButton.frame = CGRect(x: 20, y: roundOverlay.frame.height - 100, width: roundOverlay.frame.width - 40, height: 80)
+        nextButton.backgroundColor = Colors.darkHighlight
+        nextButton.setTitle("Next round", for: .normal)
+        nextButton.titleLabel!.font = UIFont(name: "CabinetGroteskVariable-Bold_Regular", size: 30)
+        nextButton.titleLabel!.textColor = Colors.text
+        nextButton.layer.cornerRadius = 10
+        nextButton.addTarget(self, action: #selector(self.nextRound(sender:)), for: .touchUpInside)
+        
+        endLabel.text = ""
+        endLabel.font = UIFont(name: "CabinetGroteskVariable-Bold_Bold", size: 30)
+        endLabel.textAlignment = .center
+        endLabel.frame = CGRect(x: 20, y: 20, width: roundOverlay.frame.width - 40, height: roundOverlay.frame.height - 140)
+        endLabel.textColor = Colors.text
+        roundOverlay.addSubview(endLabel)
+        roundOverlay.isHidden = true
+    }
+    
+    @objc func dismissKeyboards(_ gestureRecognizer: UITapGestureRecognizer) {
+        print("now")
+        inputField.resignFirstResponder()
+    }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.height
+        var t = view.frame.height - 60 - 210 - keyboardSize!
+        let rect1 = CGRect(x: 20, y: 60, width: view.frame.width - 40, height: t)
+        t = view.frame.height - 190 - keyboardSize!
+        let rect2 = CGRect(x: 20, y: t, width: view.frame.width - 40, height: 100)
+        t = view.frame.height - 170 - keyboardSize! + answerList.frame.height
+        let rect3 = CGRect(x: 20, y: t, width: view.frame.width - 40, height: 50)
+        UIView.animate(withDuration: 0.5, animations: {
+            self.mainLabel.frame = rect1
+        })
+        UIView.animate(withDuration: 0.5, animations: {
+            self.answerList.frame = rect2
+        })
+        UIView.animate(withDuration: 0.5, animations: {
+            self.inputField.frame = rect3
+        })
+    }
+    
+    @objc func keyboardWillHide(notification: NSNotification){
+        let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.height
+        var t = view.frame.height - 60 - 210 - keyboardSize!
+        let rect1 = CGRect(x: 20, y: 60, width: view.frame.width - 40, height: t)
+        t = view.frame.height - 190 - keyboardSize!
+        let rect2 = CGRect(x: 20, y: t, width: view.frame.width - 40, height: 100)
+        t = view.frame.height - 170 - keyboardSize! + answerList.frame.height
+        let rect3 = CGRect(x: 20, y: t, width: view.frame.width - 40, height: 50)
+        UIView.animate(withDuration: 0.5, animations: {
+            self.mainLabel.frame = rect1
+        })
+        UIView.animate(withDuration: 0.5, animations: {
+            self.answerList.frame = rect2
+        })
+        UIView.animate(withDuration: 0.5, animations: {
+            self.inputField.frame = rect3
+        })
     }
     
     func nextTerm(){
@@ -121,61 +210,61 @@ class WebStudyVC: UIViewController, UITextFieldDelegate {
             let otherType = [false, true].randomElement()!
             
             if(questionType == 0){ //INCOMING TERMS
-                if(otherType){
+//                if(otherType){
                     questionType+=1
                     mainLabel.text = "What leads to " + (web[round[index]][0] as! String) + "?"
-                    for i in (web[round[index]][4] as! [Int]) {
-                        answer.append(web[i][0] as! String)
+                    for i in incoming {
+                        answer.append(i)
                     }
-                }else{
-                    var t = ""
-                    if(incoming.count == 1){
-                        t = incoming[0]
-                    }else if(incoming.count == 2){
-                        t = incoming[0] + " and " + incoming[1]
-                    }else{
-                        for (i, term) in incoming.enumerated(){
-                            if(i == incoming.count - 1){
-                                t += ", and " + term
-                            }else{
-                                t += term + ", "
-                            }
-                        }
-                    }
-                    mainLabel.text = "What does " + t + " lead to?"
-                    answer = [(web[round[index]][0] as! String)]
-                }
+//                }else{
+//                    var t = ""
+//                    if(incoming.count == 1){
+//                        t = incoming[0]
+//                    }else if(incoming.count == 2){
+//                        t = incoming[0] + " and " + incoming[1]
+//                    }else{
+//                        for (i, term) in incoming.enumerated(){
+//                            if(i == incoming.count - 1){
+//                                t += ", and " + term
+//                            }else{
+//                                t += term + ", "
+//                            }
+//                        }
+//                    }
+//                    mainLabel.text = "What does " + t + " lead to?"
+//                    answer = [(web[round[index]][0] as! String)]
+//                }
                 
             }else if(questionType == 2){ //OUTGOING TERMS
-                if(otherType){
-                    questionType+=1
-                    
-                    var t = ""
-                    let outgoing = web[round[index]][4] as! [Int]
-                        
-                    if(outgoing.count == 1){
-                        t = web[outgoing[0]][0] as! String
-                    }else if(outgoing.count == 2){
-                        t = (web[outgoing[0]][0] as! String) + " and " + (web[outgoing[1]][0] as! String)
-                    }else{
-                        for (i, term) in outgoing.enumerated(){
-                            if(i == outgoing.count - 1){
-                                t += ", and " + (web[outgoing[term]][0] as! String)
-                            }else{
-                                t += (web[outgoing[term]][0] as! String) + ", "
-                            }
-                        }
-                    }
-                        
-                    mainLabel.text = "What leads to " + t + "?"
-                    answer = [(web[round[index]][0] as! String)]
-                }else{
+//                if(otherType){
+//                    questionType+=1
+//                    
+//                    var t = ""
+//                    let outgoing = web[round[index]][4] as! [Int]
+//                        
+//                    if(outgoing.count == 1){
+//                        t = web[outgoing[0]][0] as! String
+//                    }else if(outgoing.count == 2){
+//                        t = (web[outgoing[0]][0] as! String) + " and " + (web[outgoing[1]][0] as! String)
+//                    }else{
+//                        for (i, term) in outgoing.enumerated(){
+//                            if(i == outgoing.count - 1){
+//                                t += ", and " + (web[outgoing[term]][0] as! String)
+//                            }else{
+//                                t += (web[outgoing[term]][0] as! String) + ", "
+//                            }
+//                        }
+//                    }
+//                        
+//                    mainLabel.text = "What leads to " + t + "?"
+//                    answer = [(web[round[index]][0] as! String)]
+//                }else{
                     mainLabel.text = "What does " + (web[round[index]][0] as! String) + " lead to?"
                     let outgoing = web[round[index]][4] as! [Int]
                     for term in outgoing {
-                        answer.append(web[outgoing[term]][0] as! String)
+                        answer.append(web[term][0] as! String)
                     }
-                }
+//                }
                 
             }else{ //TERM / DEFINITION
                 if(otherType){
@@ -195,6 +284,8 @@ class WebStudyVC: UIViewController, UITextFieldDelegate {
                 answerView.font = UIFont(name: "CabinetGroteskVariable-Bold_Regular", size: 30)
                 answerList.addArrangedSubview(answerView)
                 answerView.heightAnchor.constraint(equalTo: answerList.heightAnchor).isActive = true
+                answerView.layer.masksToBounds = true
+                answerView.textAlignment = .center
             }
         }
         
@@ -206,8 +297,20 @@ class WebStudyVC: UIViewController, UITextFieldDelegate {
         performSegue(withIdentifier: "webStudyVC_unwind", sender: nil)
     }
     
+    @objc func nextRound(sender: UIButton){
+        roundOverlay.isHidden = true
+        round.shuffle()
+        index = 0
+        nextTerm()
+        termCounter.text = "1 /" + String(round.count)
+        for i in 0..<perfectCounter.count {
+            perfectCounter[i] = true
+        }
+        view.subviews[0].gestureRecognizers![0].isEnabled = true
+        inputField.becomeFirstResponder()
+    }
+    
     @objc func SettingsButton(sender: UIButton){
-        
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -215,13 +318,25 @@ class WebStudyVC: UIViewController, UITextFieldDelegate {
             knownAnswers.append(answer.firstIndex(of: textField.text ?? "")!)
             (answerList.arrangedSubviews[knownAnswers.count - 1] as! UILabel).text = textField.text
             if(knownAnswers.count == answer.count){
-                index+=1
-                if(index != round.count){
+                if(index != round.count - 1){
+                    index+=1
+                    termCounter.text = String(index + 1) + "/" + String(round.count)
                     nextTerm()
+                }else{
+                    roundOverlay.isHidden = false
+                    inputField.resignFirstResponder()
+                    view.subviews[0].gestureRecognizers![0].isEnabled = false
+                    var t = 0
+                    for i in perfectCounter {
+                        if i == true {
+                            t+=1
+                        }
+                    }
+                    endLabel.text = String(t) + " / " + String(round.count) + " terms perfect"
                 }
             }
         }else{
-            
+            perfectCounter[round[index]] = false
         }
         textField.text = ""
         return true
