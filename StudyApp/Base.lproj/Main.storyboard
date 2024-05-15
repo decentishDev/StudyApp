@@ -45,6 +45,7 @@
                         <segue destination="y4f-Rr-eRH" kind="unwind" identifier="webSetVC_unwind" unwindAction="cancel:" id="GFj-oO-Xhn"/>
                         <segue destination="f2G-xL-ZWJ" kind="show" identifier="editWebSet" id="3mK-3r-PdI"/>
                         <segue destination="xrB-Kn-VpP" kind="show" identifier="webStudy" id="a5f-Eb-SYI"/>
+                        <segue destination="nc8-Oa-BiA" kind="show" identifier="webViewer" id="qeu-Ci-u2i"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gi6-rD-c4i" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -165,6 +166,26 @@
                 <exit id="fHV-gJ-jc7" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1052" y="-202"/>
+        </scene>
+        <!--Web ViewerVC-->
+        <scene sceneID="BNq-qe-5sZ">
+            <objects>
+                <viewController id="nc8-Oa-BiA" customClass="WebViewerVC" customModule="StudyApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="bk3-u4-ZxL">
+                        <rect key="frame" x="0.0" y="0.0" width="704" height="770"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="XHr-9G-G0A"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="0NX-8Q-7fq"/>
+                    <connections>
+                        <segue destination="rsB-C8-V8S" kind="unwind" identifier="webViewerVC_unwind" unwindAction="cancel:" id="Oel-bj-byt"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="yu5-Ke-E7c" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="rsB-C8-V8S" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="1734" y="-202"/>
         </scene>
     </scenes>
     <resources>

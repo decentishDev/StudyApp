@@ -169,7 +169,7 @@ class WebSetVC: UIViewController {
     }
 
     @objc func viewWeb() {
-        print("view")
+        performSegue(withIdentifier: "webViewer", sender: self)
     }
 
     @objc func studyWeb() {
@@ -190,6 +190,9 @@ class WebSetVC: UIViewController {
             destination.set = set
         }
         if let destination = segue.destination as? WebStudyVC{
+            destination.set = set
+        }
+        if let destination = segue.destination as? WebViewerVC{
             destination.set = set
         }
     }

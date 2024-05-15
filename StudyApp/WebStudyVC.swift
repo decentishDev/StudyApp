@@ -31,6 +31,7 @@ class WebStudyVC: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         let hideKeyboard = UITapGestureRecognizer()
         hideKeyboard.addTarget(self, action: #selector(dismissKeyboards(_:)))
 //        hideKeyboard.isEnabled = true
@@ -48,83 +49,105 @@ class WebStudyVC: UIViewController, UITextFieldDelegate {
         let data = (defaults.value(forKey: "sets") as! [Dictionary<String, Any>])[set]
         web = data["set"] as! [[Any]]
         
-        let backButton = UIButton()
-        backButton.frame = CGRect(x: 20, y: 20, width: 20, height: 20)
-        backButton.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
-        backButton.tintColor = Colors.highlight
-        backButton.contentMode = .scaleAspectFit
-        backButton.addTarget(self, action: #selector(self.BackButton(sender:)), for: .touchUpInside)
-        view.addSubview(backButton)
-        let settingsButton = UIButton()
-        settingsButton.frame = CGRect(x: view.layer.frame.width - 40, y: 20, width: 20, height: 20)
-        settingsButton.setImage(UIImage(systemName: "gearshape.fill"), for: .normal)
-        settingsButton.tintColor = Colors.highlight
-        settingsButton.contentMode = .scaleAspectFit
-        settingsButton.addTarget(self, action: #selector(self.SettingsButton(sender:)), for: .touchUpInside)
-        view.addSubview(settingsButton)
-        termCounter.frame = CGRect(x: 60, y: 20, width: view.frame.width - 120, height: 20)
-        termCounter.font = UIFont(name: "CabinetGroteskVariable-Bold_Bold", size: 15)
-        termCounter.textAlignment = .center
-        
-        termCounter.textColor = Colors.text
-        view.addSubview(termCounter)
-        
-        mainLabel.frame = CGRect(x: 20, y: 60, width: view.frame.width - 40, height: view.frame.height - 60 - 210)
-        mainLabel.font = UIFont(name: "CabinetGroteskVariable-Bold_Bold", size: 50)
-        mainLabel.textColor = Colors.text
-        mainLabel.textAlignment = .center
-        mainLabel.isUserInteractionEnabled = false
-        view.addSubview(mainLabel)
-        
-        answerList.axis = .horizontal
-        answerList.frame = CGRect(x: 20, y: 80 + mainLabel.frame.height, width: view.frame.width - 40, height: 100)
-        answerList.spacing = 20
-        answerList.distribution = .fillEqually
-        view.addSubview(answerList)
-        
-        
-        inputField.frame = CGRect(x: 20, y: 80 + mainLabel.frame.height + 20 + answerList.frame.height, width: view.frame.width - 40, height: 50)
-        inputField.font = UIFont(name: "CabinetGroteskVariable-Bold_Regular", size: 30)
-        inputField.placeholder = "Type your answer here . . ."
-        inputField.delegate = self
-        inputField.backgroundColor = Colors.secondaryBackground
-        inputField.layer.cornerRadius = 10
-        let paddingView = UIView(frame: CGRectMake(0, 0, 10, inputField.frame.height))
-        inputField.leftView = paddingView
-        inputField.leftViewMode = .always
-        
-        view.addSubview(inputField)
-        
-        for i in 0..<web.count {
-            round.append(i)
-            perfectCounter.append(true)
+        if(web.count > 0){
+            
+            let backButton = UIButton()
+            backButton.frame = CGRect(x: 20, y: 20, width: 20, height: 20)
+            backButton.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
+            backButton.tintColor = Colors.highlight
+            backButton.contentMode = .scaleAspectFit
+            backButton.addTarget(self, action: #selector(self.BackButton(sender:)), for: .touchUpInside)
+            view.addSubview(backButton)
+            let settingsButton = UIButton()
+            settingsButton.frame = CGRect(x: view.layer.frame.width - 40, y: 20, width: 20, height: 20)
+            settingsButton.setImage(UIImage(systemName: "gearshape.fill"), for: .normal)
+            settingsButton.tintColor = Colors.highlight
+            settingsButton.contentMode = .scaleAspectFit
+            settingsButton.addTarget(self, action: #selector(self.SettingsButton(sender:)), for: .touchUpInside)
+            view.addSubview(settingsButton)
+            termCounter.frame = CGRect(x: 60, y: 20, width: view.frame.width - 120, height: 20)
+            termCounter.font = UIFont(name: "CabinetGroteskVariable-Bold_Bold", size: 15)
+            termCounter.textAlignment = .center
+            
+            termCounter.textColor = Colors.text
+            view.addSubview(termCounter)
+            
+            mainLabel.frame = CGRect(x: 20, y: 60, width: view.frame.width - 40, height: view.frame.height - 60 - 210)
+            mainLabel.font = UIFont(name: "CabinetGroteskVariable-Bold_Bold", size: 50)
+            mainLabel.textColor = Colors.text
+            mainLabel.textAlignment = .center
+            mainLabel.isUserInteractionEnabled = false
+            view.addSubview(mainLabel)
+            
+            answerList.axis = .horizontal
+            answerList.frame = CGRect(x: 20, y: 80 + mainLabel.frame.height, width: view.frame.width - 40, height: 100)
+            answerList.spacing = 20
+            answerList.distribution = .fillEqually
+            view.addSubview(answerList)
+            
+            
+            inputField.frame = CGRect(x: 20, y: 80 + mainLabel.frame.height + 20 + answerList.frame.height, width: view.frame.width - 40, height: 50)
+            inputField.font = UIFont(name: "CabinetGroteskVariable-Bold_Regular", size: 30)
+            inputField.placeholder = "Type your answer here . . ."
+            inputField.delegate = self
+            inputField.backgroundColor = Colors.secondaryBackground
+            inputField.layer.cornerRadius = 10
+            let paddingView = UIView(frame: CGRectMake(0, 0, 10, inputField.frame.height))
+            inputField.leftView = paddingView
+            inputField.leftViewMode = .always
+            
+            view.addSubview(inputField)
+            
+            for i in 0..<web.count {
+                round.append(i)
+                perfectCounter.append(true)
+            }
+            round.shuffle()
+            termCounter.text = String(index + 1) + "/" + String(round.count)
+            nextTerm()
+            
+            roundOverlay.frame = CGRect(x: 20, y: 60, width: view.frame.width - 40, height: view.frame.height - 80)
+            view.addSubview(roundOverlay)
+            roundOverlay.layer.cornerRadius = 10
+            roundOverlay.backgroundColor = Colors.secondaryBackground
+            
+            let nextButton = UIButton()
+            roundOverlay.addSubview(nextButton)
+            nextButton.frame = CGRect(x: 20, y: roundOverlay.frame.height - 100, width: roundOverlay.frame.width - 40, height: 80)
+            nextButton.backgroundColor = Colors.darkHighlight
+            nextButton.setTitle("Next round", for: .normal)
+            nextButton.titleLabel!.font = UIFont(name: "CabinetGroteskVariable-Bold_Regular", size: 30)
+            nextButton.titleLabel!.textColor = Colors.text
+            nextButton.layer.cornerRadius = 10
+            nextButton.addTarget(self, action: #selector(self.nextRound(sender:)), for: .touchUpInside)
+            
+            endLabel.text = ""
+            endLabel.font = UIFont(name: "CabinetGroteskVariable-Bold_Bold", size: 30)
+            endLabel.textAlignment = .center
+            endLabel.frame = CGRect(x: 20, y: 20, width: roundOverlay.frame.width - 40, height: roundOverlay.frame.height - 140)
+            endLabel.textColor = Colors.text
+            roundOverlay.addSubview(endLabel)
+            roundOverlay.isHidden = true
+            
+        }else{
+           placeholder()
         }
-        round.shuffle()
-        termCounter.text = String(index + 1) + "/" + String(round.count)
-        nextTerm()
-        
-        roundOverlay.frame = CGRect(x: 20, y: 60, width: view.frame.width - 40, height: view.frame.height - 80)
-        view.addSubview(roundOverlay)
-        roundOverlay.layer.cornerRadius = 10
-        roundOverlay.backgroundColor = Colors.secondaryBackground
-        
-        let nextButton = UIButton()
-        roundOverlay.addSubview(nextButton)
-        nextButton.frame = CGRect(x: 20, y: roundOverlay.frame.height - 100, width: roundOverlay.frame.width - 40, height: 80)
-        nextButton.backgroundColor = Colors.darkHighlight
-        nextButton.setTitle("Next round", for: .normal)
-        nextButton.titleLabel!.font = UIFont(name: "CabinetGroteskVariable-Bold_Regular", size: 30)
-        nextButton.titleLabel!.textColor = Colors.text
-        nextButton.layer.cornerRadius = 10
-        nextButton.addTarget(self, action: #selector(self.nextRound(sender:)), for: .touchUpInside)
-        
-        endLabel.text = ""
-        endLabel.font = UIFont(name: "CabinetGroteskVariable-Bold_Bold", size: 30)
-        endLabel.textAlignment = .center
-        endLabel.frame = CGRect(x: 20, y: 20, width: roundOverlay.frame.width - 40, height: roundOverlay.frame.height - 140)
-        endLabel.textColor = Colors.text
-        roundOverlay.addSubview(endLabel)
-        roundOverlay.isHidden = true
+    }
+    
+    func placeholder(){
+        let placeholderText = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height))
+        placeholderText.backgroundColor = Colors.background
+        placeholderText.text = "Create some terms before using study mode"
+        placeholderText.font = UIFont(name: "CabinetGroteskVariable-Bold_Regular", size: 30)
+        placeholderText.textAlignment = .center
+        view.addSubview(placeholderText)
+        let backbutton = UIButton(frame: CGRect(x: 30, y: 30, width: 200, height: 80))
+        backbutton.setTitle("< Back", for: .normal)
+        backbutton.titleLabel!.font = UIFont(name: "CabinetGroteskVariable-Bold_Regular", size: 25)
+        backbutton.layer.cornerRadius = 10
+        backbutton.backgroundColor = Colors.secondaryBackground
+        backbutton.addTarget(self, action: #selector(self.BackButton(sender:)), for: .touchUpInside)
+        view.addSubview(backbutton)
     }
     
     @objc func dismissKeyboards(_ gestureRecognizer: UITapGestureRecognizer) {
@@ -201,20 +224,44 @@ class WebStudyVC: UIViewController, UITextFieldDelegate {
         if(options.isEmpty){
             index+=1
             if(index == web.count){
-                //end?
+                if(round.count == 0){
+                    placeholder()
+                }else{
+                    roundOverlay.isHidden = false
+                    inputField.resignFirstResponder()
+                    view.subviews[0].gestureRecognizers![0].isEnabled = false
+                    var t = 0
+                    for i in perfectCounter {
+                        if i == true {
+                            t+=1
+                        }
+                    }
+                    endLabel.text = String(t) + " / " + String(round.count) + " terms perfect"
+                }
             }else{
                 nextTerm()
             }
         }else{
             questionType = options.randomElement()!
-            let otherType = [false, true].randomElement()!
+//            let otherType = [false, true].randomElement()!
             
             if(questionType == 0){ //INCOMING TERMS
 //                if(otherType){
-                    questionType+=1
+//                    questionType+=1
                     mainLabel.text = "What leads to " + (web[round[index]][0] as! String) + "?"
                     for i in incoming {
-                        answer.append(i)
+                        var response = ""
+                        var thing = i
+                        if(thing.count > 0){
+                            for _ in 0..<thing.count {
+                                if(String(thing.first!) != " "){
+                                    response += String(i.first!).lowercased()
+                                }
+                                thing.removeFirst()
+                            }
+                        }
+
+                        answer.append(response)
                     }
 //                }else{
 //                    var t = ""
@@ -262,19 +309,40 @@ class WebStudyVC: UIViewController, UITextFieldDelegate {
                     mainLabel.text = "What does " + (web[round[index]][0] as! String) + " lead to?"
                     let outgoing = web[round[index]][4] as! [Int]
                     for term in outgoing {
-                        answer.append(web[term][0] as! String)
+                        var response = ""
+                        var thing = (web[term][0] as! String)
+                        if(thing.count > 0){
+                            for _ in 0..<thing.count {
+                                if(String(thing.first!) != " "){
+                                    response += String(thing.first!).lowercased()
+                                }
+                                thing.removeFirst()
+                            }
+                        }
+
+                        answer.append(response)
                     }
 //                }
                 
             }else{ //TERM / DEFINITION
-                if(otherType){
-                    questionType+=1
+//                if(otherType){
+//                    questionType+=1
                     mainLabel.text = "What is " + (web[round[index]][1] as! String) + "?"
-                    answer = [(web[round[index]][0] as! String)]
-                }else{
-                    mainLabel.text = "What is " + (web[round[index]][0] as! String) + "?"
-                    answer = [(web[round[index]][1] as! String)]
+                var response = ""
+                var thing = (web[round[index]][0] as! String)
+                if(thing.count > 0){
+                    for _ in 0..<thing.count {
+                        if(String(thing.first!) != " "){
+                            response += String(thing.first!).lowercased()
+                        }
+                        thing.removeFirst()
+                    }
                 }
+                    answer = [response]
+//                }else{
+//                    mainLabel.text = "What is " + (web[round[index]][0] as! String) + "?"
+//                    answer = [(web[round[index]][1] as! String)]
+//                }
             }
             for _ in 0..<answer.count {
                 let answerView = UILabel()
@@ -288,9 +356,6 @@ class WebStudyVC: UIViewController, UITextFieldDelegate {
                 answerView.textAlignment = .center
             }
         }
-        
-        print(answer)
-        print(web[round[index]])
     }
     
     @objc func BackButton(sender: UIButton){
@@ -314,9 +379,21 @@ class WebStudyVC: UIViewController, UITextFieldDelegate {
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if(answer.firstIndex(of: textField.text ?? "") != nil && (knownAnswers.firstIndex(of: answer.firstIndex(of: textField.text ?? "")!) == nil)){
-            knownAnswers.append(answer.firstIndex(of: textField.text ?? "")!)
-            (answerList.arrangedSubviews[knownAnswers.count - 1] as! UILabel).text = textField.text
+        var response = ""
+        var thing = textField.text!
+        if(thing.count > 0){
+            for _ in 0..<thing.count {
+                if(String(thing.first!) != " "){
+                    response += String(thing.first!).lowercased()
+                }
+                thing.removeFirst()
+            }
+        }
+        print(response)
+        print(answer)
+        if(answer.firstIndex(of: response ) != nil && (knownAnswers.firstIndex(of: answer.firstIndex(of: response )!) == nil)){
+            knownAnswers.append(answer.firstIndex(of: response )!)
+            (answerList.arrangedSubviews[knownAnswers.count - 1] as! UILabel).text = response
             if(knownAnswers.count == answer.count){
                 if(index != round.count - 1){
                     index+=1

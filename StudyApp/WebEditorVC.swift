@@ -145,11 +145,12 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
                 bottomConnections.centerXAnchor.constraint(equalTo: rectangle.centerXAnchor)
             ])
             
-            let termLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 180, height: 180))
+            let termLabel = UILabel(frame: CGRect(x: 5, y: 0, width: 170, height: 180))
             termLabel.text = term[0] as? String
             termLabel.textColor = Colors.text
             termLabel.font = UIFont(name: "CabinetGroteskVariable-Bold_Normal", size: 15)
             termLabel.textAlignment = .center
+            termLabel.numberOfLines = 0
             rectangle.addSubview(termLabel)
             
             let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
@@ -293,6 +294,7 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
                     }
                     
                     let otherButton = (rectangles[outgoing![i]].subviews[1] as! UIStackView).arrangedSubviews[otherButtonI]
+                    //print(otherButtonI)
                     let endPoint = otherButton.convert(otherButton.anchorPoint, to: thisButton)
                     //print(thisButton.center)
                     let linePath = UIBezierPath()
@@ -441,7 +443,7 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
                     addConnection.imageView?.tintColor = Colors.highlight
                     addConnection.imageView?.translatesAutoresizingMaskIntoConstraints = false
                     addConnection.imageView!.layoutIfNeeded()
-                    addConnection.accessibilityIdentifier = String((rectangle.subviews[1] as! UIStackView).arrangedSubviews.count)
+                    addConnection.accessibilityIdentifier = String(index!)
                     //addConnection.backgroundColor = .green
                     addConnection.addTarget(self, action: #selector(finishConnection(_:)), for: .touchUpInside)
 //                    addConnection.layoutIfNeeded()
@@ -482,7 +484,7 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
         addConnection.widthAnchor.constraint(equalToConstant: 30).isActive = true
         addConnection.heightAnchor.constraint(equalToConstant: 30).isActive = true
             
-        let endPoint = sender.convert(sender.frame.origin, to: selectedButton)
+        let endPoint = sender.convert(sender.anchorPoint, to: selectedButton)
         //print(sender.center)
         //print(endPoint)
         let lineLayer = CAShapeLayer()
@@ -539,8 +541,6 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
     }
     
     func deleteTerm() {
-        rectangles[currentEdit].removeFromSuperview()
-        rectangles.remove(at: currentEdit)
         for i in (web[currentEdit][4] as! [Int]){
             for button in (rectangles[i].subviews[1] as! UIStackView).arrangedSubviews { //Swift/ContiguousArrayBuffer.swift:600: Fatal error: Index out of range
                 if button.accessibilityIdentifier == String(currentEdit){
@@ -548,6 +548,8 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
                 }
             }
         }
+        rectangles[currentEdit].removeFromSuperview()
+        rectangles.remove(at: currentEdit)
         web.remove(at: currentEdit)
         for (i, term) in web.enumerated() {
             if var indices = term[4] as? [Int], let index = indices.firstIndex(of: currentEdit) {
