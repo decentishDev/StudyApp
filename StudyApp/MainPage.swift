@@ -16,7 +16,9 @@ class MainPage: UIViewController, NewSetDelegate {
     
     var destination = -1
     
-    var sets: [[String]] = []
+    var sets: [[Any?]] = []
+    
+    var goToEditor = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -81,7 +83,11 @@ class MainPage: UIViewController, NewSetDelegate {
             //print("yeah")
             //print(data)
             for i in data {
-                sets.append([(i["name"] as! String), i["type"] as! String])
+//                if i["image"] != nil {
+                    sets.append([i["name"] as! String, i["type"] as! String, i["image"] as! Data?])
+//                }else{
+//                    sets.append([i["name"] as! String, i["type"] as! String, nil])
+//                }
             }
         }else{
             //PLACEHOLDER SETS - add blank stuff and 'create first set' screen soon
@@ -124,8 +130,9 @@ class MainPage: UIViewController, NewSetDelegate {
                 ["t", "What is the capital of South Africa?", "t", "Pretoria"]
             ]
             UserDefaults.standard.setValue([trivia, revwar], forKey: "sets")
-            sets.append(["Trivia", "standard"])
-            sets.append(["American Revolution", "web"])
+            sets.append(["Trivia", "standard", nil])
+            let image = UIImage(named: "samuel-branch-ZPVisr0s_hQ-unsplash.jpg")?.pngData()
+            sets.append(["American Revolution", "web", image])
         }
         
         for subview in stackView.arrangedSubviews {
@@ -205,6 +212,7 @@ class MainPage: UIViewController, NewSetDelegate {
         recentLabel.text = "Your sets"
         recentLabel.font = UIFont(name: "CabinetGroteskVariable-Bold_Extrabold", size: 50)
         con(recentLabel, 300, 50)
+        recentLabel.isUserInteractionEnabled = true
         stackView.addArrangedSubview(recentLabel)
         let newButton = UIButton()
         newButton.frame = CGRect(x: 250, y: 5, width: 40, height: 40)
@@ -232,10 +240,20 @@ class MainPage: UIViewController, NewSetDelegate {
                     if(sets.count > j){
                         let setView = UIView()
                         row.addArrangedSubview(setView)
+                        var image = UIImageView()
+                        if sets[j][2] != nil {
+                            image = UIImageView(image: UIImage(data: sets[j][2] as! Data))
+                            image.layer.cornerRadius = 10
+                            image.contentMode = .scaleAspectFill
+                            image.clipsToBounds = true
+                        }else{
+                            setView.backgroundColor = Colors.secondaryBackground
+                        }
+                        setView.addSubview(image)
                         let setLabel = UILabel()
-                        setLabel.text = sets[j][0]
+                        setLabel.text = sets[j][0] as? String
                         setView.addSubview(setLabel)
-                        setView.backgroundColor = Colors.secondaryBackground
+                        image.translatesAutoresizingMaskIntoConstraints = false
                         setView.translatesAutoresizingMaskIntoConstraints = false
                         setLabel.translatesAutoresizingMaskIntoConstraints = false
                         setLabel.textColor = Colors.text
@@ -258,6 +276,10 @@ class MainPage: UIViewController, NewSetDelegate {
                             setButton.bottomAnchor.constraint(equalTo: setView.bottomAnchor),
                             setButton.leadingAnchor.constraint(equalTo: setView.leadingAnchor),
                             setButton.trailingAnchor.constraint(equalTo: setView.trailingAnchor),
+                            image.topAnchor.constraint(equalTo: setView.topAnchor),
+                            image.bottomAnchor.constraint(equalTo: setView.bottomAnchor),
+                            image.leadingAnchor.constraint(equalTo: setView.leadingAnchor),
+                            image.trailingAnchor.constraint(equalTo: setView.trailingAnchor),
                         ])
                     }else{
                         let setView = UIView()
@@ -286,6 +308,7 @@ class MainPage: UIViewController, NewSetDelegate {
 //    }
     
     @objc func newSet(_ sender: UIButton){
+        print("hi")
         let popupVC = NewSetVC()
         popupVC.delegate = self
         popupVC.modalPresentationStyle = .overCurrentContext
@@ -297,7 +320,7 @@ class MainPage: UIViewController, NewSetDelegate {
         //performSegue(withIdentifier: "viewStandardSet", sender: self)
         //performSegue(withIdentifier: "viewWebSet", sender: self)
         destination = Int(sender.accessibilityIdentifier!)!
-        if(sets[Int(sender.accessibilityIdentifier!)!][1] == "standard"){
+        if(sets[Int(sender.accessibilityIdentifier!)!][1] as! String == "standard"){
             performSegue(withIdentifier: "viewStandardSet", sender: self)
         }else{
             performSegue(withIdentifier: "viewWebSet", sender: self)
@@ -308,11 +331,17 @@ class MainPage: UIViewController, NewSetDelegate {
         segue.destination.modalPresentationStyle = .fullScreen
         if(destination == -1){
             //settings
-        }else if(sets[destination][1] == "standard"){
+        }else if(sets[destination][1] as! String == "standard"){
             guard let vc = segue.destination as? StandardSetVC else {return}
+            if(goToEditor){
+                vc.goToEditor = true
+            }
             vc.set = destination
         }else{
             guard let vc = segue.destination as? WebSetVC else {return}
+            if(goToEditor){
+                vc.goToEditor = true
+            }
             vc.set = destination
         }
         destination = -1
@@ -324,9 +353,39 @@ class MainPage: UIViewController, NewSetDelegate {
     
     func newSetType(type: String){
         if(type == "Standard"){
-            
+            goToEditor = true
+            destination = sets.count
+            var trivia: Dictionary<String, Any> = Dictionary()
+            trivia["name"] = "New Set"
+            trivia["type"] = "standard"
+            trivia["author"] = "mlundeen5270"
+            trivia["flashcards"] = [false]
+            trivia["date"] = "Last edited: May 20th, 2024"
+            trivia["image"] = Data?(nil)
+            trivia["set"] = [["t", "Example term", "t", "Example definition"]]
+            sets.append(["New Set", "standard", nil])
+            var oldData = UserDefaults.standard.value(forKey: "sets") as! [Any]
+            oldData.append(trivia)
+            UserDefaults.standard.setValue(oldData, forKey: "sets")
+            performSegue(withIdentifier: "viewStandardSet", sender: self)
+            //goToEditor = false
         }else if(type == "Web"){
+            goToEditor = true
+            destination = sets.count
+            var revwar: Dictionary<String, Any> = Dictionary()
+            revwar["name"] = "New Web"
+            revwar["type"] = "web"
+            revwar["author"] = "mlundeen5270"
+            revwar["date"] = "Last edited: May 20th, 2024"
+            revwar["set"] = []
+            sets.append(["New Web", "web", nil])
+            var oldData = UserDefaults.standard.value(forKey: "sets") as! [Any]
+            oldData.append(revwar)
+            UserDefaults.standard.setValue(oldData, forKey: "sets")
+            performSegue(withIdentifier: "viewWebSet", sender: self)
             
+            
+            //goToEditor = false
         }
     }
 }

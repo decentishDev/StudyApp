@@ -21,10 +21,20 @@ class StandardSetVC: UIViewController {
     
     var image: Data? = nil
     
+    var goToEditor = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
+        print(goToEditor)
+        if goToEditor {
+            //UIView.setAnimationsEnabled(false)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2){
+                self.performSegue(withIdentifier: "standardEditor", sender: self)
+            }
+            print("whyyyyy")
+            editSet()
+            //UIView.setAnimationsEnabled(true)
+        }
 //        print(data)
 //        print("//////////////////////////////////////////////")
 //        print(cards)

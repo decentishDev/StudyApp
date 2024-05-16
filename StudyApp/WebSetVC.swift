@@ -15,6 +15,7 @@ class WebSetVC: UIViewController {
     let stackView = UIStackView()
     
     var set = 0 //No need to pass actual web with the content since we can't view it on this screen
+    var goToEditor = false
     
     var name: String = ""
     var date: String = ""
@@ -26,6 +27,11 @@ class WebSetVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if goToEditor {
+            //UIView.setAnimationsEnabled(false)
+            performSegue(withIdentifier: "editWebSet", sender: self)
+            //UIView.setAnimationsEnabled(true)
+        }
         
         //cards = data["set"] as! [[Any]]
         

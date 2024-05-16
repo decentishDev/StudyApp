@@ -18,6 +18,7 @@ class WebStudyVC: UIViewController, UITextFieldDelegate {
     var index = 0
     var questionType = 0
     var answer: [String] = []
+    var originalAnswers: [String] = []
     var knownAnswers: [Int] = []
     
     var answerList = UIStackView()
@@ -197,6 +198,7 @@ class WebStudyVC: UIViewController, UITextFieldDelegate {
         
         knownAnswers = []
         answer = []
+        originalAnswers = []
         for subview in answerList.arrangedSubviews{
             subview.removeFromSuperview()
         }
@@ -255,12 +257,12 @@ class WebStudyVC: UIViewController, UITextFieldDelegate {
                         if(thing.count > 0){
                             for _ in 0..<thing.count {
                                 if(String(thing.first!) != " "){
-                                    response += String(i.first!).lowercased()
+                                    response += String(thing.first!).lowercased()
                                 }
                                 thing.removeFirst()
                             }
                         }
-
+                        originalAnswers.append(i)
                         answer.append(response)
                     }
 //                }else{
@@ -319,7 +321,7 @@ class WebStudyVC: UIViewController, UITextFieldDelegate {
                                 thing.removeFirst()
                             }
                         }
-
+                        originalAnswers.append(web[term][0] as! String)
                         answer.append(response)
                     }
 //                }
@@ -339,6 +341,7 @@ class WebStudyVC: UIViewController, UITextFieldDelegate {
                     }
                 }
                     answer = [response]
+                originalAnswers = [web[round[index]][0] as! String]
 //                }else{
 //                    mainLabel.text = "What is " + (web[round[index]][0] as! String) + "?"
 //                    answer = [(web[round[index]][1] as! String)]
@@ -389,11 +392,11 @@ class WebStudyVC: UIViewController, UITextFieldDelegate {
                 thing.removeFirst()
             }
         }
-        print(response)
-        print(answer)
+//        print(response)
+//        print(answer)
         if(answer.firstIndex(of: response ) != nil && (knownAnswers.firstIndex(of: answer.firstIndex(of: response )!) == nil)){
             knownAnswers.append(answer.firstIndex(of: response )!)
-            (answerList.arrangedSubviews[knownAnswers.count - 1] as! UILabel).text = response
+            (answerList.arrangedSubviews[knownAnswers.count - 1] as! UILabel).text = originalAnswers[answer.firstIndex(of: response)!]
             if(knownAnswers.count == answer.count){
                 if(index != round.count - 1){
                     index+=1

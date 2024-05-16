@@ -145,13 +145,13 @@ class WebViewerVC: UIViewController, UIScrollViewDelegate {
                 bottomConnections.centerXAnchor.constraint(equalTo: rectangle.centerXAnchor)
             ])
             
-            let termLabel = UILabel(frame: CGRect(x: 5, y: 0, width: 170, height: 180))
+            let termLabel = UILabel(frame: CGRect(x: 5, y: 0, width: 170, height: 120))
             termLabel.text = term[0] as? String
             termLabel.textColor = Colors.text
             termLabel.font = UIFont(name: "CabinetGroteskVariable-Bold_Normal", size: 15)
             termLabel.textAlignment = .center
             termLabel.numberOfLines = 0
-            rectangle.addSubview(termLabel)
+            visible.addSubview(termLabel)
             
 //            let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
 //            rectangle.addGestureRecognizer(panGesture)
@@ -314,21 +314,21 @@ class WebViewerVC: UIViewController, UIScrollViewDelegate {
         guard let rectangle = gestureRecognizer.view else { return }
         //rectangle.backgroundColor = Colors.darkHighlight
         let i = rectangles.firstIndex(of: rectangle)!
-        if(web[i][0] as? String == (rectangle.subviews[3] as! UILabel).text){
+        if(web[i][0] as? String == (rectangle.subviews[0].subviews[0] as! UILabel).text){
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.25){
-                (rectangle.subviews[3] as! UILabel).text = self.web[i][1] as? String
-                (rectangle.subviews[3] as! UILabel).layer.transform = CATransform3DMakeRotation(CGFloat.pi, 1, 0, 0)
+                (rectangle.subviews[0].subviews[0] as! UILabel).text = self.web[i][1] as? String
+                (rectangle.subviews[0].subviews[0] as! UILabel).layer.transform = CATransform3DMakeRotation(CGFloat.pi, 1, 0, 0)
             }
             UIView.animate(withDuration: 0.5, animations: {
-                rectangle.layer.transform = CATransform3DMakeRotation(CGFloat.pi, 1, 0, 0)
+                rectangle.subviews[0].layer.transform = CATransform3DMakeRotation(CGFloat.pi, 1, 0, 0)
             })
         }else{
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.25){
-                (rectangle.subviews[3] as! UILabel).text = self.web[i][0] as? String
-                (rectangle.subviews[3] as! UILabel).layer.transform = CATransform3DMakeRotation(CGFloat.pi, 0, 0, 0)
+                (rectangle.subviews[0].subviews[0] as! UILabel).text = self.web[i][0] as? String
+                (rectangle.subviews[0].subviews[0] as! UILabel).layer.transform = CATransform3DMakeRotation(CGFloat.pi, 0, 0, 0)
             }
             UIView.animate(withDuration: 0.5, animations: {
-                rectangle.layer.transform = CATransform3DMakeRotation(CGFloat.pi, 0, 0, 0)
+                rectangle.subviews[0].layer.transform = CATransform3DMakeRotation(CGFloat.pi, 0, 0, 0)
             })
         }
         
