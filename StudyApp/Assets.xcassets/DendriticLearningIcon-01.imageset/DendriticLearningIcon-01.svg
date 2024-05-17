@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #519872;
+        stroke-miterlimit: 10;
+        stroke-width: 10px;
+      }
+
+      .cls-2 {
+        fill: #519872;
+        stroke-width: 0px;
+      }
+    </style>
+  </defs>
+  <circle class="cls-2" cx="469.61" cy="677.06" r="23.37"/>
+  <circle class="cls-2" cx="290.8" cy="656.02" r="23.37"/>
+  <circle class="cls-2" cx="234.7" cy="556.68" r="23.37"/>
+  <circle class="cls-2" cx="79.26" cy="429.29" r="23.37"/>
+  <circle class="cls-2" cx="234.7" cy="200.22" r="23.37"/>
+  <circle class="cls-2" cx="568.95" cy="144.12" r="23.37"/>
+  <circle class="cls-2" cx="815.55" cy="279.7" r="23.37"/>
+  <circle class="cls-2" cx="815.55" cy="679.4" r="23.37"/>
+  <circle class="cls-2" cx="920.74" cy="445.65" r="23.37"/>
+  <circle class="cls-2" cx="607.52" cy="762.38" r="23.37"/>
+  <circle class="cls-2" cx="609.86" cy="315.93" r="23.37"/>
+  <circle class="cls-2" cx="733.74" cy="457.34" r="23.37"/>
+  <circle class="cls-2" cx="674.14" cy="665.37" r="23.37"/>
+  <circle class="cls-2" cx="413.51" cy="535.65" r="23.37"/>
+  <circle class="cls-2" cx="346.9" cy="314.76" r="23.37"/>
+  <circle class="cls-2" cx="601.68" cy="855.88" r="23.37"/>
+  <circle class="cls-2" cx="734.91" cy="792.76" r="23.37"/>
+  <circle class="cls-2" cx="918.4" cy="632.65" r="23.37"/>
+  <circle class="cls-2" cx="713.88" cy="182.69" r="23.37"/>
+  <circle class="cls-2" cx="391.31" cy="144.12" r="23.37"/>
+  <circle class="cls-2" cx="109.65" cy="279.7" r="23.37"/>
+  <circle class="cls-2" cx="130.68" cy="512.27" r="23.37"/>
+  <circle class="cls-2" cx="579.47" cy="552.01" r="23.37"/>
+  <circle class="cls-2" cx="498.83" cy="416.44" r="23.37"/>
+  <circle class="cls-2" cx="245.22" cy="405.92" r="23.37"/>
+  <polygon class="cls-1" points="234.7 200.22 109.65 279.7 79.26 429.29 130.68 512.27 234.7 556.68 290.8 656.02 469.61 677.06 601.68 855.88 607.52 762.38 734.91 792.76 815.55 679.4 918.4 632.65 920.74 445.65 815.55 279.7 713.88 182.69 568.95 144.12 391.31 144.12 234.7 200.22"/>
+  <polyline class="cls-1" points="346.12 308.91 391.31 144.12 609.86 315.93 568.95 144.12"/>
+  <polyline class="cls-1" points="920.74 445.65 733.74 457.34 815.55 279.7 609.86 315.93 713.88 182.69"/>
+  <polyline class="cls-1" points="918.4 632.65 733.74 457.34 815.55 679.4 674.14 665.37 734.91 792.76"/>
+  <polygon class="cls-1" points="607.52 762.38 674.14 665.37 469.61 677.06 607.52 762.38"/>
+  <polygon class="cls-1" points="674.14 665.37 733.74 457.34 579.47 552.01 674.14 665.37"/>
+  <polygon class="cls-1" points="498.83 416.44 609.86 315.93 733.74 457.34 498.83 416.44"/>
+  <polyline class="cls-1" points="579.47 552.01 498.83 416.44 413.51 535.65 579.47 552.01 469.61 677.06 413.51 535.65 290.8 656.02"/>
+  <polygon class="cls-1" points="234.7 556.68 413.51 535.65 245.22 405.92 234.7 556.68"/>
+  <polyline class="cls-1" points="130.68 512.27 245.22 405.92 79.26 429.29"/>
+  <polyline class="cls-1" points="109.65 279.7 245.22 405.92 234.7 200.22 346.9 314.76 609.86 315.93"/>
+  <polygon class="cls-1" points="346.9 314.76 498.83 416.44 245.22 405.92 346.9 314.76"/>
+</svg>

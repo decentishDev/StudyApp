@@ -78,7 +78,7 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
         addButton.setTitleColor(Colors.highlight, for: .normal)
         addButton.titleLabel?.font = UIFont(name: "CabinetGroteskVariable-Bold_Bold", size: 25)
         addButton.addTarget(self, action: #selector(addButtonTapped(_:)), for: .touchUpInside)
-        addButton.frame = CGRect(x: view.frame.width - 300, y: 30, width: 150, height: 50)
+        addButton.frame = CGRect(x: view.frame.width - 360, y: 30, width: 150, height: 50)
         addButton.backgroundColor = Colors.secondaryBackground
         addButton.layer.cornerRadius = 10
         
@@ -89,12 +89,21 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
         themesButton.setTitleColor(Colors.highlight, for: .normal)
         themesButton.titleLabel?.font = UIFont(name: "CabinetGroteskVariable-Bold_Bold", size: 25)
         themesButton.addTarget(self, action: #selector(themeButtonTapped(_:)), for: .touchUpInside)
-        themesButton.frame = CGRect(x: view.frame.width - 140, y: 30, width: 110, height: 50)
+        themesButton.frame = CGRect(x: view.frame.width - 200, y: 30, width: 110, height: 50)
         themesButton.backgroundColor = Colors.secondaryBackground
         themesButton.layer.cornerRadius = 10
         
         view.addSubview(themesButton)
         
+        let deleteButton = UIButton()
+        deleteButton.setImage(UIImage(systemName: "trash"), for: .normal)
+        deleteButton.addTarget(self, action: #selector(deleteSet(_:)), for: .touchUpInside)
+        deleteButton.frame = CGRect(x: view.frame.width - 80, y: 30, width: 50, height: 50)
+        deleteButton.backgroundColor = Colors.secondaryBackground
+        deleteButton.layer.cornerRadius = 10
+        deleteButton.tintColor = Colors.highlight
+        
+        view.addSubview(deleteButton)
         
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handleBackgroundPan(_:)))
         scrollView.addGestureRecognizer(panGesture)
@@ -239,6 +248,23 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
         popupVC.modalTransitionStyle = .crossDissolve
         present(popupVC, animated: true, completion: nil)
         
+    }
+    
+    @objc func deleteSet(_ sender: UIButton) {
+        let alertController = UIAlertController(title: nil, message: "Are you sure you want to delete this set?", preferredStyle: .alert)
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) {_ in
+            var sets = self.defaults.object(forKey: "sets") as! [Any]
+            sets.remove(at: self.set)
+            self.defaults.setValue(sets, forKey: "sets")
+            self.performSegue(withIdentifier: "webEditorVC_unwind", sender: nil)
+            
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        alertController.addAction(deleteAction)
+        alertController.addAction(cancelAction)
+        
+        self.present(alertController, animated: true, completion: nil)
     }
     
     @objc func themeButtonTapped(_ sender: UIButton) {

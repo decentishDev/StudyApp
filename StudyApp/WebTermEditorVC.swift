@@ -28,7 +28,8 @@ class WebTermEditorVC: UIViewController {
         view.layer.cornerRadius = 10
         view.clipsToBounds = true
 //        view.addGestureRecognizer(UIGestureRecognizer(target: self, action: #selector(cancelTap(_:))))
-        
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(dismissIt(_:)))
+        view.addGestureRecognizer(gesture)
         centeredView.backgroundColor = Colors.background
         centeredView.layer.cornerRadius = 20
         centeredView.addSubview(termField)
@@ -105,5 +106,8 @@ class WebTermEditorVC: UIViewController {
     @objc func backgroundTap(_ gestureRecognizer: UITapGestureRecognizer) {
         guard gestureRecognizer.view != nil else { return }
         resignFirstResponder()
+    }
+    @objc func dismissIt(_ sender: UITapGestureRecognizer){
+        view.endEditing(true)
     }
 }

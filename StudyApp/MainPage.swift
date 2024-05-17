@@ -69,6 +69,7 @@ class MainPage: UIViewController, NewSetDelegate {
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        
         setup()
     }
     
@@ -172,6 +173,12 @@ class MainPage: UIViewController, NewSetDelegate {
         topBar.widthAnchor.constraint(equalTo: stackView.widthAnchor).isActive = true
         //topBar.translatesAutoresizingMaskIntoConstraints = false
         //topBar.backgroundColor = .red
+        let icon = UIImageView(image: UIImage(named: "DendriticLearningIcon-01.svg"))
+        icon.contentMode = .scaleAspectFit
+        topBar.addSubview(icon)
+        con(icon, 50, 50)
+        icon.leadingAnchor.constraint(equalTo: topBar.leadingAnchor).isActive = true
+        icon.translatesAutoresizingMaskIntoConstraints = false
         
         let titleLabel = UILabel()
         titleLabel.text = "Dendritic Learning"
@@ -180,7 +187,7 @@ class MainPage: UIViewController, NewSetDelegate {
         topBar.addSubview(titleLabel)
         titleLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
         titleLabel.widthAnchor.constraint(equalToConstant: 400).isActive = true
-        titleLabel.leadingAnchor.constraint(equalTo: topBar.leadingAnchor).isActive = true
+        titleLabel.leadingAnchor.constraint(equalTo: icon.trailingAnchor, constant: 10).isActive = true
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         //titleLabel.backgroundColor = .green
         
@@ -344,6 +351,7 @@ class MainPage: UIViewController, NewSetDelegate {
             }
             vc.set = destination
         }
+        goToEditor = false
         destination = -1
     }
     
@@ -383,8 +391,6 @@ class MainPage: UIViewController, NewSetDelegate {
             oldData.append(revwar)
             UserDefaults.standard.setValue(oldData, forKey: "sets")
             performSegue(withIdentifier: "viewWebSet", sender: self)
-            
-            
             //goToEditor = false
         }
     }
