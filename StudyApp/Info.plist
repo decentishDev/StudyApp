@@ -15,7 +15,7 @@
 			<string>Owner</string>
 			<key>LSItemContentTypes</key>
 			<array>
-				<string>dendriticlearning.cards</string>
+				<string>dendriticlearning.dlset</string>
 			</array>
 		</dict>
 		<dict>

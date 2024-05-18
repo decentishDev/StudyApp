@@ -38,7 +38,7 @@ class SetsVC: UIViewController, UIDocumentPickerDelegate {
         
         let temporaryDirectoryURL = FileManager.default.temporaryDirectory
         let timeString = DateFormatter.localizedString(from: Date(), dateStyle: .none, timeStyle: .medium)
-        let fileURL = temporaryDirectoryURL.appendingPathComponent("examplename_" + timeString).appendingPathExtension("cards")
+        let fileURL = temporaryDirectoryURL.appendingPathComponent("examplename_" + timeString).appendingPathExtension("dlset")
         
         do {
             try data.write(to: fileURL)

@@ -6,12 +6,15 @@
 //
 
 import UIKit
+import Foundation
 protocol NewSetDelegate: AnyObject {
     func newSetType(type: String)// "", "Web", "Standard", "Import424", "Search123"
+    func newImport()
 }
-class NewSetVC: UIViewController {
+class NewSetVC: UIViewController, UIDocumentPickerDelegate {
     
     weak var delegate: NewSetDelegate?
+    let defaults = UserDefaults.standard
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -104,15 +107,20 @@ class NewSetVC: UIViewController {
     
     @objc func newStandard(_ sender: UIButton){
         delegate?.newSetType(type: "Standard")
-        //dismiss(animated: true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
     
     @objc func newWeb(_ sender: UIButton){
         delegate?.newSetType(type: "Web")
-        //dismiss(animated: true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
     
     @objc func importSet(_ sender: UIButton){
+        let documentPicker = UIDocumentPickerViewController(documentTypes: ["public.data"], in: .import)
+        
+        documentPicker.delegate = self
+        documentPicker.allowsMultipleSelection = false
+        present(documentPicker, animated: true, completion: nil)
         
     }
     
@@ -122,5 +130,45 @@ class NewSetVC: UIViewController {
     
     @objc func dismissIt(_ sender: UITapGestureRecognizer){
         dismiss(animated: true, completion: nil)
+    }
+    
+    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+        guard let fileURL = urls.first else {
+            print("No file selected")
+            return
+        }
+        
+        do {
+            if fileURL.pathExtension == "dlset" {
+                let data = try Data(contentsOf: fileURL)
+                if let decodedCards = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? [String: Any] {
+                    
+//                    if let image = decodedCards["image"] as? Data {
+//                        var images = defaults.array(forKey: "images") as? [Data?] ?? []
+//                        images.append(image)
+//                        defaults.setValue(images, forKey: "images")
+//                    }
+                    var images = defaults.array(forKey: "images") as? [Data?] ?? []
+                    images.append(Colors.placeholderI)
+                    defaults.setValue(images, forKey: "images")
+                    
+                    var sets = defaults.array(forKey: "sets") as? [[String: Any]] ?? []
+                    sets.append(decodedCards)
+                    defaults.setValue(sets, forKey: "sets")
+                    
+                    delegate?.newImport()
+                    dismiss(animated: true, completion: nil)
+                } else {
+                    print("Failed to decode cards file")
+                }
+            }
+        } catch {
+            print("Error importing cards: \(error.localizedDescription)")
+        }
+    }
+
+    
+    func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
+        print("Document picker was cancelled")
     }
 }

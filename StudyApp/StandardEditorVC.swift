@@ -20,11 +20,12 @@ class StandardEditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegat
     var cards: [[Any]] = [] //t: text, d: drawing, s: speech - maybe
     var name: String = ""
     var date: String = ""
+    var flashcards: [Bool] = []
     
     var currentImagePicker = -1
     
     let imagePicker = UIImagePickerController()
-    
+    let imageButton = UIButton()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +33,7 @@ class StandardEditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegat
         name = data["name"] as! String
         date = data["date"] as! String
         cards = data["set"] as! [[Any]]
+        flashcards = data["flashcards"] as! [Bool]
         view.backgroundColor = Colors.background
         imagePicker.delegate = self
         imagePicker.sourceType = .photoLibrary
@@ -102,8 +104,11 @@ class StandardEditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegat
         
         topBar.addSubview(titleField)
         
-        let imageButton = UIButton()
-        imageButton.setImage(UIImage(systemName: "photo"), for: .normal)
+        if((defaults.value(forKey: "images") as! [Data?])[set] == Colors.placeholderI){
+            imageButton.setImage(UIImage(systemName: "photo"), for: .normal)
+        }else{
+            imageButton.setImage(UIImage(systemName: "rectangle.badge.xmark.fill"), for: .normal)
+        }
         imageButton.addTarget(self, action: #selector(changeImage(_:)), for: .touchUpInside)
         imageButton.frame = CGRect(x: 420, y: 0, width: 50, height: 50)
         imageButton.backgroundColor = Colors.secondaryBackground
@@ -509,16 +514,16 @@ class StandardEditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegat
         deleteButton.setImage(UIImage(systemName: "trash"), for: .normal)
         
 //        if(cards[i][2] as! String == "t"){
-//            button4.tintColor = Colors.highlight
-//            button7.setImage(UIImage(systemName: "circle"), for: .normal)
+            button4.tintColor = Colors.highlight
+            button7.setImage(UIImage(systemName: "circle"), for: .normal)
 //        }else if(cards[i][2] as! String == "d-r"){
 //            button4.tintColor = Colors.highlight
 //            button7.setImage(UIImage(systemName: "checkmark.circle.fill"), for: .normal)
 //        }else{
-            button4.tintColor = Colors.darkHighlight
-            recognize.isHidden = true
-            button7.isHidden = true
-            button7.setImage(UIImage(systemName: "circle"), for: .normal)
+//            button4.tintColor = Colors.darkHighlight
+//            recognize.isHidden = true
+//            button7.isHidden = true
+//            button7.setImage(UIImage(systemName: "circle"), for: .normal)
             
 //        }
         
@@ -542,6 +547,8 @@ class StandardEditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegat
         allTermsStackView.addArrangedSubview(cardAndButtons)
         
         cards.append(["t", "", "t", ""])
+        flashcards.append(false)
+        save()
     }
     @objc func dismissIt(_ sender: UITapGestureRecognizer){
         view.endEditing(true)
@@ -595,6 +602,7 @@ class StandardEditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegat
         var previousData = defaults.object(forKey: "sets") as! [Dictionary<String, Any>]
         previousData[set]["set"] = cards
         previousData[set]["name"] = name
+        previousData[set]["flashcards"] = flashcards
         defaults.set(previousData, forKey: "sets")
     }
     
@@ -630,6 +638,9 @@ class StandardEditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegat
             var sets = self.defaults.object(forKey: "sets") as! [Any]
             sets.remove(at: self.set)
             self.defaults.setValue(sets, forKey: "sets")
+            var images = self.defaults.array(forKey: "images") as? [Data?] ?? []
+            images.remove(at: self.set)
+            self.defaults.setValue(images, forKey: "images")
             self.performSegue(withIdentifier: "standardEditorVC_unwind", sender: nil)
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
@@ -648,8 +659,15 @@ class StandardEditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegat
     }
     
     @objc func changeImage(_ sender: UIButton) {
-        currentImagePicker = -1
-        present(imagePicker, animated: true, completion: nil)
+        var images = (defaults.value(forKey: "images") as! [Data?])
+        if images[set] == Colors.placeholderI {
+            currentImagePicker = -1
+            present(imagePicker, animated: true, completion: nil)
+        }else{
+            images[set] = Colors.placeholderI
+            defaults.setValue(images, forKey: "images")
+            imageButton.setImage(UIImage(systemName: "photo"), for: .normal)
+        }
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
@@ -665,9 +683,10 @@ class StandardEditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegat
         if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             if let imageData = pickedImage.pngData() {
                 if(currentImagePicker == -1){
-                    var previousData = defaults.object(forKey: "sets") as! [Dictionary<String, Any>]
-                    previousData[set]["image"] = imageData
-                    defaults.set(previousData, forKey: "sets")
+                    var images = (defaults.value(forKey: "images") as! [Data?])
+                    images[set] = imageData
+                    defaults.setValue(images, forKey: "images")
+                    imageButton.setImage(UIImage(systemName: "rectangle.badge.xmark.fill"), for: .normal)
                 }else{
                     cards[currentImagePicker][1] = imageData
                 }

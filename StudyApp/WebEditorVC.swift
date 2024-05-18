@@ -7,7 +7,7 @@
 
 import UIKit
 
-class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITextFieldDelegate {
+class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     let defaults = UserDefaults.standard
 
@@ -25,10 +25,14 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
     var canUpdate = true
     let loadingView = UILabel()
     
+    let imagePicker = UIImagePickerController()
+    let imageButton = UIButton()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = Colors.background
-
+        imagePicker.delegate = self
+        imagePicker.sourceType = .photoLibrary
         let data = (defaults.value(forKey: "sets") as! [Dictionary<String, Any>])[set]
         //print(data)
         name = data["name"] as! String
@@ -78,7 +82,7 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
         addButton.setTitleColor(Colors.highlight, for: .normal)
         addButton.titleLabel?.font = UIFont(name: "CabinetGroteskVariable-Bold_Bold", size: 25)
         addButton.addTarget(self, action: #selector(addButtonTapped(_:)), for: .touchUpInside)
-        addButton.frame = CGRect(x: view.frame.width - 360, y: 30, width: 150, height: 50)
+        addButton.frame = CGRect(x: view.frame.width - 420, y: 30, width: 150, height: 50)
         addButton.backgroundColor = Colors.secondaryBackground
         addButton.layer.cornerRadius = 10
         
@@ -89,11 +93,23 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
         themesButton.setTitleColor(Colors.highlight, for: .normal)
         themesButton.titleLabel?.font = UIFont(name: "CabinetGroteskVariable-Bold_Bold", size: 25)
         themesButton.addTarget(self, action: #selector(themeButtonTapped(_:)), for: .touchUpInside)
-        themesButton.frame = CGRect(x: view.frame.width - 200, y: 30, width: 110, height: 50)
+        themesButton.frame = CGRect(x: view.frame.width - 260, y: 30, width: 110, height: 50)
         themesButton.backgroundColor = Colors.secondaryBackground
         themesButton.layer.cornerRadius = 10
         
         view.addSubview(themesButton)
+        if((defaults.value(forKey: "images") as! [Data?])[set] == Colors.placeholderI){
+            imageButton.setImage(UIImage(systemName: "photo"), for: .normal)
+        }else{
+            imageButton.setImage(UIImage(systemName: "rectangle.badge.xmark.fill"), for: .normal)
+        }
+        imageButton.addTarget(self, action: #selector(changeImage(_:)), for: .touchUpInside)
+        imageButton.frame = CGRect(x: view.frame.width - 140, y: 30, width: 50, height: 50)
+        imageButton.backgroundColor = Colors.secondaryBackground
+        imageButton.layer.cornerRadius = 10
+        imageButton.tintColor = Colors.highlight
+        
+        view.addSubview(imageButton)
         
         let deleteButton = UIButton()
         deleteButton.setImage(UIImage(systemName: "trash"), for: .normal)
@@ -256,6 +272,9 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
             var sets = self.defaults.object(forKey: "sets") as! [Any]
             sets.remove(at: self.set)
             self.defaults.setValue(sets, forKey: "sets")
+            var images = self.defaults.array(forKey: "images") as? [Data?] ?? []
+            images.remove(at: self.set)
+            self.defaults.setValue(images, forKey: "images")
             self.performSegue(withIdentifier: "webEditorVC_unwind", sender: nil)
             
         }
@@ -426,6 +445,7 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
             termLabel.textColor = Colors.text
             termLabel.font = UIFont(name: "CabinetGroteskVariable-Bold_Normal", size: 15)
             termLabel.textAlignment = .center
+            termLabel.numberOfLines = 0
             visible.addSubview(termLabel)
             
             let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
@@ -600,6 +620,29 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
         }
         
         save()
+    }
+    
+    @objc func changeImage(_ sender: UIButton) {
+        var images = (defaults.value(forKey: "images") as! [Data?])
+        if images[set] == Colors.placeholderI {
+            present(imagePicker, animated: true, completion: nil)
+        }else{
+            images[set] = Colors.placeholderI
+            defaults.setValue(images, forKey: "images")
+            imageButton.setImage(UIImage(systemName: "photo"), for: .normal)
+        }
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            if let imageData = pickedImage.pngData() {
+                var images = (defaults.value(forKey: "images") as! [Data?])
+                images[set] = imageData
+                defaults.setValue(images, forKey: "images")
+                imageButton.setImage(UIImage(systemName: "rectangle.badge.xmark.fill"), for: .normal)
+            }
+        }
+        dismiss(animated: true, completion: nil)
     }
 
 }

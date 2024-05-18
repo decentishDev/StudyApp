@@ -11,6 +11,8 @@ class MainPage: UIViewController, NewSetDelegate {
     
     //let buttonSize: CGFloat = 170 // Adjust button size here
     
+    let defaults = UserDefaults.standard
+    
     let scrollView = UIScrollView()
     let stackView = UIStackView()
     
@@ -80,12 +82,13 @@ class MainPage: UIViewController, NewSetDelegate {
     
     func setup(){
         sets = []
-        if let data = UserDefaults.standard.value(forKey: "sets") as? [Dictionary<String, Any>]{
+        if let data = defaults.value(forKey: "sets") as? [Dictionary<String, Any>]{
             //print("yeah")
             //print(data)
-            for i in data {
+            for (index, i) in data.enumerated() {
 //                if i["image"] != nil {
-                    sets.append([i["name"] as! String, i["type"] as! String, i["image"] as! Data?])
+                sets.append([i["name"] as! String, i["type"] as! String, (defaults.value(forKey: "images") as! [Data?])[index]])
+                    
 //                }else{
 //                    sets.append([i["name"] as! String, i["type"] as! String, nil])
 //                }
@@ -98,7 +101,6 @@ class MainPage: UIViewController, NewSetDelegate {
             revwar["type"] = "web"
             revwar["author"] = "mlundeen5270"
             revwar["date"] = "Last edited: May 20th, 2024"
-            revwar["image"] = UIImage(named: "samuel-branch-ZPVisr0s_hQ-unsplash.jpg")?.pngData()
             revwar["set"] = []
             var trivia: Dictionary<String, Any> = Dictionary()
             trivia["name"] = "Trivia"
@@ -107,7 +109,6 @@ class MainPage: UIViewController, NewSetDelegate {
             trivia["flashcards"] = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]
 
             trivia["date"] = "Last edited: May 20th, 2024"
-            trivia["image"] = Data?(nil)
             trivia["set"] = [
                 ["t", "What is the boiling point of water in Celsius?", "t", "100°C"],
                 ["t", "Who wrote the novel 'Pride and Prejudice'?", "t", "Jane Austen"],
@@ -130,8 +131,9 @@ class MainPage: UIViewController, NewSetDelegate {
                 ["t", "Who was the first woman to ever win a Nobel Prize in the whole entire large global world?", "t", "Marie Curie"],
                 ["t", "What is the capital of South Africa?", "t", "Pretoria"]
             ]
-            UserDefaults.standard.setValue([trivia, revwar], forKey: "sets")
-            sets.append(["Trivia", "standard", nil])
+            defaults.setValue([trivia, revwar], forKey: "sets")
+            defaults.setValue([Colors.placeholderI, UIImage(named: "samuel-branch-ZPVisr0s_hQ-unsplash.jpg")?.pngData()] as [Data?], forKey: "images")
+            sets.append(["Trivia", "standard", Colors.placeholderI])
             let image = UIImage(named: "samuel-branch-ZPVisr0s_hQ-unsplash.jpg")?.pngData()
             sets.append(["American Revolution", "web", image])
         }
@@ -248,7 +250,7 @@ class MainPage: UIViewController, NewSetDelegate {
                         let setView = UIView()
                         row.addArrangedSubview(setView)
                         var image = UIImageView()
-                        if sets[j][2] != nil {
+                        if sets[j][2] as? Data != Colors.placeholderI {
                             image = UIImageView(image: UIImage(data: sets[j][2] as! Data))
                             image.layer.cornerRadius = 10
                             image.contentMode = .scaleAspectFill
@@ -328,9 +330,9 @@ class MainPage: UIViewController, NewSetDelegate {
         //performSegue(withIdentifier: "viewWebSet", sender: self)
         destination = Int(sender.accessibilityIdentifier!)!
         if(sets[Int(sender.accessibilityIdentifier!)!][1] as! String == "standard"){
-            performSegue(withIdentifier: "viewStandardSet", sender: self)
+                self.performSegue(withIdentifier: "viewStandardSet", sender: self)
         }else{
-            performSegue(withIdentifier: "viewWebSet", sender: self)
+                performSegue(withIdentifier: "viewWebSet", sender: self)
         }
     }
     
@@ -369,29 +371,45 @@ class MainPage: UIViewController, NewSetDelegate {
             trivia["author"] = "mlundeen5270"
             trivia["flashcards"] = [false]
             trivia["date"] = "Last edited: May 20th, 2024"
-            trivia["image"] = Data?(nil)
+            trivia["image"] = Colors.placeholderI
             trivia["set"] = [["t", "Example term", "t", "Example definition"]]
-            sets.append(["New Set", "standard", nil])
-            var oldData = UserDefaults.standard.value(forKey: "sets") as! [Any]
+            sets.append(["New Set", "standard", Colors.placeholderI])
+            var oldData = defaults.value(forKey: "sets") as! [Any]
             oldData.append(trivia)
-            UserDefaults.standard.setValue(oldData, forKey: "sets")
-            performSegue(withIdentifier: "viewStandardSet", sender: self)
-            //goToEditor = false
+            defaults.setValue(oldData, forKey: "sets")
+            var images = (defaults.value(forKey: "images") as! [Data?])
+            images.append(Colors.placeholderI)
+            defaults.setValue(images, forKey: "images")
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
+                self.performSegue(withIdentifier: "viewStandardSet", sender: self)
+                //goToEditor = false
+            }
         }else if(type == "Web"){
             goToEditor = true
             destination = sets.count
             var revwar: Dictionary<String, Any> = Dictionary()
+            
+            
             revwar["name"] = "New Web"
             revwar["type"] = "web"
             revwar["author"] = "mlundeen5270"
             revwar["date"] = "Last edited: May 20th, 2024"
             revwar["set"] = []
-            sets.append(["New Web", "web", nil])
-            var oldData = UserDefaults.standard.value(forKey: "sets") as! [Any]
+            sets.append(["New Web", "web", Colors.placeholderI])
+            var oldData = defaults.value(forKey: "sets") as! [Any]
             oldData.append(revwar)
-            UserDefaults.standard.setValue(oldData, forKey: "sets")
-            performSegue(withIdentifier: "viewWebSet", sender: self)
+            defaults.setValue(oldData, forKey: "sets")
+            var images = (defaults.value(forKey: "images") as! [Data?])
+            images.append(Colors.placeholderI)
+            defaults.setValue(images, forKey: "images")
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
+                self.performSegue(withIdentifier: "viewWebSet", sender: self)
+            }
             //goToEditor = false
         }
+    }
+    
+    func newImport() {
+        setup()
     }
 }

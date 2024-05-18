@@ -20,10 +20,8 @@ class WebSetVC: UIViewController {
     var name: String = ""
     var date: String = ""
     
-    var image: Data? = nil
-    
-    
-    
+    var image: Data? = Colors.placeholderI
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -55,7 +53,7 @@ class WebSetVC: UIViewController {
             }
             name = data["name"] as! String
             date = data["date"] as! String
-            image = data["image"] as! Data?
+            image = (defaults.value(forKey: "images") as! [Data?])[set]
             
             for subview in stackView.arrangedSubviews {
                 stackView.removeArrangedSubview(subview)
@@ -65,7 +63,7 @@ class WebSetVC: UIViewController {
             for subview in view.subviews {
                 subview.removeFromSuperview()
             }
-            if(image == nil){
+            if(image == Colors.placeholderI){
                 view.backgroundColor = Colors.background
             }else{
                 let backgroundImage = UIImageView(image: UIImage(data: image!))
@@ -100,8 +98,8 @@ class WebSetVC: UIViewController {
             
             let backButton = UIButton()
             backButton.setTitle("< Back", for: .normal)
-            backButton.titleLabel!.font = UIFont(name: "CabinetGroteskVariable-Bold_Normal", size: 20)
-            backButton.titleLabel?.textColor = Colors.text
+            backButton.titleLabel!.font = UIFont(name: "CabinetGroteskVariable-Bold_Regular", size: 20)
+            backButton.setTitleColor(Colors.highlight, for: .normal)
             backButton.addTarget(self, action: #selector(self.backButton(sender:)), for: .touchUpInside)
             stackView.addArrangedSubview(backButton)
             
@@ -123,6 +121,34 @@ class WebSetVC: UIViewController {
             dateLabel.textColor = Colors.text
             dateLabel.sizeToFit()
             stackView.addArrangedSubview(dateLabel)
+            
+            let breakView5 = UIView()
+            breakView5.widthAnchor.constraint(equalToConstant: 30).isActive = true
+            breakView5.heightAnchor.constraint(equalToConstant: 30).isActive = true
+            stackView.addArrangedSubview(breakView5)
+            
+            let shareButton = UIButton()
+            con(shareButton, 200, 30)
+            shareButton.addTarget(self, action: #selector(self.export(sender:)), for: .touchUpInside)
+            shareButton.translatesAutoresizingMaskIntoConstraints = false
+            stackView.addArrangedSubview(shareButton)
+            let shareIcon = UIImageView()
+            shareIcon.translatesAutoresizingMaskIntoConstraints = false
+            con(shareIcon, 30, 30)
+            shareButton.addSubview(shareIcon)
+            shareIcon.image = UIImage(systemName: "arrow.down.square.fill")
+            shareIcon.leadingAnchor.constraint(equalTo: shareButton.leadingAnchor).isActive = true
+            shareIcon.tintColor = Colors.highlight
+            shareIcon.contentMode = .scaleAspectFit
+            let shareText = UILabel()
+            shareText.translatesAutoresizingMaskIntoConstraints = false
+            shareButton.addSubview(shareText)
+            conH(shareText, 30)
+            shareText.leadingAnchor.constraint(equalTo: shareIcon.trailingAnchor, constant: 10).isActive = true
+            shareText.trailingAnchor.constraint(equalTo: shareButton.trailingAnchor).isActive = true
+            shareText.text = "Download"
+            shareText.font = UIFont(name: "CabinetGroteskVariable-Bold_Regular", size: 20)
+            shareText.textColor = Colors.highlight
             
             let breakView1 = UIView()
             breakView1.widthAnchor.constraint(equalToConstant: 30).isActive = true
@@ -154,7 +180,7 @@ class WebSetVC: UIViewController {
         conW(button, (title as NSString).size(withAttributes: [NSAttributedString.Key.font: UIFont(name: "CabinetGroteskVariable-Bold_Bold", size: 30)!]).width + 40)
         button.layer.masksToBounds = true
 
-        if(image == nil){
+        if(image == Colors.placeholderI){
             button.backgroundColor = Colors.secondaryBackground
         }else{
             let blurEffect = UIBlurEffect(style: .systemThinMaterial)
@@ -195,6 +221,29 @@ class WebSetVC: UIViewController {
     
     @objc func backButton(sender: UIButton){
         performSegue(withIdentifier: "webSetVC_unwind", sender: nil)
+    }
+    
+    @objc func export(sender: UIButton){
+        var cardsDictionary: [String: Any] = (defaults.object(forKey: "sets") as! [Dictionary<String, Any>])[set]
+        //cardsDictionary["images"] = (defaults.object(forKey: "images") as! [Data?])[set]
+        guard let data = try? NSKeyedArchiver.archivedData(withRootObject: cardsDictionary, requiringSecureCoding: false) else {
+            print("Failed to archive data.")
+            return
+        }
+        
+        let temporaryDirectoryURL = FileManager.default.temporaryDirectory
+        let timeString = DateFormatter.localizedString(from: Date(), dateStyle: .none, timeStyle: .medium)
+        let fileURL = temporaryDirectoryURL.appendingPathComponent(name).appendingPathExtension("dlset")
+        
+        do {
+            try data.write(to: fileURL)
+            
+            let documentPicker = UIDocumentPickerViewController(url: fileURL, in: .exportToService)
+            documentPicker.shouldShowFileExtensions = true
+            self.present(documentPicker, animated: true, completion: nil)
+        } catch {
+            print("Error exporting cards: \(error.localizedDescription)")
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
