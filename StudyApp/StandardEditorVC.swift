@@ -147,7 +147,7 @@ class StandardEditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegat
             let term = card[1] as? String
             let definition = card[3] as? String
             if(card[0] as! String == "t"){
-                let termView = UITextView()
+                let termView = UITextView(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
                 termView.isEditable = true
                 termView.text = term
                 termView.font = UIFont(name: "CabinetGroteskVariable-Bold_Regular", size: 20)
@@ -159,9 +159,9 @@ class StandardEditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegat
                 termView.translatesAutoresizingMaskIntoConstraints = false
                 termView.widthAnchor.constraint(equalToConstant: (view.frame.width - 141)/2).isActive = true
                 termDefinitionStackView.addArrangedSubview(termView)
-                termView.backgroundColor = .green
+                //termView.backgroundColor = .green
             }else if(card[0] as! String == "i"){
-                let termImage = UIButton()
+                let termImage = UIButton(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
                 termImage.translatesAutoresizingMaskIntoConstraints = false
                 //termImage.setImage(UIImage(named: "color1.png"), for: .normal)
                 termImage.widthAnchor.constraint(equalToConstant: (view.frame.width - 141)/2).isActive = true
@@ -172,16 +172,16 @@ class StandardEditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegat
                 termImage.setImage(UIImage(data: card[1] as! Data), for: .normal)
                 termImage.accessibilityIdentifier = String(i)
                 termDefinitionStackView.addArrangedSubview(termImage)
-                termImage.backgroundColor = .blue
+                //termImage.backgroundColor = .blue
             }else{
-                let termDrawing = PKCanvasView()
+                let termDrawing = PKCanvasView(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
                 termDrawing.widthAnchor.constraint(equalToConstant: (view.frame.width - 141)/2).isActive = true
                 termDrawing.heightAnchor.constraint(equalToConstant: (view.frame.width - 141)/2).isActive = true
                 termDrawing.isUserInteractionEnabled = false
                 termDrawing.translatesAutoresizingMaskIntoConstraints = false
                 termDrawing.drawing = card[1] as! PKDrawing
                 termDefinitionStackView.addArrangedSubview(termDrawing)
-                termDrawing.backgroundColor = .red
+                //termDrawing.backgroundColor = .red
             }
             
             let breakView = UIView()
@@ -189,10 +189,10 @@ class StandardEditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegat
             breakView.widthAnchor.constraint(equalToConstant: 1).isActive = true
             breakView.translatesAutoresizingMaskIntoConstraints = false
             termDefinitionStackView.addArrangedSubview(breakView)
-            breakView.heightAnchor.constraint(equalTo: termDefinitionStackView.heightAnchor, multiplier: 0.5).isActive = true
+            //breakView.heightAnchor.constraint(equalTo: termDefinitionStackView.heightAnchor, multiplier: 0.5).isActive = true
             
             if(card[2] as! String == "t" || card[2] as! String == "d-r"){
-                let definitionView = UITextView()
+                let definitionView = UITextView(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
                 definitionView.isEditable = true
                 definitionView.text = definition
                 definitionView.font = UIFont(name: "CabinetGroteskVariable-Bold_Regular", size: 20)
@@ -202,15 +202,15 @@ class StandardEditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegat
                 definitionView.backgroundColor = .clear
                 definitionView.accessibilityIdentifier = "d" + String(i)
                 termDefinitionStackView.addArrangedSubview(definitionView)
-                definitionView.backgroundColor = .blue
+                //definitionView.backgroundColor = .blue
             }else if card[2] as! String != "d"{
-                let definitionDrawing = PKCanvasView()
+                let definitionDrawing = PKCanvasView(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
                 //definitionDrawing.widthAnchor.constraint(equalTo: definitionView.widthAnchor).isActive = true
                 definitionDrawing.heightAnchor.constraint(equalToConstant: (view.frame.width - 141)/2).isActive = true
                 definitionDrawing.isUserInteractionEnabled = false
                 definitionDrawing.drawing = card[3] as! PKDrawing
                 definitionDrawing.translatesAutoresizingMaskIntoConstraints = false
-                definitionDrawing.backgroundColor = .red
+                //definitionDrawing.backgroundColor = .red
                 termDefinitionStackView.addArrangedSubview(definitionDrawing)
             }
             
@@ -506,7 +506,7 @@ class StandardEditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegat
                 sender.superview!.subviews[2].tintColor = Colors.darkHighlight
                 cards[i][0] = "t"
                 cards[i][1] = ""
-                let termView = UITextView()
+                let termView = UITextView(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
                 termView.isEditable = true
                 termView.text = ""
                 termView.font = UIFont(name: "CabinetGroteskVariable-Bold_Regular", size: 20)
@@ -516,7 +516,7 @@ class StandardEditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegat
                 termView.backgroundColor = .clear
                 termView.accessibilityIdentifier = "t" + String(i)
                 termView.widthAnchor.constraint(equalToConstant: (view.frame.width - 141)/2).isActive = true
-                termView.backgroundColor = .green
+                //termView.backgroundColor = .green
                 ((sender.superview!.superview! as! UIStackView).arrangedSubviews[0] as! UIStackView).arrangedSubviews[0].removeFromSuperview()
 //                let original = ((sender.superview!.superview! as! UIStackView).arrangedSubviews[0] as! UIStackView).arrangedSubviews[0]
 //                ((sender.superview!.superview! as! UIStackView).arrangedSubviews[0] as! UIStackView).removeArrangedSubview(original)
@@ -529,7 +529,7 @@ class StandardEditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegat
                 sender.superview!.subviews[2].tintColor = Colors.darkHighlight
                 cards[i][0] = "i"
                 cards[i][1] = UIImage(named: "color1.png")!.pngData()!
-                let termImage = UIButton()
+                let termImage = UIButton(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
                 termImage.setImage(UIImage(named: "color1.png"), for: .normal)
                 termImage.widthAnchor.constraint(equalToConstant: (view.frame.width - 141)/2).isActive = true
                 //termImage.heightAnchor.constraint(equalToConstant: (view.frame.width - 141)/2).isActive = true
@@ -540,7 +540,7 @@ class StandardEditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegat
                 termImage.addTarget(self, action: #selector(changeTermImage(_:)), for: .touchUpInside)
                 termImage.setImage(UIImage(named: "color1.png"), for: .normal)
                 termImage.accessibilityIdentifier = String(i)
-                termImage.backgroundColor = .blue
+                //termImage.backgroundColor = .blue
                 ((sender.superview!.superview! as! UIStackView).arrangedSubviews[0] as! UIStackView).arrangedSubviews[0].removeFromSuperview()
 //                let original = ((sender.superview!.superview! as! UIStackView).arrangedSubviews[0] as! UIStackView).arrangedSubviews[0]
 //                ((sender.superview!.superview! as! UIStackView).arrangedSubviews[0] as! UIStackView).removeArrangedSubview(original)
@@ -552,18 +552,18 @@ class StandardEditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegat
                 sender.superview!.subviews[0].tintColor = Colors.darkHighlight
                 sender.superview!.subviews[1].tintColor = Colors.darkHighlight
                 cards[i][0] = "d"
-                let termDrawing = PKCanvasView()
+                let termDrawing = PKCanvasView(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
                 termDrawing.widthAnchor.constraint(equalToConstant: (view.frame.width - 141)/2).isActive = true
                 termDrawing.heightAnchor.constraint(equalToConstant: (view.frame.width - 141)/2).isActive = true
                 termDrawing.isUserInteractionEnabled = false
                 termDrawing.translatesAutoresizingMaskIntoConstraints = false
                 termDrawing.drawing = PKDrawing()
-                termDrawing.backgroundColor = .red
+                //termDrawing.backgroundColor = .red
                 ((sender.superview!.superview! as! UIStackView).arrangedSubviews[0] as! UIStackView).arrangedSubviews[0].removeFromSuperview()
 //                let original = ((sender.superview!.superview! as! UIStackView).arrangedSubviews[0] as! UIStackView).arrangedSubviews[0]
 //                ((sender.superview!.superview! as! UIStackView).arrangedSubviews[0] as! UIStackView).removeArrangedSubview(original)
                 ((sender.superview!.superview! as! UIStackView).arrangedSubviews[0] as! UIStackView).insertArrangedSubview(termDrawing, at: 0)
-                //cards[i][1] = PKDrawing()
+                cards[i][1] = termDrawing.drawing
             }
         case "4":
             if cards[i][2] as! String != "t" && cards[i][2] as! String != "d-r"{
@@ -573,7 +573,7 @@ class StandardEditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegat
                 cards[i][3] = ""
                 sender.superview!.subviews[5].isHidden = false
                 sender.superview!.subviews[6].isHidden = false
-                let definitionView = UITextView()
+                let definitionView = UITextView(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
                 definitionView.isEditable = true
                 definitionView.text = ""
                 definitionView.font = UIFont(name: "CabinetGroteskVariable-Bold_Regular", size: 20)
@@ -582,7 +582,7 @@ class StandardEditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegat
                 definitionView.isScrollEnabled = false
                 definitionView.backgroundColor = .clear
                 definitionView.accessibilityIdentifier = "d" + String(i)
-                definitionView.backgroundColor = .blue
+                //definitionView.backgroundColor = .blue
                 ((sender.superview!.superview! as! UIStackView).arrangedSubviews[0] as! UIStackView).arrangedSubviews[2].removeFromSuperview()
 //                let original = ((sender.superview!.superview! as! UIStackView).arrangedSubviews[0] as! UIStackView).arrangedSubviews[2]
 //                ((sender.superview!.superview! as! UIStackView).arrangedSubviews[0] as! UIStackView).removeArrangedSubview(original)
@@ -595,17 +595,18 @@ class StandardEditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegat
             sender.superview!.subviews[5].isHidden = true
             sender.superview!.subviews[6].isHidden = true
             cards[i][2] = "d"
-            //cards[i][3] = PKDrawing()
-            let definitionDrawing = PKCanvasView()
+            
+            let definitionDrawing = PKCanvasView(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
             definitionDrawing.heightAnchor.constraint(equalToConstant: (view.frame.width - 141)/2).isActive = true
             definitionDrawing.isUserInteractionEnabled = false
             definitionDrawing.drawing = PKDrawing()
             definitionDrawing.translatesAutoresizingMaskIntoConstraints = false
-            definitionDrawing.backgroundColor = .red
+            //definitionDrawing.backgroundColor = .red
             ((sender.superview!.superview! as! UIStackView).arrangedSubviews[0] as! UIStackView).arrangedSubviews[2].removeFromSuperview()
 //            let original = ((sender.superview!.superview! as! UIStackView).arrangedSubviews[0] as! UIStackView).arrangedSubviews[2]
 //            ((sender.superview!.superview! as! UIStackView).arrangedSubviews[0] as! UIStackView).removeArrangedSubview(original)
             ((sender.superview!.superview! as! UIStackView).arrangedSubviews[0] as! UIStackView).addArrangedSubview(definitionDrawing)
+            cards[i][3] = definitionDrawing.drawing
         case "6":
             if(cards[i][2] as! String == "d-r"){
                 sender.setImage(UIImage(systemName: "circle"), for: .normal)
@@ -683,6 +684,7 @@ class StandardEditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegat
     @objc func changeTermImage(_ sender: UIButton) {
         currentImagePicker = Int(sender.accessibilityIdentifier!)!
         present(imagePicker, animated: true, completion: nil)
+        save()
     }
     
     @objc func changeImage(_ sender: UIButton) {
@@ -695,6 +697,7 @@ class StandardEditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegat
             defaults.setValue(images, forKey: "images")
             imageButton.setImage(UIImage(systemName: "photo"), for: .normal)
         }
+        save()
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
