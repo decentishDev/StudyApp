@@ -102,7 +102,7 @@ class StandardSetVC: UIViewController {
             
             let backButton = UIButton()
             backButton.setTitle("< Back", for: .normal)
-            backButton.titleLabel!.font = UIFont(name: "CabinetGroteskVariable-Bold_Regular", size: 20)
+            backButton.titleLabel!.font = UIFont(name: "CabinetGroteskVariable-Bold_Bold", size: 20)
             backButton.addTarget(self, action: #selector(self.backButton(sender:)), for: .touchUpInside)
             backButton.setTitleColor(Colors.highlight, for: .normal)
             stackView.addArrangedSubview(backButton)
@@ -149,7 +149,7 @@ class StandardSetVC: UIViewController {
             shareText.leadingAnchor.constraint(equalTo: shareIcon.trailingAnchor, constant: 10).isActive = true
             shareText.trailingAnchor.constraint(equalTo: shareButton.trailingAnchor).isActive = true
             shareText.text = "Download"
-            shareText.font = UIFont(name: "CabinetGroteskVariable-Bold_Regular", size: 20)
+            shareText.font = UIFont(name: "CabinetGroteskVariable-Bold_Bold", size: 20)
             shareText.textColor = Colors.highlight
             
             let breakView1 = UIView()

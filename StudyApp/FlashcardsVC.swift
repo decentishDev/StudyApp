@@ -21,10 +21,14 @@ class FlashcardsVC: UIViewController {
 //    let CardOverlayLabel = UIView()
     let CardDrawing = PKCanvasView()
     let CardImage = UIImageView()
+    let cardButton = UIButton()
     let OverlayCard = UIView()
     let OverlayLabel = UILabel()
     let OverlayDrawing = PKCanvasView()
-    let OverlayIMage = UIImageView()
+    let OverlayImage = UIImageView()
+    
+    let swipeRight = UISwipeGestureRecognizer()
+    let swipeLeft = UISwipeGestureRecognizer()
     
     var onFront = true
     var startOnFront = true
@@ -36,6 +40,9 @@ class FlashcardsVC: UIViewController {
     var known: [Bool] = []
     var index: Int = 0
     let cardAnimation = 0.6
+    
+    let endScreen = UIView()
+    let endLabel = UILabel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -129,7 +136,6 @@ class FlashcardsVC: UIViewController {
             }
         }
         
-        let cardButton = UIButton()
         cardButton.addTarget(self, action: #selector(self.CardButton(sender:)), for: .touchUpInside)
         cardButton.frame = CGRect(x: 0, y: 0, width: CardView.frame.width, height: CardView.frame.height)
         CardView.addSubview(cardButton)
@@ -146,10 +152,10 @@ class FlashcardsVC: UIViewController {
         incorrectButton.layer.frame = CGRect(x: 0, y: 0, width: IncorrectView.frame.width, height: IncorrectView.frame.height)
         IncorrectView.addSubview(incorrectButton)
         
-        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(self.IncorrectSwipe(sender:)))
+        swipeLeft.addTarget(self, action: #selector(self.IncorrectSwipe(sender:)))
         swipeLeft.direction = .left
         swipeLeft.view?.layer.frame = CGRect(x: 0, y: 0, width: CardView.frame.width, height: CardView.frame.height)
-        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.CorrectSwipe(sender:)))
+        swipeRight.addTarget(self, action: #selector(self.CorrectSwipe(sender:)))
         swipeRight.direction = .right
         swipeRight.view?.layer.frame = CGRect(x: 0, y: 0, width: CardView.frame.width, height: CardView.frame.height)
         CardView.addGestureRecognizer(swipeLeft)
@@ -201,62 +207,144 @@ class FlashcardsVC: UIViewController {
         OverlayCard.addSubview(OverlayDrawing)
         OverlayCard.isHidden = true
         view.addSubview(OverlayCard)
+        
+        
+        endScreen.frame = CGRect(x: 0, y: 0, width: CardView.frame.width, height: CardView.frame.height)
+        CardView.addSubview(endScreen)
+        
+        endLabel.text = ""
+        endLabel.font = UIFont(name: "CabinetGroteskVariable-Bold_Regular", size: 40)
+        endLabel.textColor = Colors.text
+        endLabel.frame = CGRect(x: 10, y: 10, width: CardView.frame.width - 20, height: CardView.frame.height - 130)
+        endLabel.numberOfLines = 0
+        endLabel.textAlignment = .center
+        endScreen.addSubview(endLabel)
+        
+        let endButton = UIButton()
+        endButton.frame = CGRect(x: 10, y: CardView.frame.height - 110, width: CardView.frame.width - 20, height: 100)
+        endButton.backgroundColor = Colors.highlight
+        endButton.setTitle("Next round", for: .normal)
+        endButton.setTitleColor(Colors.text, for: .normal)
+        endButton.titleLabel!.font = UIFont(name: "CabinetGroteskVariable-Bold_Bold", size: 20)
+        endButton.layer.cornerRadius = 10
+        endButton.addTarget(self, action: #selector(self.nextRound(sender:)), for: .touchUpInside)
+        endScreen.addSubview(endButton)
+        
+        endScreen.isHidden = true
+        
         view.bringSubviewToFront(OverlayCard)
+        
+        CardView.frame = CGRect(x: 40 + IncorrectView.frame.width, y: 60, width: (view.layer.frame.width - 80) * 0.7, height: view.frame.height - 80)
+    }
+    
+    @objc func nextRound(sender: UIButton){
+        cardOrder = []
+        index = 0
+        var t = true
+        for i in known {
+            if(!i){
+                t = false
+                break
+            }
+        }
+        if t {
+            for i in 0..<known.count {
+                known[i] = false
+            }
+        }
+        for i in 0 ..< cards.count{
+            if(!known[i]){
+                cardOrder.append(i)
+            }
+        }
+        if(random){
+            cardOrder.shuffle()
+        }
+        UIView.animate(withDuration: 0.5, animations: {
+            self.CardView.layer.opacity = 0
+        })
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
+            self.cardCounter.text = "1/" + String(self.cardOrder.count)
+            self.cardButton.isUserInteractionEnabled = true
+            self.IncorrectView.isUserInteractionEnabled = true
+            self.CorrectView.isUserInteractionEnabled = true
+            self.swipeLeft.isEnabled = true
+            self.swipeRight.isEnabled = true
+            self.endScreen.isHidden = true
+            if(self.cards[self.cardOrder[self.index]][0] as! String == "t"){
+                self.CardLabel.text = self.cards[self.cardOrder[self.index]][1] as? String
+                self.CardLabel.isHidden = false
+                self.CardDrawing.isHidden = true
+            }else if(self.cards[self.cardOrder[self.index]][0] as! String == "d"){
+                self.CardDrawing.drawing = (self.cards[self.cardOrder[self.index]][1] as? PKDrawing)!
+                self.CardLabel.isHidden = true
+                self.CardDrawing.isHidden = false
+            }else{
+                //Sound?
+            }
+            UIView.animate(withDuration: 0.5, animations: {
+                self.CardView.layer.opacity = 1
+            })
+        }
     }
     
     @objc func IncorrectButton(sender: UIButton) {
-        Incorrect()
+        nextCard(false)
     }
     
     @objc func CorrectButton(sender: UIButton) {
-        Correct()
+        nextCard(true)
     }
     
     @objc func IncorrectSwipe(sender: UISwipeGestureRecognizer) {
-        Incorrect()
+        nextCard(false)
     }
     
     @objc func CorrectSwipe(sender: UISwipeGestureRecognizer) {
-        Correct()
+        nextCard(true)
     }
     
-    func Correct(){
-        CorrectView.backgroundColor = .green
-        UIView.animate(withDuration: 0.5, animations: {
-            self.CorrectView.backgroundColor = Colors.secondaryBackground
-        })
-        known[cardOrder[index]] = true
-        if(index == cardOrder.count - 1){
-            //Next round
+    func nextCard(_ correct: Bool){
+        CardView.frame = CGRect(x: 40 + IncorrectView.frame.width, y: 60, width: (view.layer.frame.width - 80) * 0.7, height: view.frame.height - 80)
+        view.bringSubviewToFront(OverlayCard)
+        CardView.sendSubviewToBack(endScreen)
+        if(correct){
+            CorrectView.backgroundColor = Colors.highlight
+            UIView.animate(withDuration: 0.5, animations: {
+                self.CorrectView.backgroundColor = Colors.secondaryBackground
+            })
         }else{
-            if(onFront){
-                if(cards[cardOrder[index]][0] as! String == "t"){
-                    OverlayLabel.text = cards[cardOrder[index]][1] as? String
-                    OverlayLabel.isHidden = false
-                    OverlayDrawing.isHidden = true
-                }else if(cards[cardOrder[index]][0] as! String == "d"){
-                    OverlayDrawing.drawing = (cards[cardOrder[index]][1] as? PKDrawing)!
-                    OverlayLabel.isHidden = true
-                    OverlayDrawing.isHidden = false
-                }
-            }else{
-                if(cards[cardOrder[index]][2] as! String == "t"){
-                    OverlayLabel.text = cards[cardOrder[index]][3] as? String
-                    OverlayLabel.isHidden = false
-                    OverlayDrawing.isHidden = true
-                }else if(cards[cardOrder[index]][2] as! String == "d"){
-                    OverlayDrawing.drawing = (cards[cardOrder[index]][3] as? PKDrawing)!
-                    OverlayLabel.isHidden = true
-                    OverlayDrawing.isHidden = false
+            IncorrectView.backgroundColor = .init(red: 0.6, green: 0.3, blue: 0.3, alpha: 1)
+            UIView.animate(withDuration: 0.5, animations: {
+                self.IncorrectView.backgroundColor = Colors.secondaryBackground
+            })
+        }
+        known[cardOrder[index]] = correct
+        if(index == cardOrder.count - 1){
+            endScreen.isHidden = false
+            var t = 0
+            for i in cardOrder {
+                if(known[i]){
+                    t+=1
                 }
             }
-            OverlayCard.isHidden = false
-            OverlayCard.layer.transform = CATransform3DMakeRotation(CGFloat.pi, 0, 0, 0)
-            OverlayCard.alpha = 1
-            OverlayCard.layer.position = CardView.layer.position
+            var c = 0
+            for i in known {
+                if(i){
+                    c+=1
+                }
+            }
+            endLabel.text = "Correct this round: " + String(t) + "/" + String(cardOrder.count) + "\nCorrect overall: " + String(c) + "/" + String(cards.count)
+            cardButton.isUserInteractionEnabled = false
+            IncorrectView.isUserInteractionEnabled = false
+            CorrectView.isUserInteractionEnabled = false
+            swipeLeft.isEnabled = false
+            swipeRight.isEnabled = false
+            CardLabel.isHidden = true
+            CardDrawing.isHidden = true
+        }else{
             index+=1
             cardCounter.text = String(index + 1) + "/" + String(cardOrder.count)
-
             if(cards[cardOrder[index]][0] as! String == "t"){
                 CardLabel.text = cards[cardOrder[index]][1] as? String
                 CardLabel.isHidden = false
@@ -269,85 +357,58 @@ class FlashcardsVC: UIViewController {
                 //Sound?
             }
             
-            CardView.layer.transform = CATransform3DIdentity
-            CardLabel.layer.transform = CATransform3DIdentity
+        }
+        
+        if(onFront){
             if(cards[cardOrder[index]][0] as! String == "t"){
-                CardLabel.text = cards[cardOrder[index]][1] as? String
+                OverlayLabel.text = cards[cardOrder[index]][1] as? String
+                OverlayLabel.isHidden = false
+                OverlayDrawing.isHidden = true
+            }else if(cards[cardOrder[index]][0] as! String == "d"){
+                OverlayDrawing.drawing = (cards[cardOrder[index]][1] as? PKDrawing)!
+                OverlayLabel.isHidden = true
+                OverlayDrawing.isHidden = false
             }
-            CardView.layer.opacity = 0
+        }else{
+            if(cards[cardOrder[index]][2] as! String == "t"){
+                OverlayLabel.text = cards[cardOrder[index]][3] as? String
+                OverlayLabel.isHidden = false
+                OverlayDrawing.isHidden = true
+            }else if(cards[cardOrder[index]][2] as! String == "d"){
+                OverlayDrawing.drawing = (cards[cardOrder[index]][3] as? PKDrawing)!
+                OverlayLabel.isHidden = true
+                OverlayDrawing.isHidden = false
+            }
+        }
+        OverlayCard.isHidden = false
+        OverlayCard.layer.transform = CATransform3DMakeRotation(CGFloat.pi, 0, 0, 0)
+        OverlayCard.alpha = 1
+        OverlayCard.layer.position = CardView.layer.position
+        CardView.layer.opacity = 0
+        if(correct){
             UIView.animate(withDuration: 0.5, animations: {
                 self.OverlayCard.layer.transform = CATransform3DMakeRotation(CGFloat.pi, 1, 1, 1)
                 self.OverlayCard.alpha = 0
                 self.OverlayCard.layer.position = CGPoint(x: self.view.frame.width, y: self.view.frame.height / 2)
                 self.CardView.layer.opacity = 1
             })
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
-                self.OverlayCard.isHidden = true
-            }
-        }
-        save()
-    }
-    
-    func Incorrect(){
-        IncorrectView.backgroundColor = .red
-        UIView.animate(withDuration: 0.5, animations: {
-            self.IncorrectView.backgroundColor = Colors.secondaryBackground
-        })
-        known[cardOrder[index]] = false
-        if(index == cardOrder.count - 1){
-            //Next round
         }else{
-            if(onFront){
-                if(cards[cardOrder[index]][0] as! String == "t"){
-                    OverlayLabel.text = cards[cardOrder[index]][1] as? String
-                    OverlayLabel.isHidden = false
-                    OverlayDrawing.isHidden = true
-                }else if(cards[cardOrder[index]][0] as! String == "d"){
-                    OverlayDrawing.drawing = (cards[cardOrder[index]][1] as? PKDrawing)!
-                    OverlayLabel.isHidden = true
-                    OverlayDrawing.isHidden = false
-                }
-            }else{
-                if(cards[cardOrder[index]][2] as! String == "t"){
-                    OverlayLabel.text = cards[cardOrder[index]][3] as? String
-                    OverlayLabel.isHidden = false
-                    OverlayDrawing.isHidden = true
-                }else if(cards[cardOrder[index]][2] as! String == "d"){
-                    OverlayDrawing.drawing = (cards[cardOrder[index]][3] as? PKDrawing)!
-                    OverlayLabel.isHidden = true
-                    OverlayDrawing.isHidden = false
-                }
-            }
-            OverlayCard.isHidden = false
-            OverlayCard.layer.transform = CATransform3DMakeRotation(CGFloat.pi, 0, 0, 0)
-            OverlayCard.alpha = 1
-            OverlayCard.layer.position = CardView.layer.position
-            index+=1
-            cardCounter.text = String(index + 1) + "/" + String(cardOrder.count)
-            if(cards[cardOrder[index]][0] as! String == "t"){
-                CardLabel.text = cards[cardOrder[index]][1] as? String
-                CardLabel.isHidden = false
-                CardDrawing.isHidden = true
-            }else if(cards[cardOrder[index]][0] as! String == "d"){
-                CardDrawing.drawing = (cards[cardOrder[index]][1] as? PKDrawing)!
-                CardLabel.isHidden = true
-                CardDrawing.isHidden = false
-            }else{
-                //Sound?
-            }
-            CardView.layer.transform = CATransform3DIdentity
-            CardLabel.layer.transform = CATransform3DIdentity
-            CardView.layer.opacity = 0
             UIView.animate(withDuration: 0.5, animations: {
                 self.OverlayCard.layer.transform = CATransform3DMakeRotation(CGFloat.pi, 1, 1, 1)
                 self.OverlayCard.alpha = 0
                 self.OverlayCard.layer.position = CGPoint(x: 0, y: self.view.frame.height / 2)
                 self.CardView.layer.opacity = 1
             })
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
-                self.OverlayCard.isHidden = true
-            }
         }
+        
+        CardView.layer.transform = CATransform3DIdentity
+        CardLabel.layer.transform = CATransform3DIdentity
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
+            self.OverlayCard.isHidden = true
+        }
+        
+        onFront = true
         save()
     }
     
