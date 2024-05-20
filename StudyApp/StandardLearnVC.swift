@@ -13,7 +13,7 @@ class StandardLearnVC: UIViewController, PKCanvasViewDelegate, UITextFieldDelega
     let defaults = UserDefaults.standard
     var set = 0
     var topHeight: CGFloat = 200
-    var fullTop: CGFloat = 200
+    var keyboard: CGFloat = 0
     
     let cardCounter = UILabel()
     
@@ -27,7 +27,7 @@ class StandardLearnVC: UIViewController, PKCanvasViewDelegate, UITextFieldDelega
     var currentDrawing = PKDrawing()
     let enterButton = UIButton()
     
-    var currentInput = "d-r" //t, d, d-r, s, s-r
+    var currentInput = "t" //t, d, d-r, s, s-r
     var startOnFront = true
     var cardOrder: [Int] = []
     var cards: [[Any]] = []
@@ -43,26 +43,21 @@ class StandardLearnVC: UIViewController, PKCanvasViewDelegate, UITextFieldDelega
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("0")
         view.backgroundColor = Colors.background
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-        print("1")
         let data = (defaults.value(forKey: "sets") as! [Dictionary<String, Any>])[set]
-        print("2")
         cards = data["set"] as! [[Any]]
-        print("3")
-        //if(data.contains{$0.key == "learn"} && (data["learn"] as! [Int]).count != cards.count){
+        if(data.contains{$0.key == "learn"} && (data["learn"] as! [Int]).count != cards.count){
+            known = data["learn"] as! [Int]
+        }else{
             var c: [Int] = []
             for i in 0..<cards.count{
                 c.append(0)
             }
             known = c
-        save()
-        print("4")
-//        }else{
-//            known = data["learn"] as! [Int]
-//        }
+            save()
+        }
         var t = true
         for i in known {
             if(i != 2){
@@ -84,8 +79,7 @@ class StandardLearnVC: UIViewController, PKCanvasViewDelegate, UITextFieldDelega
             cardOrder.shuffle()
         }
         setup()
-        //nextTerm()
-        //print("5")
+        nextTerm()
     }
     
     deinit {
@@ -109,7 +103,6 @@ class StandardLearnVC: UIViewController, PKCanvasViewDelegate, UITextFieldDelega
 //        for i in view.subviews {
 //            i.removeFromSuperview()
 //        }
-        print("5")
         let backButton = UIButton()
         backButton.frame = CGRect(x: 10, y: 10, width: 30, height: 30)
         backButton.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
@@ -117,7 +110,6 @@ class StandardLearnVC: UIViewController, PKCanvasViewDelegate, UITextFieldDelega
         backButton.addTarget(self, action: #selector(self.BackButton(sender:)), for: .touchUpInside)
         backButton.tintColor = Colors.highlight
         view.addSubview(backButton)
-        print("6")
         let settingsButton = UIButton()
         settingsButton.frame = CGRect(x: view.layer.frame.width - 40, y: 10, width: 30, height: 30)
         settingsButton.setImage(UIImage(systemName: "gearshape.fill"), for: .normal)
@@ -125,32 +117,27 @@ class StandardLearnVC: UIViewController, PKCanvasViewDelegate, UITextFieldDelega
         settingsButton.addTarget(self, action: #selector(self.SettingsButton(sender:)), for: .touchUpInside)
         settingsButton.tintColor = Colors.highlight
         view.addSubview(settingsButton)
-        print("7")
         cardCounter.frame = CGRect(x: 60, y: 20, width: view.frame.width - 120, height: 20)
         cardCounter.font = .systemFont(ofSize: 15)
         cardCounter.textAlignment = .center
         cardCounter.text = String(index + 1) + "/" + String(cardOrder.count)
         view.addSubview(cardCounter)
-        print("8")
         CardLabel.font = UIFont(name: "CabinetGroteskVariable-Bold_Regular", size: 50)
-        CardLabel.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: topHeight)
+        CardLabel.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: topHeight - keyboard)
         CardLabel.textColor = Colors.text
         CardLabel.textAlignment = .center
         CardLabel.numberOfLines = 0
         CardLabel.text = ""
         view.addSubview(CardLabel)
-        print("9")
         CardDrawing.frame = CGRect(x: 0, y: 0, width: (view.frame.width - 161), height: 2*(view.frame.width - 161)/3)
         CardDrawing.backgroundColor = .clear
-        CardDrawing.center = CGPoint(x: view.frame.width/2, y: topHeight/2)
+        CardDrawing.center = CGPoint(x: view.frame.width/2, y: (topHeight-keyboard)/2)
         view.addSubview(CardDrawing)
-        print("10")
-        CardImage.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: topHeight)
+        CardImage.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: topHeight-keyboard)
         CardImage.contentMode = .scaleAspectFit
         view.addSubview(CardImage)
-        print("11")
-        TextField.frame = CGRect(x: 50, y: topHeight + 20, width: view.frame.width - 100, height: 50)
-        TextField.font = UIFont(name: "CabinetGroteskVariable-Bold_Regular", size: 50)
+        TextField.frame = CGRect(x: 50, y: topHeight - keyboard + 20, width: view.frame.width - 100, height: 50)
+        TextField.font = UIFont(name: "CabinetGroteskVariable-Bold_Regular", size: 35)
         TextField.textColor = Colors.text
         TextField.placeholder = "Type your answer here . . ."
         TextField.delegate = self
@@ -160,24 +147,21 @@ class StandardLearnVC: UIViewController, PKCanvasViewDelegate, UITextFieldDelega
         TextField.leftView = paddingView
         TextField.leftViewMode = .always
         view.addSubview(TextField)
-        print("12")
-        DrawingView.frame = CGRect(x: 50, y: topHeight + 20, width: view.frame.width - 100, height: 250)
+        DrawingView.frame = CGRect(x: 50, y: topHeight - keyboard + 20, width: view.frame.width - 100, height: 250)
         DrawingView.backgroundColor = Colors.secondaryBackground
         DrawingView.delegate = self
-        DrawingView.drawing = currentDrawing
-        DrawingView.drawingPolicy = .pencilOnly
-        DrawingView.backgroundColor = .clear
+        //DrawingView.drawing = currentDrawing
+        //DrawingView.drawingPolicy = .pencilOnly
+        DrawingView.backgroundColor = Colors.secondaryBackground
         DrawingView.layer.cornerRadius = 10
-        //view.addSubview(DrawingView)
-        print("13")
-        enterButton.frame = CGRect(x: view.frame.width - 100, y: topHeight + 30, width: 40, height: 40)
+        view.addSubview(DrawingView)
+        enterButton.frame = CGRect(x: view.frame.width - 90, y: topHeight-keyboard + 30, width: 30, height: 30)
         enterButton.backgroundColor = Colors.highlight
-        enterButton.setImage(UIImage(named: "arrowshape.right.fill"), for: .normal)
+        enterButton.setImage(UIImage(systemName: "arrowshape.right.fill"), for: .normal)
         enterButton.tintColor = Colors.secondaryBackground
         enterButton.layer.cornerRadius = 10
         enterButton.addTarget(self, action: #selector(enter(sender:)), for: .touchUpInside)
         view.addSubview(enterButton)
-        print("14")
     }
     
     func correctAnim(_ i: Int){
@@ -254,6 +238,7 @@ class StandardLearnVC: UIViewController, PKCanvasViewDelegate, UITextFieldDelega
                 }
                 index+=1
                 nextTerm()
+                DrawingView.drawing = PKDrawing()
             }
         }//else if(currentInput == "s"){
 //            DispatchQueue.main.asyncAfter(deadline: .now() + (cardAnimation/2)){
@@ -268,10 +253,16 @@ class StandardLearnVC: UIViewController, PKCanvasViewDelegate, UITextFieldDelega
 //        }
     }
     
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        enter(sender: UIButton())
+        return true
+    }
+    
     func nextTerm(){
         TextField.text = ""
-        DrawingView.drawing = PKDrawing()
-        currentDrawing = PKDrawing()
+        //DrawingView.drawing = PKDrawing()
+        //currentDrawing = PKDrawing()
+        
         
         if(index == cardOrder.count){
             //over
@@ -296,14 +287,14 @@ class StandardLearnVC: UIViewController, PKCanvasViewDelegate, UITextFieldDelega
             }
             TextField.isHidden = true
             DrawingView.isHidden = true
-            if(cards[cardOrder[index]][0] as! String == "t"){
+            currentInput = cards[cardOrder[index]][2] as! String
+            if(currentInput == "t"){
                 TextField.isHidden = false
                 topHeight = view.frame.height - 90
-                fullTop = topHeight
-            }else if(cards[cardOrder[index]][0] as! String == "d" || cards[cardOrder[index]][0] as! String == "d"){
+            }else if(currentInput == "d" || currentInput == "d-r"){
+                TextField.resignFirstResponder()
                 DrawingView.isHidden = false
                 topHeight = view.frame.height - 290
-                fullTop = topHeight
             }
             reformat()
         }
@@ -325,13 +316,13 @@ class StandardLearnVC: UIViewController, PKCanvasViewDelegate, UITextFieldDelega
     
     func reformat(){
         UIView.animate(withDuration: 0.5, animations: {
-            self.CardLabel.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.topHeight)
+            self.CardLabel.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.topHeight-self.keyboard)
             self.CardDrawing.frame = CGRect(x: 0, y: 0, width: (self.view.frame.width - 161), height: 2*(self.view.frame.width - 161)/3)
-            self.CardImage.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.topHeight)
-            self.TextField.frame = CGRect(x: 50, y: self.topHeight + 20, width: self.view.frame.width - 100, height: 50)
-            self.DrawingView.frame = CGRect(x: 50, y: self.topHeight + 20, width: self.view.frame.width - 100, height: 250)
-            self.enterButton.frame = CGRect(x: self.view.frame.width - 100, y: self.topHeight + 30, width: 40, height: 40)
-            self.CardDrawing.center = CGPoint(x: self.view.frame.width/2, y: self.topHeight/2)
+            self.CardImage.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.topHeight-self.keyboard)
+            self.TextField.frame = CGRect(x: 50, y: self.topHeight-self.keyboard + 20, width: self.view.frame.width - 100, height: 50)
+            self.DrawingView.frame = CGRect(x: 50, y: self.topHeight-self.keyboard + 20, width: self.view.frame.width - 100, height: 250)
+            self.enterButton.frame = CGRect(x: self.view.frame.width - 90, y: self.topHeight-self.keyboard + 30, width: 30, height: 30)
+            self.CardDrawing.center = CGPoint(x: self.view.frame.width/2, y: (self.topHeight-self.keyboard)/2)
         })
     }
     
@@ -358,7 +349,7 @@ class StandardLearnVC: UIViewController, PKCanvasViewDelegate, UITextFieldDelega
                 guard let observations = request.results as? [VNRecognizedTextObservation] else {return}
                 
                 self.currentDrawing = PKDrawing()
-                self.DrawingView.drawing = self.currentDrawing
+                //self.DrawingView.drawing = self.currentDrawing
                 var processedText = ""
                 for observation in observations {
                     guard let bestCandidate = observation.topCandidates(1).first else {continue}
@@ -392,6 +383,7 @@ class StandardLearnVC: UIViewController, PKCanvasViewDelegate, UITextFieldDelega
                         }
                         index+=1
                         nextTerm()
+                        DrawingView.drawing = PKDrawing()
                     }
                 }
             }
@@ -428,7 +420,7 @@ extension StandardLearnVC {
 //        var scrollIndicatorInsets = scrollView.scrollIndicatorInsets
 //        scrollIndicatorInsets.bottom = keyboardHeight
 //        scrollView.scrollIndicatorInsets = scrollIndicatorInsets
-        topHeight = fullTop - keyboardHeight
+        keyboard = keyboardHeight
         reformat()
     }
     
@@ -441,7 +433,7 @@ extension StandardLearnVC {
 //        var scrollIndicatorInsets = scrollView.scrollIndicatorInsets
 //        scrollIndicatorInsets.bottom = 0
 //        scrollView.scrollIndicatorInsets = scrollIndicatorInsets
-        topHeight = fullTop
+        keyboard = 0
         reformat()
     }
 }
