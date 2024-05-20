@@ -472,7 +472,7 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-
+        
     }
     
     @objc func newConnection(_ sender: UIButton){

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import PencilKit
 
 class StandardSetVC: UIViewController {
 
@@ -25,7 +26,7 @@ class StandardSetVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(goToEditor)
+        //print(goToEditor)
         if goToEditor {
             //UIView.setAnimationsEnabled(false)
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
@@ -57,8 +58,8 @@ class StandardSetVC: UIViewController {
             name = data["name"] as! String
             date = data["date"] as! String
             cards = data["set"] as! [[Any]]
+
             image = (defaults.value(forKey: "images") as! [Data?])[set]
-            
             for subview in stackView.arrangedSubviews {
                 stackView.removeArrangedSubview(subview)
                 subview.removeFromSuperview()
@@ -183,40 +184,117 @@ class StandardSetVC: UIViewController {
             termsLabel.sizeToFit()
             stackView.addArrangedSubview(termsLabel)
             
+            let breakView3 = UIView()
+            breakView3.widthAnchor.constraint(equalToConstant: 10).isActive = true
+            breakView3.heightAnchor.constraint(equalToConstant: 10).isActive = true
+            breakView3.backgroundColor = .clear
+            stackView.addArrangedSubview(breakView3)
+            
             let allTermsStackView = UIStackView()
             allTermsStackView.axis = .vertical
-            allTermsStackView.spacing = 5
+            allTermsStackView.spacing = 10
+            allTermsStackView.translatesAutoresizingMaskIntoConstraints = false
+            stackView.addArrangedSubview(allTermsStackView)
+            NSLayoutConstraint.activate([
+                allTermsStackView.leadingAnchor.constraint(equalTo: stackView.leadingAnchor),
+                allTermsStackView.trailingAnchor.constraint(equalTo: stackView.trailingAnchor)
+            ])
             for card in cards {
+                let termDefinitionStackView = UIStackView()
+                termDefinitionStackView.translatesAutoresizingMaskIntoConstraints = false
                 let term = card[1] as? String
                 let definition = card[3] as? String
-                
-                let termLabel = UILabel()
-                termLabel.text = term
-                termLabel.numberOfLines = 0
-                termLabel.font = UIFont(name: "CabinetGroteskVariable-Bold_Regular", size: 20)
-                termLabel.widthAnchor.constraint(equalToConstant: (view.frame.width - 141)/2).isActive = true
-                
-                let definitionLabel = UILabel()
-                definitionLabel.text = definition
-                definitionLabel.numberOfLines = 0
-                definitionLabel.font = UIFont(name: "CabinetGroteskVariable-Bold_Regular", size: 20)
-                
-                let termDefinitionStackView = UIStackView()
-                termDefinitionStackView.isLayoutMarginsRelativeArrangement = true
-                termDefinitionStackView.layoutMargins = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
+                if(card[0] as! String == "t"){
+                    let termView = UILabel(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
+                    termView.text = term
+                    termView.font = UIFont(name: "CabinetGroteskVariable-Bold_Regular", size: 20)
+                    termView.translatesAutoresizingMaskIntoConstraints = false
+                    termView.backgroundColor = .clear
+                    termView.numberOfLines = 0
+                    termView.widthAnchor.constraint(equalToConstant: (view.frame.width - 141)/2).isActive = true
+                    termDefinitionStackView.addArrangedSubview(termView)
+                    //termView.backgroundColor = .green
+                }else if(card[0] as! String == "i"){
+                    let termImage = UIButton(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
+                    termImage.translatesAutoresizingMaskIntoConstraints = false
+                    //termImage.setImage(UIImage(named: "color1.png"), for: .normal)
+                    termImage.widthAnchor.constraint(equalToConstant: (view.frame.width - 141)/2).isActive = true
+                    termImage.heightAnchor.constraint(equalToConstant: (view.frame.width - 141)/3).isActive = true
+                    termImage.imageView?.contentMode = .scaleAspectFit
+                    termImage.setImage(UIImage(data: card[1] as! Data), for: .normal)
+                    termDefinitionStackView.addArrangedSubview(termImage)
+                    //termImage.backgroundColor = .blue
+                }else{
+                    let drawingsuperview = UIView(frame: CGRect(x: 0, y: 0, width: (view.frame.width - 141)/2, height: (view.frame.width - 141)/3))
+                    drawingsuperview.widthAnchor.constraint(equalToConstant: (view.frame.width - 141)/2).isActive = true
+                    drawingsuperview.heightAnchor.constraint(equalToConstant: (view.frame.width - 141)/3).isActive = true
+                    let termDrawing = PKCanvasView(frame: CGRect(x: 0, y: 0, width: view.frame.width - 141, height: 2*(view.frame.width - 141)/3))
+                    termDrawing.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
+                    drawingsuperview.addSubview(termDrawing)
+                    termDrawing.anchorPoint = drawingsuperview.anchorPoint
+                    drawingsuperview.translatesAutoresizingMaskIntoConstraints = false
+                    termDrawing.isUserInteractionEnabled = false
+                    termDrawing.translatesAutoresizingMaskIntoConstraints = false
+                    do {
+                        try termDrawing.drawing = PKDrawing(data: card[1] as! Data)
+                    } catch {
+                        
+                    }
+                    termDrawing.anchorPoint = CGPoint(x: 1, y: 1)
+                    termDrawing.backgroundColor = Colors.background
+                    termDrawing.layer.cornerRadius = 10
+                    termDefinitionStackView.addArrangedSubview(drawingsuperview)
+                    //centerDrawing(termDrawing)
+                    //termDrawing.backgroundColor = .red
+                }
                 
                 let breakView = UIView()
                 breakView.backgroundColor = .label.withAlphaComponent(0.5)
                 breakView.widthAnchor.constraint(equalToConstant: 1).isActive = true
-                
-                termDefinitionStackView.addArrangedSubview(termLabel)
+                breakView.translatesAutoresizingMaskIntoConstraints = false
                 termDefinitionStackView.addArrangedSubview(breakView)
-                termDefinitionStackView.addArrangedSubview(definitionLabel)
+                //breakView.heightAnchor.constraint(equalTo: termDefinitionStackView.heightAnchor, multiplier: 0.5).isActive = true
                 
+                if(card[2] as! String == "t" || card[2] as! String == "d-r"){
+                    let definitionView = UILabel(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
+                    definitionView.numberOfLines = 0
+                    definitionView.text = definition
+                    definitionView.font = UIFont(name: "CabinetGroteskVariable-Bold_Regular", size: 20)
+                    definitionView.translatesAutoresizingMaskIntoConstraints = false
+                    definitionView.backgroundColor = .clear
+                    termDefinitionStackView.addArrangedSubview(definitionView)
+                    //definitionView.backgroundColor = .blue
+                }else if card[2] as! String == "d"{
+                    let drawingsuperview = UIView(frame: CGRect(x: 0, y: 0, width: 1, height: (view.frame.width - 141)/3))
+                    drawingsuperview.translatesAutoresizingMaskIntoConstraints = false
+                    drawingsuperview.widthAnchor.constraint(equalToConstant: (view.frame.width - 141)/2).isActive = true
+                    drawingsuperview.heightAnchor.constraint(equalToConstant: (view.frame.width - 141)/3).isActive = true
+                    let definitionDrawing = PKCanvasView(frame: CGRect(x: 0, y: 0, width: view.frame.width - 141, height: 2*(view.frame.width - 141)/3))
+                    definitionDrawing.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
+                    definitionDrawing.layer.cornerRadius = 10
+                    definitionDrawing.isUserInteractionEnabled = false
+                    do {
+                        try definitionDrawing.drawing = PKDrawing(data: card[3] as! Data)
+                    } catch {
+                        
+                    }
+                    definitionDrawing.translatesAutoresizingMaskIntoConstraints = false
+                    
+                    drawingsuperview.addSubview(definitionDrawing)
+                    definitionDrawing.anchorPoint = CGPoint(x: 1, y: 1)
+                    definitionDrawing.backgroundColor = Colors.background
+                    //definitionDrawing.backgroundColor = .red
+                    termDefinitionStackView.addArrangedSubview(drawingsuperview)
+                    
+                    //centerDrawing(definitionDrawing)
+                }
+                
+                termDefinitionStackView.translatesAutoresizingMaskIntoConstraints = false
+                termDefinitionStackView.isLayoutMarginsRelativeArrangement = true
+                termDefinitionStackView.layoutMargins = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
                 termDefinitionStackView.axis = .horizontal
                 termDefinitionStackView.spacing = 10
-                allTermsStackView.addArrangedSubview(termDefinitionStackView)
-                breakView.heightAnchor.constraint(equalTo: termLabel.heightAnchor, multiplier: 1).isActive = true
+                conW(termDefinitionStackView, view.frame.width - 100)
                 
                 if(image == Colors.placeholderI){
                     termDefinitionStackView.backgroundColor = Colors.secondaryBackground
@@ -230,12 +308,9 @@ class StandardSetVC: UIViewController {
                     blurredEffectView.clipsToBounds = true
                     termDefinitionStackView.insertSubview(blurredEffectView, at: 0)
                 }
+                
+                allTermsStackView.addArrangedSubview(termDefinitionStackView)
             }
-            stackView.addArrangedSubview(allTermsStackView)
-            NSLayoutConstraint.activate([
-                allTermsStackView.leadingAnchor.constraint(equalTo: stackView.leadingAnchor),
-                allTermsStackView.trailingAnchor.constraint(equalTo: stackView.trailingAnchor)
-            ])
         }
     }
     
@@ -280,7 +355,7 @@ class StandardSetVC: UIViewController {
     }
 
     @objc func startLearn() {
-        print("learn")
+        performSegue(withIdentifier: "standardLearnVC", sender: nil)
     }
 
     @objc func startFlashcards() {
@@ -288,7 +363,7 @@ class StandardSetVC: UIViewController {
     }
 
     @objc func startTest() {
-        print("test")
+        //print("test")
     }
     
     @objc func editSet() {
@@ -296,7 +371,7 @@ class StandardSetVC: UIViewController {
     }
     
     @objc func backButton(sender: UIButton){
-        print("back")
+        //print("back")
         performSegue(withIdentifier: "standardSetVC_unwind", sender: nil)
     }
     
@@ -333,6 +408,9 @@ class StandardSetVC: UIViewController {
             destination.set = set
         }
         if let destination = segue.destination as? FlashcardsVC {
+            destination.set = set
+        }
+        if let destination = segue.destination as? StandardLearnVC {
             destination.set = set
         }
     }

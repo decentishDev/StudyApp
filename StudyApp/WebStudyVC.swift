@@ -78,6 +78,7 @@ class WebStudyVC: UIViewController, UITextFieldDelegate {
             mainLabel.textColor = Colors.text
             mainLabel.textAlignment = .center
             mainLabel.isUserInteractionEnabled = false
+            mainLabel.numberOfLines = 0
             view.addSubview(mainLabel)
             
             answerList.axis = .horizontal
@@ -357,6 +358,7 @@ class WebStudyVC: UIViewController, UITextFieldDelegate {
                 answerView.heightAnchor.constraint(equalTo: answerList.heightAnchor).isActive = true
                 answerView.layer.masksToBounds = true
                 answerView.textAlignment = .center
+                answerView.numberOfLines = 0
             }
         }
     }

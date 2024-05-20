@@ -121,18 +121,35 @@ class FlashcardsVC: UIViewController {
         CardLabel.frame = CGRect(x: 20, y: 0, width: CardView.frame.width - 40, height: CardView.frame.height)
         CardLabel.numberOfLines = 0
         CardView.addSubview(CardLabel)
-        CardDrawing.frame = CGRect(x: 0, y: 0, width: CardView.frame.width, height: CardView.frame.height)
+        CardDrawing.frame = CGRect(x: 0, y: 0, width: (view.frame.width - 161), height: 2*(view.frame.width - 161)/3)
         CardDrawing.isUserInteractionEnabled = false
+        CardDrawing.layer.cornerRadius = 10
+        CardDrawing.backgroundColor = .clear
         CardView.addSubview(CardDrawing)
+        CardDrawing.center = CGPoint(x: CardView.frame.width/2, y: CardView.frame.height/2)
+        CardImage.frame = CGRect(x: 20, y: 20, width: CardView.frame.width - 40, height: CardView.frame.height - 40)
+        CardImage.contentMode = .scaleAspectFit
+        CardView.addSubview(CardImage)
         if(onFront){
-            if(cards[cardOrder[index]][0] as! String == "t"){
+            if(cards[cardOrder[index]][0] as! String == "t" || cards[cardOrder[index]][0] as! String == "d-r"){
                 CardLabel.text = cards[cardOrder[index]][1] as? String
                 CardLabel.isHidden = false
                 CardDrawing.isHidden = true
+                CardImage.isHidden = true
             }else if(cards[cardOrder[index]][0] as! String == "d"){
-                CardDrawing.drawing = (cards[cardOrder[index]][1] as? PKDrawing)!
+                do {
+                    try CardDrawing.drawing = PKDrawing(data: cards[cardOrder[index]][1] as! Data)
+                } catch {
+                    
+                }
                 CardLabel.isHidden = true
                 CardDrawing.isHidden = false
+                CardImage.isHidden = true
+            }else{
+                CardImage.image = UIImage(data: cards[cardOrder[index]][1] as! Data)
+                CardLabel.isHidden = true
+                CardDrawing.isHidden = true
+                CardImage.isHidden = false
             }
         }
         
@@ -202,12 +219,18 @@ class FlashcardsVC: UIViewController {
         OverlayLabel.frame = CGRect(x: 20, y: 0, width: CardView.frame.width - 40, height: CardView.frame.height)
         OverlayLabel.numberOfLines = 0
         OverlayCard.addSubview(OverlayLabel)
-        OverlayDrawing.frame = CGRect(x: 0, y: 0, width: CardView.frame.width, height: CardView.frame.height)
+        OverlayDrawing.frame = CGRect(x: 0, y: 0, width: (view.frame.width - 161), height: 2*(view.frame.width - 161)/3)
         OverlayDrawing.isUserInteractionEnabled = false
+        OverlayDrawing.layer.cornerRadius = 10
+        OverlayDrawing.backgroundColor = .clear
         OverlayCard.addSubview(OverlayDrawing)
+        OverlayDrawing.center = CGPoint(x: OverlayCard.frame.width/2, y: OverlayCard.frame.height/2)
+        OverlayImage.frame = CGRect(x: 20, y: 20, width: CardView.frame.width - 40, height: CardView.frame.height - 40)
+        OverlayImage.contentMode = .scaleAspectFit
+        OverlayCard.addSubview(OverlayImage)
+        CardView.addSubview(CardImage)
         OverlayCard.isHidden = true
         view.addSubview(OverlayCard)
-        
         
         endScreen.frame = CGRect(x: 0, y: 0, width: CardView.frame.width, height: CardView.frame.height)
         CardView.addSubview(endScreen)
@@ -225,7 +248,7 @@ class FlashcardsVC: UIViewController {
         endButton.backgroundColor = Colors.highlight
         endButton.setTitle("Next round", for: .normal)
         endButton.setTitleColor(Colors.text, for: .normal)
-        endButton.titleLabel!.font = UIFont(name: "CabinetGroteskVariable-Bold_Bold", size: 20)
+        endButton.titleLabel!.font = UIFont(name: "CabinetGroteskVariable-Bold_Bold", size: 30)
         endButton.layer.cornerRadius = 10
         endButton.addTarget(self, action: #selector(self.nextRound(sender:)), for: .touchUpInside)
         endScreen.addSubview(endButton)
@@ -271,16 +294,25 @@ class FlashcardsVC: UIViewController {
             self.swipeLeft.isEnabled = true
             self.swipeRight.isEnabled = true
             self.endScreen.isHidden = true
-            if(self.cards[self.cardOrder[self.index]][0] as! String == "t"){
+            if(self.cards[self.cardOrder[self.index]][0] as! String == "t" || self.cards[self.cardOrder[self.index]][0] as! String == "d-r"){
                 self.CardLabel.text = self.cards[self.cardOrder[self.index]][1] as? String
                 self.CardLabel.isHidden = false
                 self.CardDrawing.isHidden = true
+                self.CardImage.isHidden = true
             }else if(self.cards[self.cardOrder[self.index]][0] as! String == "d"){
-                self.CardDrawing.drawing = (self.cards[self.cardOrder[self.index]][1] as? PKDrawing)!
+                do {
+                    try self.CardDrawing.drawing = PKDrawing(data: self.cards[self.cardOrder[self.index]][1] as! Data)
+                } catch {
+                    
+                }
                 self.CardLabel.isHidden = true
                 self.CardDrawing.isHidden = false
+                self.CardImage.isHidden = true
             }else{
-                //Sound?
+                self.CardImage.image = UIImage(data: self.cards[self.cardOrder[self.index]][1] as! Data)
+                self.CardLabel.isHidden = true
+                self.CardDrawing.isHidden = true
+                self.CardImage.isHidden = false
             }
             UIView.animate(withDuration: 0.5, animations: {
                 self.CardView.layer.opacity = 1
@@ -305,6 +337,7 @@ class FlashcardsVC: UIViewController {
     }
     
     func nextCard(_ correct: Bool){
+        let overlayI = index
         CardView.frame = CGRect(x: 40 + IncorrectView.frame.width, y: 60, width: (view.layer.frame.width - 80) * 0.7, height: view.frame.height - 80)
         view.bringSubviewToFront(OverlayCard)
         CardView.sendSubviewToBack(endScreen)
@@ -342,43 +375,78 @@ class FlashcardsVC: UIViewController {
             swipeRight.isEnabled = false
             CardLabel.isHidden = true
             CardDrawing.isHidden = true
+            CardImage.isHidden = true
         }else{
             index+=1
             cardCounter.text = String(index + 1) + "/" + String(cardOrder.count)
-            if(cards[cardOrder[index]][0] as! String == "t"){
-                CardLabel.text = cards[cardOrder[index]][1] as? String
-                CardLabel.isHidden = false
-                CardDrawing.isHidden = true
-            }else if(cards[cardOrder[index]][0] as! String == "d"){
-                CardDrawing.drawing = (cards[cardOrder[index]][1] as? PKDrawing)!
-                CardLabel.isHidden = true
-                CardDrawing.isHidden = false
+            if(self.cards[self.cardOrder[self.index]][0] as! String == "t" || self.cards[self.cardOrder[self.index]][0] as! String == "d-r"){
+                self.CardLabel.text = self.cards[self.cardOrder[self.index]][1] as? String
+                self.CardLabel.isHidden = false
+                self.CardDrawing.isHidden = true
+                self.CardImage.isHidden = true
+            }else if(self.cards[self.cardOrder[self.index]][0] as! String == "d"){
+                do {
+                    try self.CardDrawing.drawing = PKDrawing(data: self.cards[self.cardOrder[self.index]][1] as! Data)
+                } catch {
+                    
+                }
+                self.CardLabel.isHidden = true
+                self.CardDrawing.isHidden = false
+                self.CardImage.isHidden = true
             }else{
-                //Sound?
+                self.CardImage.image = UIImage(data: self.cards[self.cardOrder[self.index]][1] as! Data)
+                self.CardLabel.isHidden = true
+                self.CardDrawing.isHidden = true
+                self.CardImage.isHidden = false
             }
+            UIView.animate(withDuration: 0.5, animations: {
+                self.CardView.layer.opacity = 1
+            })
             
         }
         
         if(onFront){
-            if(cards[cardOrder[index]][0] as! String == "t"){
+            if(cards[cardOrder[overlayI]][0] as! String == "t" || cards[cardOrder[overlayI]][0] as! String == "d-r"){
                 OverlayLabel.text = cards[cardOrder[index]][1] as? String
                 OverlayLabel.isHidden = false
                 OverlayDrawing.isHidden = true
-            }else if(cards[cardOrder[index]][0] as! String == "d"){
-                OverlayDrawing.drawing = (cards[cardOrder[index]][1] as? PKDrawing)!
+                OverlayImage.isHidden = true
+            }else if(cards[cardOrder[overlayI]][0] as! String == "d"){
+                do {
+                    try OverlayDrawing.drawing = PKDrawing(data: cards[cardOrder[overlayI]][1] as! Data)
+                } catch {
+                    
+                }
                 OverlayLabel.isHidden = true
                 OverlayDrawing.isHidden = false
+                OverlayImage.isHidden = true
+            }else{
+                OverlayImage.image = UIImage(data: cards[cardOrder[overlayI]][1] as! Data)
+                OverlayLabel.isHidden = true
+                OverlayDrawing.isHidden = true
+                OverlayImage.isHidden = false
             }
         }else{
-            if(cards[cardOrder[index]][2] as! String == "t"){
-                OverlayLabel.text = cards[cardOrder[index]][3] as? String
+            if(cards[cardOrder[overlayI]][2] as! String == "t"){
+                OverlayLabel.text = cards[cardOrder[overlayI]][3] as? String
                 OverlayLabel.isHidden = false
                 OverlayDrawing.isHidden = true
-            }else if(cards[cardOrder[index]][2] as! String == "d"){
-                OverlayDrawing.drawing = (cards[cardOrder[index]][3] as? PKDrawing)!
+                OverlayImage.isHidden = true
+            }else if(cards[cardOrder[overlayI]][2] as! String == "d"){
+                do {
+                    try OverlayDrawing.drawing = PKDrawing(data: cards[cardOrder[overlayI]][3] as! Data)
+                } catch {
+                    
+                }
                 OverlayLabel.isHidden = true
                 OverlayDrawing.isHidden = false
-            }
+                OverlayImage.isHidden = true
+            }//else{
+//                OverlayImage.image = UIImage(data: cards[cardOrder[index]][3] as! Data)
+//                OverlayLabel.isHidden = true
+//                OverlayDrawing.isHidden = true
+//                OverlayImage.isHidden = false
+//            }
         }
         OverlayCard.isHidden = false
         OverlayCard.layer.transform = CATransform3DMakeRotation(CGFloat.pi, 0, 0, 0)
@@ -403,6 +471,8 @@ class FlashcardsVC: UIViewController {
         
         CardView.layer.transform = CATransform3DIdentity
         CardLabel.layer.transform = CATransform3DIdentity
+        CardDrawing.layer.transform = CATransform3DIdentity
+        CardImage.layer.transform = CATransform3DIdentity
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
             self.OverlayCard.isHidden = true
@@ -421,9 +491,22 @@ class FlashcardsVC: UIViewController {
     @objc func CardButton(sender: UIButton) {
         if(onFront){
             DispatchQueue.main.asyncAfter(deadline: .now() + (cardAnimation/2)){
-                if(self.cards[self.cardOrder[self.index]][0] as! String == "t"){
+                if(self.cards[self.cardOrder[self.index]][2] as! String == "t"){
                     self.CardLabel.text = self.cards[self.cardOrder[self.index]][3] as? String
                     self.CardLabel.layer.transform = CATransform3DMakeRotation(CGFloat.pi, 1, 0, 0)
+                    self.CardLabel.isHidden = false
+                    self.CardDrawing.isHidden = true
+                    self.CardImage.isHidden = true
+                }else if(self.cards[self.cardOrder[self.index]][2] as! String == "d"){
+                    do {
+                        try self.CardDrawing.drawing = PKDrawing(data: self.cards[self.cardOrder[self.index]][3] as! Data)
+                    } catch {
+                        
+                    }
+                    self.CardDrawing.layer.transform = CATransform3DMakeRotation(CGFloat.pi, 1, 0, 0)
+                    self.CardLabel.isHidden = true
+                    self.CardDrawing.isHidden = false
+                    self.CardImage.isHidden = true
                 }
             }
             UIView.animate(withDuration: cardAnimation, animations: {
@@ -431,9 +514,28 @@ class FlashcardsVC: UIViewController {
             })
         }else{
             DispatchQueue.main.asyncAfter(deadline: .now() + (cardAnimation/2)){
-                if(self.cards[self.cardOrder[self.index]][2] as! String == "t"){
+                if(self.cards[self.cardOrder[self.index]][0] as! String == "t" || self.cards[self.cardOrder[self.index]][0] as! String == "d-r"){
                     self.CardLabel.text = self.cards[self.cardOrder[self.index]][1] as? String
                     self.CardLabel.layer.transform = CATransform3DMakeRotation(CGFloat.pi, 0, 0, 0)
+                    self.CardLabel.isHidden = false
+                    self.CardDrawing.isHidden = true
+                    self.CardImage.isHidden = true
+                }else if(self.cards[self.cardOrder[self.index]][0] as! String == "d"){
+                    do {
+                        try self.CardDrawing.drawing = PKDrawing(data: self.cards[self.cardOrder[self.index]][1] as! Data)
+                    } catch {
+                        
+                    }
+                    self.CardDrawing.layer.transform = CATransform3DMakeRotation(CGFloat.pi, 0, 0, 0)
+                    self.CardLabel.isHidden = true
+                    self.CardDrawing.isHidden = false
+                    self.CardImage.isHidden = true
+                }else{
+                    self.CardImage.image = UIImage(data: self.cards[self.cardOrder[self.index]][1] as! Data)
+                    self.CardImage.layer.transform = CATransform3DMakeRotation(CGFloat.pi, 0, 0, 0)
+                    self.CardLabel.isHidden = true
+                    self.CardDrawing.isHidden = true
+                    self.CardImage.isHidden = false
                 }
             }
             UIView.animate(withDuration: cardAnimation, animations: {

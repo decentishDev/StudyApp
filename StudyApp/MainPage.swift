@@ -107,8 +107,8 @@ class MainPage: UIViewController, NewSetDelegate {
             trivia["type"] = "standard"
             trivia["author"] = "mlundeen5270"
             trivia["flashcards"] = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]
-
             trivia["date"] = "Last edited: May 20th, 2024"
+            trivia["learn"] = [0]
             trivia["set"] = [
                 ["t", "What is the boiling point of water in Celsius?", "t", "100°C"],
                 ["t", "Who wrote the novel 'Pride and Prejudice'?", "t", "Jane Austen"],
@@ -373,6 +373,7 @@ class MainPage: UIViewController, NewSetDelegate {
             trivia["date"] = "Last edited: May 20th, 2024"
             trivia["image"] = Colors.placeholderI
             trivia["set"] = [["t", "Example term", "t", "Example definition"]]
+            trivia["learn"] = [0]
             sets.append(["New Set", "standard", Colors.placeholderI])
             var oldData = defaults.value(forKey: "sets") as! [Any]
             oldData.append(trivia)
@@ -388,8 +389,6 @@ class MainPage: UIViewController, NewSetDelegate {
             goToEditor = true
             destination = sets.count
             var revwar: Dictionary<String, Any> = Dictionary()
-            
-            
             revwar["name"] = "New Web"
             revwar["type"] = "web"
             revwar["author"] = "mlundeen5270"

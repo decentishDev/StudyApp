@@ -6,6 +6,7 @@ struct Colors {
     static let highlight = UIColor(red: 0.318, green: 0.596, blue: 0.447, alpha: 1.0)
     static let lightHighlight = UIColor(red: 0.643, green: 0.706, blue: 0.580, alpha: 1.0)
     static let text = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+    static let red = UIColor.init(red: 0.6, green: 0.3, blue: 0.3, alpha: 1)
     static let placeholderI = UIImage(named: "color1.png")?.pngData()
 }
 

@@ -10,6 +10,7 @@
 		0EF03BB02BC570A600B50550 /* StandardSetVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF03BAF2BC570A600B50550 /* StandardSetVC.swift */; };
 		8D074AEB2BC4BC84000E6D9A /* FlashcardsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D074AEA2BC4BC84000E6D9A /* FlashcardsVC.swift */; };
 		8D0EC1442BEDB0CD00717BA4 /* StandardEditorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D0EC1432BEDB0CD00717BA4 /* StandardEditorVC.swift */; };
+		8D32254E2BFA4D2E00E7F216 /* DrawingEditorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D32254D2BFA4D2E00E7F216 /* DrawingEditorVC.swift */; };
 		8D395AEA2BCF2D7E00346BB0 /* CabinetGrotesk-Variable.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8D395AE92BCF2D7E00346BB0 /* CabinetGrotesk-Variable.ttf */; };
 		8D3EE64A2BEEEA4400ADBD49 /* layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3EE6492BEEEA4400ADBD49 /* layout.swift */; };
 		8D4CDF7D2BB1DCD300474FCC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D4CDF7C2BB1DCD300474FCC /* AppDelegate.swift */; };
@@ -34,6 +35,7 @@
 		3E9C72A22BCEDA0500D78A46 /* MainePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainePage.swift; sourceTree = "<group>"; };
 		8D074AEA2BC4BC84000E6D9A /* FlashcardsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlashcardsVC.swift; sourceTree = "<group>"; };
 		8D0EC1432BEDB0CD00717BA4 /* StandardEditorVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardEditorVC.swift; sourceTree = "<group>"; };
+		8D32254D2BFA4D2E00E7F216 /* DrawingEditorVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingEditorVC.swift; sourceTree = "<group>"; };
 		8D395AE92BCF2D7E00346BB0 /* CabinetGrotesk-Variable.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "CabinetGrotesk-Variable.ttf"; path = "../../../Downloads/CabinetGrotesk_Complete/Fonts/Variable/CabinetGrotesk-Variable.ttf"; sourceTree = "<group>"; };
 		8D3EE6492BEEEA4400ADBD49 /* layout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = layout.swift; sourceTree = "<group>"; };
 		8D4CDF792BB1DCD300474FCC /* StudyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StudyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -107,6 +109,7 @@
 				8DE1BAB32BF0566B008F61ED /* NewSetVC.swift */,
 				8DE1BAB52BF0710D008F61ED /* WebStudyVC.swift */,
 				8D9B64082BF410A800ACD28A /* WebViewerVC.swift */,
+				8D32254D2BFA4D2E00E7F216 /* DrawingEditorVC.swift */,
 			);
 			path = StudyApp;
 			sourceTree = "<group>";
@@ -186,6 +189,7 @@
 				8DE1BAB42BF0566B008F61ED /* NewSetVC.swift in Sources */,
 				8D71F6752BCB415F0097DF26 /* WebSetVC.swift in Sources */,
 				8D89FD132BD07BDA0038F597 /* WebTermEditorVC.swift in Sources */,
+				8D32254E2BFA4D2E00E7F216 /* DrawingEditorVC.swift in Sources */,
 				8D89FD112BD073280038F597 /* Colors.swift in Sources */,
 				8D91B5552BCF476F003A625B /* WebEditorVC.swift in Sources */,
 				8D9B64092BF410A900ACD28A /* WebViewerVC.swift in Sources */,

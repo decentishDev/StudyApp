@@ -23,6 +23,7 @@
                         <segue destination="lP9-U8-zXT" kind="unwind" identifier="standardSetVC_unwind" unwindAction="cancel:" id="XPC-uJ-LW5"/>
                         <segue destination="p2I-rF-R5p" kind="show" identifier="flashcards" id="aXo-84-qxA"/>
                         <segue destination="5am-Nv-7bx" kind="show" identifier="standardEditor" id="jK2-7A-mz0"/>
+                        <segue destination="BYZ-38-t0r" kind="show" identifier="standardLearnVC" id="m1X-CK-1Tb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1aP-U6-MTS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -98,13 +99,18 @@
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="StandardLearnVC" customModule="StudyApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="1080" height="810"/>
+                        <rect key="frame" x="0.0" y="0.0" width="704" height="770"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
+                    <navigationItem key="navigationItem" id="f4E-pQ-jSk"/>
+                    <connections>
+                        <segue destination="V6M-tV-wCe" kind="unwind" identifier="standardLearnVC_unwind" unwindAction="cancel:" id="nmk-gG-3dU"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <exit id="V6M-tV-wCe" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="-518" y="-930"/>
         </scene>
