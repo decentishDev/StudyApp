@@ -308,6 +308,8 @@ class StandardLearnVC: UIViewController, PKCanvasViewDelegate, UITextFieldDelega
         CardLabel.isHidden = true
         CardDrawing.isHidden = true
         CardImage.isHidden = true
+        TextField.isHidden = true
+        DrawingView.isHidden = true
         if(index == cardOrder.count){
             EndScreen.isHidden = false
             var Unknown = 0
@@ -340,8 +342,6 @@ class StandardLearnVC: UIViewController, PKCanvasViewDelegate, UITextFieldDelega
                 CardImage.isHidden = false
                 CardImage.image = UIImage(data: cards[cardOrder[index]][1] as! Data)
             }
-            TextField.isHidden = true
-            DrawingView.isHidden = true
             currentInput = cards[cardOrder[index]][2] as! String
             if(currentInput == "t"){
                 TextField.isHidden = false
