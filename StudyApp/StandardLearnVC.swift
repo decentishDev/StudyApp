@@ -41,6 +41,9 @@ class StandardLearnVC: UIViewController, PKCanvasViewDelegate, UITextFieldDelega
     
     var random = true
     
+    let EndScreen = UIView()
+    let EndLabel = UILabel()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = Colors.background
@@ -164,6 +167,23 @@ class StandardLearnVC: UIViewController, PKCanvasViewDelegate, UITextFieldDelega
         enterButton.layer.cornerRadius = 10
         enterButton.addTarget(self, action: #selector(enter(sender:)), for: .touchUpInside)
         view.addSubview(enterButton)
+        EndScreen.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
+        view.addSubview(EndScreen)
+        EndLabel.frame = CGRect(x: 100, y: 100, width: view.frame.width - 200, height: view.frame.height - 275)
+        EndLabel.text = ""
+        EndLabel.font = UIFont(name: "CabinetGroteskVariable-Bold_Regular", size: 40)
+        EndLabel.textColor = Colors.text
+        EndScreen.addSubview(EndLabel)
+        let EndButton = UIButton()
+        EndButton.frame = CGRect(x: (view.frame.width / 2) - 125, y: view.frame.height - 175, width: 250, height: 75)
+        EndButton.backgroundColor = Colors.highlight
+        EndButton.layer.cornerRadius = 15
+        EndButton.setTitle("Next round", for: .normal)
+        EndButton.setTitleColor(Colors.text, for: .normal)
+        EndButton.titleLabel!.font = UIFont(name: "CabinetGroteskVariable-Bold_Bold", size: 30)
+        EndButton.addTarget(self, action: #selector(nextRound(sender:)), for: .touchUpInside)
+        EndScreen.addSubview(EndButton)
+        EndScreen.isHidden = true
     }
     
     func correctAnim(_ i: Int){
@@ -185,7 +205,27 @@ class StandardLearnVC: UIViewController, PKCanvasViewDelegate, UITextFieldDelega
         })
         known[i] = 0
     }
-    
+    @objc func nextRound(sender: UIButton) {
+        cardOrder.removeAll()
+        for (i, j) in known.enumerated() {
+            if(i != 2){
+                cardOrder.append(j)
+            }
+        }
+        if(cardOrder.count == 0){
+            for i in 0..<known.count {
+                known[i] = 0
+            }
+            for i in 0..<cards.count{
+                cardOrder.append(i)
+            }
+        }
+        if(random){
+            cardOrder.shuffle()
+        }
+        EndScreen.isHidden = true
+        nextTerm()
+    }
     @objc func enter(sender: UIButton) {
         if(currentInput == "t"){
             var goal = ""
@@ -265,14 +305,27 @@ class StandardLearnVC: UIViewController, PKCanvasViewDelegate, UITextFieldDelega
         //DrawingView.drawing = PKDrawing()
         //currentDrawing = PKDrawing()
         
-        
+        CardLabel.isHidden = true
+        CardDrawing.isHidden = true
+        CardImage.isHidden = true
         if(index == cardOrder.count){
-            //over
+            EndScreen.isHidden = false
+            var Unknown = 0
+            var Known = 0
+            var Mastered = 0
+            for i in known {
+                if(i == 0){
+                    Unknown+=1
+                }else if(i == 1){
+                    Known+=1
+                }else{
+                    Mastered+=1
+                }
+            }
+            EndLabel.text = "Unknown terms: " + String(Unknown) + "\nKnown terms: " + String(Known) + "\nMastered terms: " + String(Mastered)
         }else{
             cardCounter.text = String(index + 1) + "/" + String(cardOrder.count)
-            CardLabel.isHidden = true
-            CardDrawing.isHidden = true
-            CardImage.isHidden = true
+            
             if(cards[cardOrder[index]][0] as! String == "t"){
                 CardLabel.isHidden = false
                 CardLabel.text = cards[cardOrder[index]][1] as? String
