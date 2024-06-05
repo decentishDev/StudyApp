@@ -117,12 +117,14 @@ class StandardSetVC: UIViewController {
             titleLabel.text = name
             titleLabel.font = UIFont(name: "CabinetGroteskVariable-Bold_Extrabold", size: 50)
             titleLabel.sizeToFit()
+            titleLabel.textColor = Colors.text
             stackView.addArrangedSubview(titleLabel)
             
             let dateLabel = UILabel()
             dateLabel.text = date
             dateLabel.font = UIFont(name: "CabinetGroteskVariable-Bold_Light", size: 20)
             dateLabel.sizeToFit()
+            dateLabel.textColor = Colors.text
             stackView.addArrangedSubview(dateLabel)
             
             let breakView5 = UIView()
@@ -182,6 +184,7 @@ class StandardSetVC: UIViewController {
             termsLabel.text = "Terms"
             termsLabel.font = UIFont(name: "CabinetGroteskVariable-Bold_Bold", size: 30)
             termsLabel.sizeToFit()
+            termsLabel.textColor = Colors.text
             stackView.addArrangedSubview(termsLabel)
             
             let breakView3 = UIView()
@@ -211,6 +214,7 @@ class StandardSetVC: UIViewController {
                     termView.translatesAutoresizingMaskIntoConstraints = false
                     termView.backgroundColor = .clear
                     termView.numberOfLines = 0
+                    termView.textColor = Colors.text
                     termView.widthAnchor.constraint(equalToConstant: (view.frame.width - 141)/2).isActive = true
                     termDefinitionStackView.addArrangedSubview(termView)
                     //termView.backgroundColor = .green
@@ -235,6 +239,7 @@ class StandardSetVC: UIViewController {
                     drawingsuperview.translatesAutoresizingMaskIntoConstraints = false
                     termDrawing.isUserInteractionEnabled = false
                     termDrawing.translatesAutoresizingMaskIntoConstraints = false
+                    termDrawing.tintColor = Colors.text
                     do {
                         try termDrawing.drawing = PKDrawing(data: card[1] as! Data)
                     } catch {
@@ -249,7 +254,7 @@ class StandardSetVC: UIViewController {
                 }
                 
                 let breakView = UIView()
-                breakView.backgroundColor = .label.withAlphaComponent(0.5)
+                breakView.backgroundColor = Colors.text.withAlphaComponent(0.5)
                 breakView.widthAnchor.constraint(equalToConstant: 1).isActive = true
                 breakView.translatesAutoresizingMaskIntoConstraints = false
                 termDefinitionStackView.addArrangedSubview(breakView)
@@ -259,6 +264,7 @@ class StandardSetVC: UIViewController {
                     let definitionView = UILabel(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
                     definitionView.numberOfLines = 0
                     definitionView.text = definition
+                    definitionView.textColor = Colors.text
                     definitionView.font = UIFont(name: "CabinetGroteskVariable-Bold_Regular", size: 20)
                     definitionView.translatesAutoresizingMaskIntoConstraints = false
                     definitionView.backgroundColor = .clear
@@ -273,6 +279,7 @@ class StandardSetVC: UIViewController {
                     definitionDrawing.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
                     definitionDrawing.layer.cornerRadius = 10
                     definitionDrawing.isUserInteractionEnabled = false
+                    definitionDrawing.tintColor = Colors.text
                     do {
                         try definitionDrawing.drawing = PKDrawing(data: card[3] as! Data)
                     } catch {
@@ -300,7 +307,7 @@ class StandardSetVC: UIViewController {
                     termDefinitionStackView.backgroundColor = Colors.secondaryBackground
                     termDefinitionStackView.layer.cornerRadius = 10
                 }else{
-                    let blurEffect = UIBlurEffect(style: .systemThinMaterial)
+                    let blurEffect = UIBlurEffect(style: .systemThinMaterialDark)
                     let blurredEffectView = UIVisualEffectView(effect: blurEffect)
                     blurredEffectView.frame = termDefinitionStackView.frame
                     blurredEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]

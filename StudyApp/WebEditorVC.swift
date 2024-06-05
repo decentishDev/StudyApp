@@ -588,6 +588,7 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
     }
     
     func deleteTerm() {
+        print(web)
         for i in (web[currentEdit][4] as! [Int]){
             for button in (rectangles[i].subviews[1] as! UIStackView).arrangedSubviews { //Swift/ContiguousArrayBuffer.swift:600: Fatal error: Index out of range
                 if button.accessibilityIdentifier == String(currentEdit){
@@ -599,15 +600,22 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
         rectangles.remove(at: currentEdit)
         web.remove(at: currentEdit)
         for (i, term) in web.enumerated() {
-            if var indices = term[4] as? [Int], let index = indices.firstIndex(of: currentEdit) {
-                indices.remove(at: index)
+            if var indices = term[4] as? [Int] {
+//                if let index = indices.firstIndex(of: currentEdit){
+//                    indices.remove(at: index)
+//                    (rectangles[i].subviews[2] as! UIStackView).arrangedSubviews[index].removeFromSuperview()
+//                }
                 for (j, I) in indices.enumerated() {
-                    if I > currentEdit{
+                    if I == currentEdit{
                         indices.remove(at: j)
+                        (rectangles[i].subviews[2] as! UIStackView).arrangedSubviews[j].removeFromSuperview()
+                    }
+                    if I > currentEdit{
+                        indices[j] = I - 1
                     }
                 }
                 web[i][4] = indices // Update the original array with the modified one
-                (rectangles[i].subviews[2] as! UIStackView).arrangedSubviews[index].removeFromSuperview()
+                
             }
         }
         
@@ -620,6 +628,8 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
         }
         
         save()
+        print("////////////////////////////////////////////////")
+        print(web)
     }
     
     @objc func changeImage(_ sender: UIButton) {

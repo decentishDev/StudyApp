@@ -211,6 +211,7 @@ class MainPage: UIViewController, NewSetDelegate {
         topBar.addSubview(settingsButton)
         settingsButton.trailingAnchor.constraint(equalTo: topBar.trailingAnchor).isActive = true
         settingsButton.translatesAutoresizingMaskIntoConstraints = false
+        settingsButton.addTarget(self, action: #selector(settings(_:)), for: .touchUpInside)
         
         let breakView0 = UIView()
         breakView0.widthAnchor.constraint(equalToConstant: 30).isActive = true
@@ -221,6 +222,7 @@ class MainPage: UIViewController, NewSetDelegate {
         recentLabel.text = "Your sets"
         recentLabel.font = UIFont(name: "CabinetGroteskVariable-Bold_Extrabold", size: 50)
         con(recentLabel, 300, 50)
+        recentLabel.textColor = Colors.text
         recentLabel.isUserInteractionEnabled = true
         stackView.addArrangedSubview(recentLabel)
         let newButton = UIButton()
@@ -325,6 +327,10 @@ class MainPage: UIViewController, NewSetDelegate {
         present(popupVC, animated: true, completion: nil)
     }
     
+    @objc func settings(_ sender: UIButton){
+        performSegue(withIdentifier: "settingsVC", sender: nil)
+    }
+    
     @objc func buttonTapped(_ sender: UIButton) {
         //performSegue(withIdentifier: "viewStandardSet", sender: self)
         //performSegue(withIdentifier: "viewWebSet", sender: self)
@@ -339,7 +345,8 @@ class MainPage: UIViewController, NewSetDelegate {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         segue.destination.modalPresentationStyle = .fullScreen
         if(destination == -1){
-            //settings
+            //guard let vc = segue.destination as? SettingsVC else {return}
+            //idk
         }else if(sets[destination][1] as! String == "standard"){
             guard let vc = segue.destination as? StandardSetVC else {return}
             if(goToEditor){

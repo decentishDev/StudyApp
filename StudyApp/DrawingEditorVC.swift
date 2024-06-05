@@ -41,6 +41,7 @@ class DrawingEditorVC: UIViewController, PKCanvasViewDelegate {
         canvas.layer.cornerRadius = 10
         canvas.clipsToBounds = true
         canvas.backgroundColor = Colors.background
+        canvas.tintColor = Colors.text
         canvas.allowsFingerDrawing = true
         
         let card = ((UserDefaults.standard.value(forKey: "sets") as! [Dictionary<String, Any>])[set]["set"] as! [[Any]])
@@ -115,7 +116,7 @@ class DrawingEditorVC: UIViewController, PKCanvasViewDelegate {
     @objc func eraser(_ sender: UIButton) {
         if(usingEraser){
             sender.setImage(UIImage(systemName: "eraser.fill"), for: .normal)
-            canvas.tool = PKInkingTool(.pen, color: .black, width: PKInkingTool.InkType.pen.defaultWidth)
+            canvas.tool = PKInkingTool(.pen, color: Colors.text, width: PKInkingTool.InkType.pen.defaultWidth)
         }else{
             sender.setImage(UIImage(systemName: "pencil"), for: .normal)
             canvas.tool = PKEraserTool(.vector)

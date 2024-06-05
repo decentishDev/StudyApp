@@ -39,12 +39,14 @@ class WebTermEditorVC: UIViewController {
         termField.backgroundColor = Colors.secondaryBackground
         termField.layer.cornerRadius = 5
         termField.frame = CGRect(x: 50, y: 50, width: 400, height: 50)
+        termField.textColor = Colors.text
         
         centeredView.addSubview(defField)
         defField.placeholder = "Definition"
         defField.textAlignment = .center
         defField.backgroundColor = Colors.secondaryBackground
         defField.layer.cornerRadius = 5
+        defField.textColor = Colors.text
         defField.frame = CGRect(x: 50, y: 120, width: 400, height: 50)
         
         let cancelButton = UIButton(type: .system)
@@ -64,7 +66,7 @@ class WebTermEditorVC: UIViewController {
             confirmButton.setTitle("Update", for: .normal)
         }
         confirmButton.setTitleColor(Colors.text, for: .normal)
-        confirmButton.backgroundColor = Colors.darkHighlight
+        confirmButton.backgroundColor = Colors.highlight
         confirmButton.layer.cornerRadius = 5
         confirmButton.frame = CGRect(x: 260, y: 220, width: 190, height: 50)
         confirmButton.addTarget(self, action: #selector(confirm(_:)), for: .touchUpInside)

@@ -132,6 +132,7 @@ class StandardLearnVC: UIViewController, PKCanvasViewDelegate, UITextFieldDelega
         CardDrawing.frame = CGRect(x: 0, y: 0, width: (view.frame.width - 161), height: 2*(view.frame.width - 161)/3)
         CardDrawing.backgroundColor = .clear
         CardDrawing.center = CGPoint(x: view.frame.width/2, y: (topHeight-keyboard)/2)
+        CardDrawing.tintColor = Colors.text
         view.addSubview(CardDrawing)
         CardImage.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: topHeight-keyboard)
         CardImage.contentMode = .scaleAspectFit
@@ -150,6 +151,7 @@ class StandardLearnVC: UIViewController, PKCanvasViewDelegate, UITextFieldDelega
         DrawingView.frame = CGRect(x: 50, y: topHeight - keyboard + 20, width: view.frame.width - 100, height: 250)
         DrawingView.backgroundColor = Colors.secondaryBackground
         DrawingView.delegate = self
+        DrawingView.tintColor = Colors.text
         //DrawingView.drawing = currentDrawing
         //DrawingView.drawingPolicy = .pencilOnly
         DrawingView.backgroundColor = Colors.secondaryBackground

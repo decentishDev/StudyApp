@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0EF03BB02BC570A600B50550 /* StandardSetVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF03BAF2BC570A600B50550 /* StandardSetVC.swift */; };
 		8D074AEB2BC4BC84000E6D9A /* FlashcardsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D074AEA2BC4BC84000E6D9A /* FlashcardsVC.swift */; };
+		8D0B58C82C0F678A00AA08F2 /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D0B58C72C0F678A00AA08F2 /* SettingsVC.swift */; };
 		8D0EC1442BEDB0CD00717BA4 /* StandardEditorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D0EC1432BEDB0CD00717BA4 /* StandardEditorVC.swift */; };
 		8D32254E2BFA4D2E00E7F216 /* DrawingEditorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D32254D2BFA4D2E00E7F216 /* DrawingEditorVC.swift */; };
 		8D395AEA2BCF2D7E00346BB0 /* CabinetGrotesk-Variable.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8D395AE92BCF2D7E00346BB0 /* CabinetGrotesk-Variable.ttf */; };
@@ -32,8 +33,8 @@
 
 /* Begin PBXFileReference section */
 		0EF03BAF2BC570A600B50550 /* StandardSetVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardSetVC.swift; sourceTree = "<group>"; };
-		3E9C72A22BCEDA0500D78A46 /* MainePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainePage.swift; sourceTree = "<group>"; };
 		8D074AEA2BC4BC84000E6D9A /* FlashcardsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlashcardsVC.swift; sourceTree = "<group>"; };
+		8D0B58C72C0F678A00AA08F2 /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
 		8D0EC1432BEDB0CD00717BA4 /* StandardEditorVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardEditorVC.swift; sourceTree = "<group>"; };
 		8D32254D2BFA4D2E00E7F216 /* DrawingEditorVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingEditorVC.swift; sourceTree = "<group>"; };
 		8D395AE92BCF2D7E00346BB0 /* CabinetGrotesk-Variable.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "CabinetGrotesk-Variable.ttf"; path = "../../../Downloads/CabinetGrotesk_Complete/Fonts/Variable/CabinetGrotesk-Variable.ttf"; sourceTree = "<group>"; };
@@ -71,7 +72,6 @@
 		8D4CDF702BB1DCD300474FCC = {
 			isa = PBXGroup;
 			children = (
-				3E9C72A22BCEDA0500D78A46 /* MainePage.swift */,
 				8D4CDF7B2BB1DCD300474FCC /* StudyApp */,
 				8D4CDF7A2BB1DCD300474FCC /* Products */,
 			);
@@ -110,6 +110,7 @@
 				8DE1BAB52BF0710D008F61ED /* WebStudyVC.swift */,
 				8D9B64082BF410A800ACD28A /* WebViewerVC.swift */,
 				8D32254D2BFA4D2E00E7F216 /* DrawingEditorVC.swift */,
+				8D0B58C72C0F678A00AA08F2 /* SettingsVC.swift */,
 			);
 			path = StudyApp;
 			sourceTree = "<group>";
@@ -203,6 +204,7 @@
 				0EF03BB02BC570A600B50550 /* StandardSetVC.swift in Sources */,
 				8D0EC1442BEDB0CD00717BA4 /* StandardEditorVC.swift in Sources */,
 				8D4CDF912BB26EEF00474FCC /* SetsVC.swift in Sources */,
+				8D0B58C82C0F678A00AA08F2 /* SettingsVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

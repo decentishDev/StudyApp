@@ -147,6 +147,7 @@
                     <connections>
                         <segue destination="FIP-K8-yah" kind="show" identifier="viewStandardSet" id="rHk-hI-Fbs"/>
                         <segue destination="o57-tv-PwE" kind="show" identifier="viewWebSet" id="s1d-gY-Yty"/>
+                        <segue destination="Xpx-KQ-zv9" kind="show" identifier="settingsVC" id="mdz-NW-Lqh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QPn-Te-KUs" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -192,6 +193,26 @@
                 <exit id="rsB-C8-V8S" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1734" y="-202"/>
+        </scene>
+        <!--SettingsVC-->
+        <scene sceneID="sB1-4I-2NU">
+            <objects>
+                <viewController id="Xpx-KQ-zv9" customClass="SettingsVC" customModule="StudyApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="GAw-r7-n12">
+                        <rect key="frame" x="0.0" y="0.0" width="704" height="770"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="wvt-0g-3TT"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="mO3-zv-dLd"/>
+                    <connections>
+                        <segue destination="SRQ-us-emV" kind="unwind" identifier="settingsVC_unwind" unwindAction="cancel:" id="TnV-Ri-fDr"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rfe-b9-nNQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="SRQ-us-emV" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="1415" y="-2005"/>
         </scene>
     </scenes>
     <resources>

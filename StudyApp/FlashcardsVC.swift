@@ -125,6 +125,7 @@ class FlashcardsVC: UIViewController {
         CardDrawing.isUserInteractionEnabled = false
         CardDrawing.layer.cornerRadius = 10
         CardDrawing.backgroundColor = .clear
+        CardDrawing.tintColor = Colors.text
         CardView.addSubview(CardDrawing)
         CardDrawing.center = CGPoint(x: CardView.frame.width/2, y: CardView.frame.height/2)
         CardImage.frame = CGRect(x: 20, y: 20, width: CardView.frame.width - 40, height: CardView.frame.height - 40)
@@ -223,6 +224,7 @@ class FlashcardsVC: UIViewController {
         OverlayDrawing.isUserInteractionEnabled = false
         OverlayDrawing.layer.cornerRadius = 10
         OverlayDrawing.backgroundColor = .clear
+        OverlayDrawing.tintColor = Colors.text
         OverlayCard.addSubview(OverlayDrawing)
         OverlayDrawing.center = CGPoint(x: OverlayCard.frame.width/2, y: OverlayCard.frame.height/2)
         OverlayImage.frame = CGRect(x: 20, y: 20, width: CardView.frame.width - 40, height: CardView.frame.height - 40)

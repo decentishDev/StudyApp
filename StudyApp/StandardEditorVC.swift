@@ -203,7 +203,7 @@ deinit {
                 drawingButton.accessibilityIdentifier = "t" + String(i)
                 let termDrawing = PKCanvasView(frame: CGRect(x: 0, y: 0, width: view.frame.width - 141, height: 2*(view.frame.width - 141)/3))
                 termDrawing.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
-                
+                termDrawing.tintColor = Colors.text
                 termDrawing.backgroundColor = Colors.background
                 termDrawing.layer.cornerRadius = 10
                 //definitionDrawing.widthAnchor.constraint(equalTo: definitionView.widthAnchor).isActive = true
@@ -261,6 +261,7 @@ deinit {
                 //definitionDrawing.widthAnchor.constraint(equalTo: definitionView.widthAnchor).isActive = true
                 //definitionDrawing.heightAnchor.constraint(equalToConstant: (view.frame.width - 141)/3).isActive = true
                 definitionDrawing.isUserInteractionEnabled = false
+                definitionDrawing.tintColor = Colors.text
                 do {
                     try definitionDrawing.drawing = PKDrawing(data: card[3] as! Data)
                 } catch {
@@ -640,6 +641,7 @@ deinit {
                 termDrawing.translatesAutoresizingMaskIntoConstraints = false
                 termDrawing.layer.cornerRadius = 10
                 termDrawing.backgroundColor = Colors.background
+                termDrawing.tintColor = Colors.text
                 //definitionDrawing.backgroundColor = .red
                 drawingButton.insertSubview(termDrawing, at: 0)
                 termDrawing.anchorPoint = CGPoint(x: 1, y: 1)
@@ -699,6 +701,7 @@ deinit {
             definitionDrawing.translatesAutoresizingMaskIntoConstraints = false
             definitionDrawing.layer.cornerRadius = 10
             definitionDrawing.backgroundColor = Colors.background
+            definitionDrawing.tintColor = Colors.text
             //definitionDrawing.backgroundColor = .red
             drawingButton.insertSubview(definitionDrawing, at: 0)
             definitionDrawing.anchorPoint = CGPoint(x: 1, y: 1)
@@ -767,6 +770,7 @@ deinit {
             var images = self.defaults.array(forKey: "images") as? [Data?] ?? []
             images.remove(at: self.set)
             self.defaults.setValue(images, forKey: "images")
+            self.performSegue(withIdentifier: "standardEditorVC_unwind", sender: nil)
             self.performSegue(withIdentifier: "standardEditorVC_unwind", sender: nil)
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
