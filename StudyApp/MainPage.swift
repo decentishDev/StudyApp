@@ -24,6 +24,19 @@ class MainPage: UIViewController, NewSetDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if let theme = defaults.value(forKey: "theme") as? String{
+            for j in Colors.themes {
+                if j[0] as! String == theme {
+                    Colors.background = j[1] as! UIColor
+                    Colors.secondaryBackground = j[2] as! UIColor
+                    Colors.darkHighlight = j[3] as! UIColor
+                    Colors.highlight = j[4] as! UIColor
+                    Colors.lightHighlight = j[5] as! UIColor
+                    Colors.text = j[6] as! UIColor
+                }
+            }
+        }
+
         //view.backgroundColor = isDarkMode ? .black : .white
         
 //        let titleLabel = UILabel()
@@ -96,12 +109,12 @@ class MainPage: UIViewController, NewSetDelegate {
         }else{
             //PLACEHOLDER SETS - add blank stuff and 'create first set' screen soon
             
-            var revwar: Dictionary<String, Any> = Dictionary()
-            revwar["name"] = "American Revolution"
-            revwar["type"] = "web"
-            revwar["author"] = "mlundeen5270"
-            revwar["date"] = "Last edited: May 20th, 2024"
-            revwar["set"] = []
+//            var revwar: Dictionary<String, Any> = Dictionary()
+//            revwar["name"] = "American Revolution"
+//            revwar["type"] = "web"
+//            revwar["author"] = "mlundeen5270"
+//            revwar["date"] = "Last edited: May 20th, 2024"
+//            revwar["set"] = []
             var trivia: Dictionary<String, Any> = Dictionary()
             trivia["name"] = "Trivia"
             trivia["type"] = "standard"
@@ -131,11 +144,12 @@ class MainPage: UIViewController, NewSetDelegate {
                 ["t", "Who was the first woman to ever win a Nobel Prize in the whole entire large global world?", "t", "Marie Curie"],
                 ["t", "What is the capital of South Africa?", "t", "Pretoria"]
             ]
-            defaults.setValue([trivia, revwar], forKey: "sets")
-            defaults.setValue([Colors.placeholderI, UIImage(named: "samuel-branch-ZPVisr0s_hQ-unsplash.jpg")?.pngData()] as [Data?], forKey: "images")
+            trivia["version"] = Int(0)
+            defaults.setValue([trivia], forKey: "sets")
+            defaults.setValue([Colors.placeholderI] as [Data?], forKey: "images")
             sets.append(["Trivia", "standard", Colors.placeholderI])
-            let image = UIImage(named: "samuel-branch-ZPVisr0s_hQ-unsplash.jpg")?.pngData()
-            sets.append(["American Revolution", "web", image])
+//            let image = UIImage(named: "samuel-branch-ZPVisr0s_hQ-unsplash.jpg")?.pngData()
+//            sets.append(["American Revolution", "web", image])
         }
         
         for subview in stackView.arrangedSubviews {
@@ -175,7 +189,8 @@ class MainPage: UIViewController, NewSetDelegate {
         topBar.widthAnchor.constraint(equalTo: stackView.widthAnchor).isActive = true
         //topBar.translatesAutoresizingMaskIntoConstraints = false
         //topBar.backgroundColor = .red
-        let icon = UIImageView(image: UIImage(named: "DendriticLearningIcon-01.svg"))
+        let icon = UIImageView(image: UIImage(named: "DendriticLearningIcon-01.svg")?.withRenderingMode(.alwaysTemplate))
+        icon.tintColor = Colors.highlight
         icon.contentMode = .scaleAspectFit
         topBar.addSubview(icon)
         con(icon, 50, 50)

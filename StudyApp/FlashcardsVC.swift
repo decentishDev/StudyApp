@@ -120,12 +120,14 @@ class FlashcardsVC: UIViewController {
         CardLabel.textAlignment = .center
         CardLabel.frame = CGRect(x: 20, y: 0, width: CardView.frame.width - 40, height: CardView.frame.height)
         CardLabel.numberOfLines = 0
+        CardLabel.textColor = Colors.text
         CardView.addSubview(CardLabel)
         CardDrawing.frame = CGRect(x: 0, y: 0, width: (view.frame.width - 161), height: 2*(view.frame.width - 161)/3)
         CardDrawing.isUserInteractionEnabled = false
         CardDrawing.layer.cornerRadius = 10
         CardDrawing.backgroundColor = .clear
-        CardDrawing.tintColor = Colors.text
+        CardDrawing.tool = Colors.pen
+        CardDrawing.overrideUserInterfaceStyle = .light
         CardView.addSubview(CardDrawing)
         CardDrawing.center = CGPoint(x: CardView.frame.width/2, y: CardView.frame.height/2)
         CardImage.frame = CGRect(x: 20, y: 20, width: CardView.frame.width - 40, height: CardView.frame.height - 40)
@@ -139,7 +141,7 @@ class FlashcardsVC: UIViewController {
                 CardImage.isHidden = true
             }else if(cards[cardOrder[index]][0] as! String == "d"){
                 do {
-                    try CardDrawing.drawing = PKDrawing(data: cards[cardOrder[index]][1] as! Data)
+                    try CardDrawing.drawing = recolor(PKDrawing(data: cards[cardOrder[index]][1] as! Data))
                 } catch {
                     
                 }
@@ -219,12 +221,14 @@ class FlashcardsVC: UIViewController {
         OverlayLabel.textAlignment = .center
         OverlayLabel.frame = CGRect(x: 20, y: 0, width: CardView.frame.width - 40, height: CardView.frame.height)
         OverlayLabel.numberOfLines = 0
+        OverlayLabel.textColor = Colors.text
         OverlayCard.addSubview(OverlayLabel)
         OverlayDrawing.frame = CGRect(x: 0, y: 0, width: (view.frame.width - 161), height: 2*(view.frame.width - 161)/3)
         OverlayDrawing.isUserInteractionEnabled = false
         OverlayDrawing.layer.cornerRadius = 10
         OverlayDrawing.backgroundColor = .clear
-        OverlayDrawing.tintColor = Colors.text
+        OverlayDrawing.tool = Colors.pen
+        OverlayDrawing.overrideUserInterfaceStyle = .light
         OverlayCard.addSubview(OverlayDrawing)
         OverlayDrawing.center = CGPoint(x: OverlayCard.frame.width/2, y: OverlayCard.frame.height/2)
         OverlayImage.frame = CGRect(x: 20, y: 20, width: CardView.frame.width - 40, height: CardView.frame.height - 40)
@@ -303,7 +307,7 @@ class FlashcardsVC: UIViewController {
                 self.CardImage.isHidden = true
             }else if(self.cards[self.cardOrder[self.index]][0] as! String == "d"){
                 do {
-                    try self.CardDrawing.drawing = PKDrawing(data: self.cards[self.cardOrder[self.index]][1] as! Data)
+                    try self.CardDrawing.drawing = recolor(PKDrawing(data: self.cards[self.cardOrder[self.index]][1] as! Data))
                 } catch {
                     
                 }
@@ -344,12 +348,12 @@ class FlashcardsVC: UIViewController {
         view.bringSubviewToFront(OverlayCard)
         CardView.sendSubviewToBack(endScreen)
         if(correct){
-            CorrectView.backgroundColor = Colors.highlight
+            CorrectView.backgroundColor = Colors.green
             UIView.animate(withDuration: 0.5, animations: {
                 self.CorrectView.backgroundColor = Colors.secondaryBackground
             })
         }else{
-            IncorrectView.backgroundColor = .init(red: 0.6, green: 0.3, blue: 0.3, alpha: 1)
+            IncorrectView.backgroundColor = Colors.red
             UIView.animate(withDuration: 0.5, animations: {
                 self.IncorrectView.backgroundColor = Colors.secondaryBackground
             })
@@ -381,14 +385,14 @@ class FlashcardsVC: UIViewController {
         }else{
             index+=1
             cardCounter.text = String(index + 1) + "/" + String(cardOrder.count)
-            if(self.cards[self.cardOrder[self.index]][0] as! String == "t" || self.cards[self.cardOrder[self.index]][0] as! String == "d-r"){
+            if(self.cards[self.cardOrder[self.index]][0] as! String == "t"){
                 self.CardLabel.text = self.cards[self.cardOrder[self.index]][1] as? String
                 self.CardLabel.isHidden = false
                 self.CardDrawing.isHidden = true
                 self.CardImage.isHidden = true
             }else if(self.cards[self.cardOrder[self.index]][0] as! String == "d"){
                 do {
-                    try self.CardDrawing.drawing = PKDrawing(data: self.cards[self.cardOrder[self.index]][1] as! Data)
+                    try self.CardDrawing.drawing = recolor(PKDrawing(data: self.cards[self.cardOrder[self.index]][1] as! Data))
                 } catch {
                     
                 }
@@ -408,14 +412,14 @@ class FlashcardsVC: UIViewController {
         }
         
         if(onFront){
-            if(cards[cardOrder[overlayI]][0] as! String == "t" || cards[cardOrder[overlayI]][0] as! String == "d-r"){
+            if(cards[cardOrder[overlayI]][0] as! String == "t"){
                 OverlayLabel.text = cards[cardOrder[index]][1] as? String
                 OverlayLabel.isHidden = false
                 OverlayDrawing.isHidden = true
                 OverlayImage.isHidden = true
             }else if(cards[cardOrder[overlayI]][0] as! String == "d"){
                 do {
-                    try OverlayDrawing.drawing = PKDrawing(data: cards[cardOrder[overlayI]][1] as! Data)
+                    try OverlayDrawing.drawing = recolor(PKDrawing(data: cards[cardOrder[overlayI]][1] as! Data))
                 } catch {
                     
                 }
@@ -429,14 +433,14 @@ class FlashcardsVC: UIViewController {
                 OverlayImage.isHidden = false
             }
         }else{
-            if(cards[cardOrder[overlayI]][2] as! String == "t"){
+            if(cards[cardOrder[overlayI]][2] as! String == "t" || cards[cardOrder[overlayI]][2] as! String == "d-r"){
                 OverlayLabel.text = cards[cardOrder[overlayI]][3] as? String
                 OverlayLabel.isHidden = false
                 OverlayDrawing.isHidden = true
                 OverlayImage.isHidden = true
             }else if(cards[cardOrder[overlayI]][2] as! String == "d"){
                 do {
-                    try OverlayDrawing.drawing = PKDrawing(data: cards[cardOrder[overlayI]][3] as! Data)
+                    try OverlayDrawing.drawing = recolor(PKDrawing(data: cards[cardOrder[overlayI]][3] as! Data))
                 } catch {
                     
                 }
@@ -493,7 +497,7 @@ class FlashcardsVC: UIViewController {
     @objc func CardButton(sender: UIButton) {
         if(onFront){
             DispatchQueue.main.asyncAfter(deadline: .now() + (cardAnimation/2)){
-                if(self.cards[self.cardOrder[self.index]][2] as! String == "t"){
+                if(self.cards[self.cardOrder[self.index]][2] as! String == "t" || self.cards[self.cardOrder[self.index]][2] as! String == "d-r"){
                     self.CardLabel.text = self.cards[self.cardOrder[self.index]][3] as? String
                     self.CardLabel.layer.transform = CATransform3DMakeRotation(CGFloat.pi, 1, 0, 0)
                     self.CardLabel.isHidden = false
@@ -501,7 +505,7 @@ class FlashcardsVC: UIViewController {
                     self.CardImage.isHidden = true
                 }else if(self.cards[self.cardOrder[self.index]][2] as! String == "d"){
                     do {
-                        try self.CardDrawing.drawing = PKDrawing(data: self.cards[self.cardOrder[self.index]][3] as! Data)
+                        try self.CardDrawing.drawing = recolor(PKDrawing(data: self.cards[self.cardOrder[self.index]][3] as! Data))
                     } catch {
                         
                     }
@@ -516,7 +520,7 @@ class FlashcardsVC: UIViewController {
             })
         }else{
             DispatchQueue.main.asyncAfter(deadline: .now() + (cardAnimation/2)){
-                if(self.cards[self.cardOrder[self.index]][0] as! String == "t" || self.cards[self.cardOrder[self.index]][0] as! String == "d-r"){
+                if(self.cards[self.cardOrder[self.index]][0] as! String == "t"){
                     self.CardLabel.text = self.cards[self.cardOrder[self.index]][1] as? String
                     self.CardLabel.layer.transform = CATransform3DMakeRotation(CGFloat.pi, 0, 0, 0)
                     self.CardLabel.isHidden = false
@@ -524,7 +528,7 @@ class FlashcardsVC: UIViewController {
                     self.CardImage.isHidden = true
                 }else if(self.cards[self.cardOrder[self.index]][0] as! String == "d"){
                     do {
-                        try self.CardDrawing.drawing = PKDrawing(data: self.cards[self.cardOrder[self.index]][1] as! Data)
+                        try self.CardDrawing.drawing = recolor(PKDrawing(data: self.cards[self.cardOrder[self.index]][1] as! Data))
                     } catch {
                         
                     }

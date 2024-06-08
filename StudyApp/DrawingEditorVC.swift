@@ -41,21 +41,22 @@ class DrawingEditorVC: UIViewController, PKCanvasViewDelegate {
         canvas.layer.cornerRadius = 10
         canvas.clipsToBounds = true
         canvas.backgroundColor = Colors.background
-        canvas.tintColor = Colors.text
+        canvas.tool = Colors.pen
+        canvas.overrideUserInterfaceStyle = .light
         canvas.allowsFingerDrawing = true
         
         let card = ((UserDefaults.standard.value(forKey: "sets") as! [Dictionary<String, Any>])[set]["set"] as! [[Any]])
 
         if(term){
             do {
-                try canvas.drawing = PKDrawing(data: card[i][1] as! Data)
+                try canvas.drawing = recolor(PKDrawing(data: card[i][1] as! Data))
             } catch {
                 
             }
                 
         }else{
             do {
-                try canvas.drawing = PKDrawing(data: card[i][3] as! Data)
+                try canvas.drawing = recolor(PKDrawing(data: card[i][3] as! Data))
             } catch {
                 
             }
@@ -125,6 +126,6 @@ class DrawingEditorVC: UIViewController, PKCanvasViewDelegate {
     }
     
     @objc func clear(_ sender: UIButton) {
-        canvas.drawing = PKDrawing()
+        canvas.drawing = recolor(PKDrawing())
     }
 }

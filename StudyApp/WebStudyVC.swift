@@ -153,7 +153,6 @@ class WebStudyVC: UIViewController, UITextFieldDelegate {
     }
     
     @objc func dismissKeyboards(_ gestureRecognizer: UITapGestureRecognizer) {
-        print("now")
         inputField.resignFirstResponder()
     }
     

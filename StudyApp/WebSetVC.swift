@@ -98,9 +98,9 @@ class WebSetVC: UIViewController {
             
             let backButton = UIButton()
             backButton.setTitle("< Back", for: .normal)
-            backButton.titleLabel!.font = UIFont(name: "CabinetGroteskVariable-Bold_Regular", size: 20)
-            backButton.setTitleColor(Colors.highlight, for: .normal)
+            backButton.titleLabel!.font = UIFont(name: "CabinetGroteskVariable-Bold_Bold", size: 20)
             backButton.addTarget(self, action: #selector(self.backButton(sender:)), for: .touchUpInside)
+            backButton.setTitleColor(Colors.highlight, for: .normal)
             stackView.addArrangedSubview(backButton)
             
             let breakView0 = UIView()
@@ -173,7 +173,7 @@ class WebSetVC: UIViewController {
         let button = UIButton()
         button.setTitle(title, for: .normal)
         button.titleLabel!.font = UIFont(name: "CabinetGroteskVariable-Bold_Bold", size: 30)
-        button.titleLabel?.textColor = Colors.text
+        button.setTitleColor(Colors.text, for: .normal)
         button.layer.cornerRadius = 10
         button.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
         button.heightAnchor.constraint(equalToConstant: 70).isActive = true
@@ -183,7 +183,12 @@ class WebSetVC: UIViewController {
         if(image == Colors.placeholderI){
             button.backgroundColor = Colors.secondaryBackground
         }else{
-            let blurEffect = UIBlurEffect(style: .systemThinMaterial)
+            var blurEffect = UIBlurEffect(style: .systemThinMaterial)
+            if(Colors.text == UIColor(red: 1, green: 1, blue: 1, alpha: 1.0)){
+                blurEffect = UIBlurEffect(style: .systemThinMaterialDark)
+            }else if(Colors.text == UIColor(red: 0, green: 0, blue: 0, alpha: 1.0)){
+                blurEffect = UIBlurEffect(style: .systemThinMaterialLight)
+            }
             let blurredEffectView = UIVisualEffectView(effect: blurEffect)
             blurredEffectView.frame = button.bounds
             blurredEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]

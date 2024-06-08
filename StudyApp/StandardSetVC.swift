@@ -239,9 +239,10 @@ class StandardSetVC: UIViewController {
                     drawingsuperview.translatesAutoresizingMaskIntoConstraints = false
                     termDrawing.isUserInteractionEnabled = false
                     termDrawing.translatesAutoresizingMaskIntoConstraints = false
-                    termDrawing.tintColor = Colors.text
+                    termDrawing.tool = Colors.pen
+                    termDrawing.overrideUserInterfaceStyle = .light
                     do {
-                        try termDrawing.drawing = PKDrawing(data: card[1] as! Data)
+                        try termDrawing.drawing = recolor(PKDrawing(data: card[1] as! Data))
                     } catch {
                         
                     }
@@ -279,9 +280,10 @@ class StandardSetVC: UIViewController {
                     definitionDrawing.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
                     definitionDrawing.layer.cornerRadius = 10
                     definitionDrawing.isUserInteractionEnabled = false
-                    definitionDrawing.tintColor = Colors.text
+                    definitionDrawing.tool = Colors.pen
+                    definitionDrawing.overrideUserInterfaceStyle = .light
                     do {
-                        try definitionDrawing.drawing = PKDrawing(data: card[3] as! Data)
+                        try definitionDrawing.drawing = recolor(PKDrawing(data: card[3] as! Data))
                     } catch {
                         
                     }
@@ -298,16 +300,21 @@ class StandardSetVC: UIViewController {
                 
                 termDefinitionStackView.translatesAutoresizingMaskIntoConstraints = false
                 termDefinitionStackView.isLayoutMarginsRelativeArrangement = true
-                termDefinitionStackView.layoutMargins = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+                termDefinitionStackView.layoutMargins = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
                 termDefinitionStackView.axis = .horizontal
-                termDefinitionStackView.spacing = 10
+                termDefinitionStackView.spacing = 15
                 conW(termDefinitionStackView, view.frame.width - 100)
                 
                 if(image == Colors.placeholderI){
                     termDefinitionStackView.backgroundColor = Colors.secondaryBackground
                     termDefinitionStackView.layer.cornerRadius = 10
                 }else{
-                    let blurEffect = UIBlurEffect(style: .systemThinMaterialDark)
+                    var blurEffect = UIBlurEffect(style: .systemThinMaterial)
+                    if(Colors.text == UIColor(red: 1, green: 1, blue: 1, alpha: 1.0)){
+                        blurEffect = UIBlurEffect(style: .systemThinMaterialDark)
+                    }else if(Colors.text == UIColor(red: 0, green: 0, blue: 0, alpha: 1.0)){
+                        blurEffect = UIBlurEffect(style: .systemThinMaterialLight)
+                    }
                     let blurredEffectView = UIVisualEffectView(effect: blurEffect)
                     blurredEffectView.frame = termDefinitionStackView.frame
                     blurredEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -326,6 +333,7 @@ class StandardSetVC: UIViewController {
         button.setTitle(title, for: .normal)
         button.titleLabel!.font = UIFont(name: "CabinetGroteskVariable-Bold_Bold", size: 30)
         button.layer.cornerRadius = 10
+        button.setTitleColor(Colors.text, for: .normal)
         button.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.heightAnchor.constraint(equalToConstant: 70).isActive = true
@@ -335,7 +343,12 @@ class StandardSetVC: UIViewController {
         if(image == Colors.placeholderI){
             button.backgroundColor = Colors.secondaryBackground
         }else{
-            let blurEffect = UIBlurEffect(style: .systemThinMaterial)
+            var blurEffect = UIBlurEffect(style: .systemThinMaterial)
+            if(Colors.text == UIColor(red: 1, green: 1, blue: 1, alpha: 1.0)){
+                blurEffect = UIBlurEffect(style: .systemThinMaterialDark)
+            }else if(Colors.text == UIColor(red: 0, green: 0, blue: 0, alpha: 1.0)){
+                blurEffect = UIBlurEffect(style: .systemThinMaterialLight)
+            }
             let blurredEffectView = UIVisualEffectView(effect: blurEffect)
             blurredEffectView.frame = button.bounds
             blurredEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]

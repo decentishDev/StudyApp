@@ -177,6 +177,7 @@ deinit {
                 termView.accessibilityIdentifier = "t" + String(i)
                 termView.translatesAutoresizingMaskIntoConstraints = false
                 termView.widthAnchor.constraint(equalToConstant: (view.frame.width - 141)/2).isActive = true
+                termView.textColor = Colors.text
                 termDefinitionStackView.addArrangedSubview(termView)
                 //termView.backgroundColor = .green
             }else if(card[0] as! String == "i"){
@@ -203,14 +204,15 @@ deinit {
                 drawingButton.accessibilityIdentifier = "t" + String(i)
                 let termDrawing = PKCanvasView(frame: CGRect(x: 0, y: 0, width: view.frame.width - 141, height: 2*(view.frame.width - 141)/3))
                 termDrawing.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
-                termDrawing.tintColor = Colors.text
+                termDrawing.tool = Colors.pen
+                termDrawing.overrideUserInterfaceStyle = .light
                 termDrawing.backgroundColor = Colors.background
                 termDrawing.layer.cornerRadius = 10
                 //definitionDrawing.widthAnchor.constraint(equalTo: definitionView.widthAnchor).isActive = true
                 //definitionDrawing.heightAnchor.constraint(equalToConstant: (view.frame.width - 141)/3).isActive = true
                 termDrawing.isUserInteractionEnabled = false
                 do {
-                    try termDrawing.drawing = PKDrawing(data: card[1] as! Data)
+                    try termDrawing.drawing = recolor(PKDrawing(data: card[1] as! Data))
                 } catch {
                     
                 }
@@ -230,9 +232,9 @@ deinit {
             }
             
             let breakView = UIView()
-            breakView.backgroundColor = .label.withAlphaComponent(0.5)
             breakView.widthAnchor.constraint(equalToConstant: 1).isActive = true
             breakView.translatesAutoresizingMaskIntoConstraints = false
+            breakView.backgroundColor = Colors.text.withAlphaComponent(0.5)
             termDefinitionStackView.addArrangedSubview(breakView)
             //breakView.heightAnchor.constraint(equalTo: termDefinitionStackView.heightAnchor, multiplier: 0.5).isActive = true
             
@@ -246,6 +248,7 @@ deinit {
                 definitionView.isScrollEnabled = false
                 definitionView.backgroundColor = .clear
                 definitionView.accessibilityIdentifier = "d" + String(i)
+                definitionView.textColor = Colors.text
                 termDefinitionStackView.addArrangedSubview(definitionView)
                 //definitionView.backgroundColor = .blue
             }else if card[2] as! String == "d"{
@@ -261,9 +264,10 @@ deinit {
                 //definitionDrawing.widthAnchor.constraint(equalTo: definitionView.widthAnchor).isActive = true
                 //definitionDrawing.heightAnchor.constraint(equalToConstant: (view.frame.width - 141)/3).isActive = true
                 definitionDrawing.isUserInteractionEnabled = false
-                definitionDrawing.tintColor = Colors.text
+                definitionDrawing.tool = Colors.pen
+                definitionDrawing.overrideUserInterfaceStyle = .light
                 do {
-                    try definitionDrawing.drawing = PKDrawing(data: card[3] as! Data)
+                    try definitionDrawing.drawing = recolor(PKDrawing(data: card[3] as! Data))
                 } catch {
                     
                 }
@@ -423,11 +427,12 @@ deinit {
         termView.backgroundColor = .clear
         termView.accessibilityIdentifier = "t" + String(cards.count)
         termView.widthAnchor.constraint(equalToConstant: (view.frame.width - 141)/2).isActive = true
+        termView.textColor = Colors.text
         termDefinitionStackView.addArrangedSubview(termView)
 
         let breakView = UIView()
-        breakView.backgroundColor = .label.withAlphaComponent(0.5)
         breakView.widthAnchor.constraint(equalToConstant: 1).isActive = true
+        breakView.backgroundColor = Colors.text.withAlphaComponent(0.5)
         termDefinitionStackView.addArrangedSubview(breakView)
         //breakView.heightAnchor.constraint(equalTo: termDefinitionStackView.heightAnchor, multiplier: 0.5).isActive = true
         
@@ -584,6 +589,7 @@ deinit {
                 termView.translatesAutoresizingMaskIntoConstraints = false
                 termView.isScrollEnabled = false
                 termView.backgroundColor = .clear
+                termView.textColor = Colors.text
                 termView.accessibilityIdentifier = "t" + String(i)
                 termView.widthAnchor.constraint(equalToConstant: (view.frame.width - 141)/2).isActive = true
                 //termView.backgroundColor = .green
@@ -637,11 +643,12 @@ deinit {
                 //definitionDrawing.widthAnchor.constraint(equalTo: definitionView.widthAnchor).isActive = true
                 //definitionDrawing.heightAnchor.constraint(equalToConstant: (view.frame.width - 141)/3).isActive = true
                 termDrawing.isUserInteractionEnabled = false
-                termDrawing.drawing = PKDrawing()
+                termDrawing.drawing = recolor(PKDrawing())
                 termDrawing.translatesAutoresizingMaskIntoConstraints = false
                 termDrawing.layer.cornerRadius = 10
                 termDrawing.backgroundColor = Colors.background
-                termDrawing.tintColor = Colors.text
+                termDrawing.tool = Colors.pen
+                termDrawing.overrideUserInterfaceStyle = .light
                 //definitionDrawing.backgroundColor = .red
                 drawingButton.insertSubview(termDrawing, at: 0)
                 termDrawing.anchorPoint = CGPoint(x: 1, y: 1)
@@ -673,6 +680,7 @@ deinit {
                 definitionView.isScrollEnabled = false
                 definitionView.backgroundColor = .clear
                 definitionView.accessibilityIdentifier = "d" + String(i)
+                definitionView.textColor = Colors.text
                 //definitionView.backgroundColor = .blue
                 ((sender.superview!.superview! as! UIStackView).arrangedSubviews[0] as! UIStackView).arrangedSubviews[2].removeFromSuperview()
 //                let original = ((sender.superview!.superview! as! UIStackView).arrangedSubviews[0] as! UIStackView).arrangedSubviews[2]
@@ -697,11 +705,12 @@ deinit {
             //definitionDrawing.widthAnchor.constraint(equalTo: definitionView.widthAnchor).isActive = true
             //definitionDrawing.heightAnchor.constraint(equalToConstant: (view.frame.width - 141)/3).isActive = true
             definitionDrawing.isUserInteractionEnabled = false
-            definitionDrawing.drawing = PKDrawing()
+            definitionDrawing.drawing = recolor(PKDrawing())
             definitionDrawing.translatesAutoresizingMaskIntoConstraints = false
             definitionDrawing.layer.cornerRadius = 10
             definitionDrawing.backgroundColor = Colors.background
-            definitionDrawing.tintColor = Colors.text
+            definitionDrawing.tool = Colors.pen
+            definitionDrawing.overrideUserInterfaceStyle = .light
             //definitionDrawing.backgroundColor = .red
             drawingButton.insertSubview(definitionDrawing, at: 0)
             definitionDrawing.anchorPoint = CGPoint(x: 1, y: 1)

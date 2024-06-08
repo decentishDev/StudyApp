@@ -22,6 +22,16 @@ func conH(_ sender: UIView, _ y: CGFloat){
     sender.heightAnchor.constraint(equalToConstant: y).isActive = true
 }
 
+func recolor(_ drawing: PKDrawing) -> PKDrawing {
+    var newStrokes = [PKStroke]()
+    for stroke in drawing.strokes {
+        let newInk = PKInk(stroke.ink.inkType, color: Colors.text)
+        let newStroke = PKStroke(ink: newInk, path: stroke.path, transform: stroke.transform, mask: stroke.mask)
+        newStrokes.append(newStroke)
+    }
+    return PKDrawing(strokes: newStrokes)
+}
+
 func centerDrawing(_ canvasView: PKCanvasView) {
         let drawing = canvasView.drawing
         let boundingBox = calculateBoundingBox(for: drawing)

@@ -44,6 +44,9 @@ class StandardLearnVC: UIViewController, PKCanvasViewDelegate, UITextFieldDelega
     let EndScreen = UIView()
     let EndLabel = UILabel()
     
+    let correctButton = UIButton()
+    let incorrectButton = UIButton()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = Colors.background
@@ -51,7 +54,7 @@ class StandardLearnVC: UIViewController, PKCanvasViewDelegate, UITextFieldDelega
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
         let data = (defaults.value(forKey: "sets") as! [Dictionary<String, Any>])[set]
         cards = data["set"] as! [[Any]]
-        if(data.contains{$0.key == "learn"} && (data["learn"] as! [Int]).count != cards.count){
+        if(data.contains{$0.key == "learn"}){
             known = data["learn"] as! [Int]
         }else{
             var c: [Int] = []
@@ -135,7 +138,8 @@ class StandardLearnVC: UIViewController, PKCanvasViewDelegate, UITextFieldDelega
         CardDrawing.frame = CGRect(x: 0, y: 0, width: (view.frame.width - 161), height: 2*(view.frame.width - 161)/3)
         CardDrawing.backgroundColor = .clear
         CardDrawing.center = CGPoint(x: view.frame.width/2, y: (topHeight-keyboard)/2)
-        CardDrawing.tintColor = Colors.text
+        CardDrawing.tool = Colors.pen
+        CardDrawing.overrideUserInterfaceStyle = .light
         view.addSubview(CardDrawing)
         CardImage.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: topHeight-keyboard)
         CardImage.contentMode = .scaleAspectFit
@@ -154,7 +158,8 @@ class StandardLearnVC: UIViewController, PKCanvasViewDelegate, UITextFieldDelega
         DrawingView.frame = CGRect(x: 50, y: topHeight - keyboard + 20, width: view.frame.width - 100, height: 250)
         DrawingView.backgroundColor = Colors.secondaryBackground
         DrawingView.delegate = self
-        DrawingView.tintColor = Colors.text
+        DrawingView.tool = Colors.pen
+        DrawingView.overrideUserInterfaceStyle = .light
         //DrawingView.drawing = currentDrawing
         //DrawingView.drawingPolicy = .pencilOnly
         DrawingView.backgroundColor = Colors.secondaryBackground
@@ -167,12 +172,15 @@ class StandardLearnVC: UIViewController, PKCanvasViewDelegate, UITextFieldDelega
         enterButton.layer.cornerRadius = 10
         enterButton.addTarget(self, action: #selector(enter(sender:)), for: .touchUpInside)
         view.addSubview(enterButton)
+        
         EndScreen.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
         view.addSubview(EndScreen)
         EndLabel.frame = CGRect(x: 100, y: 100, width: view.frame.width - 200, height: view.frame.height - 275)
         EndLabel.text = ""
         EndLabel.font = UIFont(name: "CabinetGroteskVariable-Bold_Regular", size: 40)
         EndLabel.textColor = Colors.text
+        EndLabel.textAlignment = .center
+        EndLabel.numberOfLines = 0
         EndScreen.addSubview(EndLabel)
         let EndButton = UIButton()
         EndButton.frame = CGRect(x: (view.frame.width / 2) - 125, y: view.frame.height - 175, width: 250, height: 75)
@@ -184,16 +192,46 @@ class StandardLearnVC: UIViewController, PKCanvasViewDelegate, UITextFieldDelega
         EndButton.addTarget(self, action: #selector(nextRound(sender:)), for: .touchUpInside)
         EndScreen.addSubview(EndButton)
         EndScreen.isHidden = true
+        
+        incorrectButton.frame = CGRect(x: (view.frame.width / 2) - 60, y: topHeight - keyboard + 20 - 70, width: 50, height: 50)
+        incorrectButton.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
+        incorrectButton.tintColor = Colors.red
+        incorrectButton.contentVerticalAlignment = .fill
+        incorrectButton.contentHorizontalAlignment = .fill
+        incorrectButton.imageView?.contentMode = .scaleAspectFit
+        incorrectButton.contentEdgeInsets = .zero
+        incorrectButton.addTarget(self, action: #selector(incorrectDrawing(sender:)), for: .touchUpInside)
+
+        correctButton.frame = CGRect(x: (view.frame.width / 2) + 10, y: topHeight - keyboard + 20 - 70, width: 50, height: 50)
+        correctButton.setImage(UIImage(systemName: "checkmark.circle.fill"), for: .normal)
+        correctButton.tintColor = Colors.green
+        correctButton.contentVerticalAlignment = .fill
+        correctButton.contentHorizontalAlignment = .fill
+        correctButton.imageView?.contentMode = .scaleAspectFit
+        correctButton.contentEdgeInsets = .zero
+        correctButton.addTarget(self, action: #selector(correctDrawing(sender:)), for: .touchUpInside)
+
+        view.addSubview(incorrectButton)
+        view.addSubview(correctButton)
+
+        incorrectButton.alpha = 0
+        correctButton.alpha = 0
+        incorrectButton.isHidden = true
+        correctButton.isHidden = true
+        view.bringSubviewToFront(incorrectButton)
+        view.bringSubviewToFront(correctButton)
+
     }
     
     func correctAnim(_ i: Int){
-        DrawingView.backgroundColor = Colors.highlight
-        TextField.backgroundColor = Colors.highlight
+        DrawingView.backgroundColor = Colors.green
+        TextField.backgroundColor = Colors.green
         UIView.animate(withDuration: 0.5, animations: {
             self.DrawingView.backgroundColor = Colors.secondaryBackground
             self.TextField.backgroundColor = Colors.secondaryBackground
         })
         known[i] += 1
+        save()
     }
     
     func incorrectAnim(_ i: Int){
@@ -204,12 +242,45 @@ class StandardLearnVC: UIViewController, PKCanvasViewDelegate, UITextFieldDelega
             self.TextField.backgroundColor = Colors.secondaryBackground
         })
         known[i] = 0
+        save()
+    }
+    @objc func incorrectDrawing(sender: UIButton) {
+        DrawingView.drawing = recolor(PKDrawing())
+        UIView.animate(withDuration: 0.3, animations: {
+            self.incorrectButton.alpha = 0
+            self.correctButton.alpha = 0
+            self.enterButton.alpha = 1
+        })
+        enterButton.isEnabled = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3){
+            self.incorrectButton.isHidden = true
+            self.correctButton.isHidden = true
+        }
+        incorrectAnim(cardOrder[index])
+        index+=1
+        nextTerm()
+    }
+    @objc func correctDrawing(sender: UIButton) {
+        DrawingView.drawing = recolor(PKDrawing())
+        UIView.animate(withDuration: 0.3, animations: {
+            self.incorrectButton.alpha = 0
+            self.correctButton.alpha = 0
+            self.enterButton.alpha = 1
+        })
+        enterButton.isEnabled = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3){
+            self.incorrectButton.isHidden = true
+            self.correctButton.isHidden = true
+        }
+        correctAnim(cardOrder[index])
+        index+=1
+        nextTerm()
     }
     @objc func nextRound(sender: UIButton) {
         cardOrder.removeAll()
         for (i, j) in known.enumerated() {
-            if(i != 2){
-                cardOrder.append(j)
+            if(j != 2){
+                cardOrder.append(i)
             }
         }
         if(cardOrder.count == 0){
@@ -224,7 +295,10 @@ class StandardLearnVC: UIViewController, PKCanvasViewDelegate, UITextFieldDelega
             cardOrder.shuffle()
         }
         EndScreen.isHidden = true
+        enterButton.isHidden = false
+        index = 0
         nextTerm()
+        cardCounter.text = "1/" + String(cardOrder.count)
     }
     @objc func enter(sender: UIButton) {
         if(currentInput == "t"){
@@ -248,15 +322,29 @@ class StandardLearnVC: UIViewController, PKCanvasViewDelegate, UITextFieldDelega
             index+=1
             nextTerm()
         }else if(currentInput == "d"){
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3){
-                self.CardLabel.text = self.cards[self.cardOrder[self.index]][3] as? String
-                UIView.animate(withDuration: 0.3, animations: {
-                    self.CardLabel.layer.opacity = 1
-                })
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3){
+//                self.CardLabel.text = self.cards[self.cardOrder[self.index]][3] as? String
+//                UIView.animate(withDuration: 0.3, animations: {
+//                    self.CardLabel.layer.opacity = 1
+//                })
+//            }
+            CardDrawing.isHidden = false
+            CardLabel.isHidden = true
+            CardImage.isHidden = true
+            do {
+                CardDrawing.drawing = try recolor(PKDrawing(data: cards[cardOrder[index]][3] as! Data))
+            }catch{
+                
             }
+            incorrectButton.isHidden = false
+            correctButton.isHidden = false
+            
             UIView.animate(withDuration: 0.3, animations: {
-                self.CardLabel.layer.opacity = 0
+                self.incorrectButton.alpha = 1
+                self.correctButton.alpha = 1
+                self.enterButton.alpha = 0.5
             })
+            enterButton.isEnabled = false
         }else if(currentInput == "d-r"){
             if(processing){
                 waitingOnResult = true
@@ -280,7 +368,7 @@ class StandardLearnVC: UIViewController, PKCanvasViewDelegate, UITextFieldDelega
                 }
                 index+=1
                 nextTerm()
-                DrawingView.drawing = PKDrawing()
+                DrawingView.drawing = recolor(PKDrawing())
             }
         }//else if(currentInput == "s"){
 //            DispatchQueue.main.asyncAfter(deadline: .now() + (cardAnimation/2)){
@@ -311,7 +399,9 @@ class StandardLearnVC: UIViewController, PKCanvasViewDelegate, UITextFieldDelega
         TextField.isHidden = true
         DrawingView.isHidden = true
         if(index == cardOrder.count){
+            TextField.resignFirstResponder()
             EndScreen.isHidden = false
+            enterButton.isHidden = true
             var Unknown = 0
             var Known = 0
             var Mastered = 0
@@ -334,7 +424,7 @@ class StandardLearnVC: UIViewController, PKCanvasViewDelegate, UITextFieldDelega
             }else if(cards[cardOrder[index]][0] as! String == "d"){
                 CardDrawing.isHidden = false
                 do {
-                    CardDrawing.drawing = try PKDrawing(data: cards[cardOrder[index]][1] as! Data)
+                    CardDrawing.drawing = try recolor(PKDrawing(data: cards[cardOrder[index]][1] as! Data))
                 }catch{
                     
                 }
@@ -378,11 +468,13 @@ class StandardLearnVC: UIViewController, PKCanvasViewDelegate, UITextFieldDelega
             self.DrawingView.frame = CGRect(x: 50, y: self.topHeight-self.keyboard + 20, width: self.view.frame.width - 100, height: 250)
             self.enterButton.frame = CGRect(x: self.view.frame.width - 90, y: self.topHeight-self.keyboard + 30, width: 30, height: 30)
             self.CardDrawing.center = CGPoint(x: self.view.frame.width/2, y: (self.topHeight-self.keyboard)/2)
+            self.incorrectButton.frame = CGRect(x: (self.view.frame.width/2) - 60, y: self.topHeight - self.keyboard + 20 - 70, width: 50, height: 50)
+            self.correctButton.frame = CGRect(x: (self.view.frame.width/2) + 10, y: self.topHeight - self.keyboard + 20 - 70, width: 50, height: 50)
         })
     }
     
     func canvasViewDrawingDidChange(_ canvasView: PKCanvasView) {
-        if(canvasView != DrawingView){
+        if(canvasView != DrawingView || currentInput != "d-r"){
             return
         }
         
@@ -438,7 +530,7 @@ class StandardLearnVC: UIViewController, PKCanvasViewDelegate, UITextFieldDelega
                         }
                         index+=1
                         nextTerm()
-                        DrawingView.drawing = PKDrawing()
+                        DrawingView.drawing = recolor(PKDrawing())
                     }
                 }
             }

@@ -148,6 +148,12 @@ class NewSetVC: UIViewController, UIDocumentPickerDelegate {
 //                        images.append(image)
 //                        defaults.setValue(images, forKey: "images")
 //                    }
+                    if let version = decodedCards["version"] as? Int{
+                        if(version == 0){
+                            
+                        }
+                    }
+                        
                     var images = defaults.array(forKey: "images") as? [Data?] ?? []
                     images.append(Colors.placeholderI)
                     defaults.setValue(images, forKey: "images")
@@ -155,6 +161,7 @@ class NewSetVC: UIViewController, UIDocumentPickerDelegate {
                     var sets = defaults.array(forKey: "sets") as? [[String: Any]] ?? []
                     sets.append(decodedCards)
                     defaults.setValue(sets, forKey: "sets")
+                    
                     
                     delegate?.newImport()
                     dismiss(animated: true, completion: nil)
