@@ -123,7 +123,7 @@ class WebStudyVC: UIViewController, UITextFieldDelegate {
             let nextButton = UIButton()
             roundOverlay.addSubview(nextButton)
             nextButton.frame = CGRect(x: 20, y: roundOverlay.frame.height - 100, width: roundOverlay.frame.width - 40, height: 80)
-            nextButton.backgroundColor = Colors.darkHighlight
+            nextButton.backgroundColor = Colors.highlight
             nextButton.setTitle("Next round", for: .normal)
             nextButton.titleLabel!.font = UIFont(name: "LilGrotesk-Regular", size: 30)
             nextButton.titleLabel!.textColor = Colors.text
@@ -381,26 +381,36 @@ class WebStudyVC: UIViewController, UITextFieldDelegate {
         performSegue(withIdentifier: "webStudyVC_unwind", sender: nil)
     }
     
-    @objc func skip(sender: UIButton){
-        inputField.text = ""
+    @objc func skip(sender: UIButton) {
+        guard knownAnswers.count < answerList.arrangedSubviews.count else { return }
+
+        let currentLabel = answerList.arrangedSubviews[knownAnswers.count] as! UILabel
+
         perfectCounter[round[index]] = false
-        if(index != round.count - 1){
-            index+=1
-            termCounter.text = String(index + 1) + "/" + String(round.count)
-            nextTerm()
-        }else{
-            roundOverlay.isHidden = false
-            inputField.resignFirstResponder()
-            view.subviews[0].gestureRecognizers![0].isEnabled = false
-            var t = 0
-            for i in perfectCounter {
-                if i == true {
-                    t+=1
-                }
+        var nextAnswer = ""
+
+        for a in 0..<answer.count {
+            if knownAnswers.firstIndex(of: a) == nil {
+                nextAnswer = originalAnswers[a]
+                break
             }
-            endLabel.text = String(t) + " / " + String(round.count) + " terms perfect"
         }
+        
+        print(nextAnswer)
+        currentLabel.text = nextAnswer
+
+        UIView.transition(with: currentLabel, duration: 1, options: .transitionCrossDissolve, animations: {
+            currentLabel.textColor = Colors.text
+        }, completion: {_ in 
+            UIView.transition(with: currentLabel, duration: 1, options: .transitionCrossDissolve, animations: {
+                currentLabel.textColor = .clear
+            }, completion: {_ in
+                currentLabel.textColor = Colors.text
+                currentLabel.text = ""
+            })
+        })
     }
+
     
     @objc func nextRound(sender: UIButton){
         roundOverlay.isHidden = true
@@ -452,6 +462,10 @@ class WebStudyVC: UIViewController, UITextFieldDelegate {
                     endLabel.text = String(t) + " / " + String(round.count) + " terms perfect"
                 }
             }
+            view.backgroundColor = Colors.green
+            UIView.animate(withDuration: 0.5, animations: {
+                self.view.backgroundColor = Colors.background
+            })
         }else{
             perfectCounter[round[index]] = false
         }
