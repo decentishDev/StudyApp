@@ -11,8 +11,8 @@
 		8D074AEB2BC4BC84000E6D9A /* FlashcardsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D074AEA2BC4BC84000E6D9A /* FlashcardsVC.swift */; };
 		8D0B58C82C0F678A00AA08F2 /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D0B58C72C0F678A00AA08F2 /* SettingsVC.swift */; };
 		8D0EC1442BEDB0CD00717BA4 /* StandardEditorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D0EC1432BEDB0CD00717BA4 /* StandardEditorVC.swift */; };
+		8D31BD4B2C194ED900676C85 /* LilGrotesk[wght].ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8D31BD4A2C194ED800676C85 /* LilGrotesk[wght].ttf */; };
 		8D32254E2BFA4D2E00E7F216 /* DrawingEditorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D32254D2BFA4D2E00E7F216 /* DrawingEditorVC.swift */; };
-		8D395AEA2BCF2D7E00346BB0 /* CabinetGrotesk-Variable.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8D395AE92BCF2D7E00346BB0 /* CabinetGrotesk-Variable.ttf */; };
 		8D3EE64A2BEEEA4400ADBD49 /* layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3EE6492BEEEA4400ADBD49 /* layout.swift */; };
 		8D4CDF7D2BB1DCD300474FCC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D4CDF7C2BB1DCD300474FCC /* AppDelegate.swift */; };
 		8D4CDF7F2BB1DCD300474FCC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D4CDF7E2BB1DCD300474FCC /* SceneDelegate.swift */; };
@@ -36,8 +36,8 @@
 		8D074AEA2BC4BC84000E6D9A /* FlashcardsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlashcardsVC.swift; sourceTree = "<group>"; };
 		8D0B58C72C0F678A00AA08F2 /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
 		8D0EC1432BEDB0CD00717BA4 /* StandardEditorVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardEditorVC.swift; sourceTree = "<group>"; };
+		8D31BD4A2C194ED800676C85 /* LilGrotesk[wght].ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "LilGrotesk[wght].ttf"; path = "../../../Downloads/LilGrotesk[wght].ttf"; sourceTree = "<group>"; };
 		8D32254D2BFA4D2E00E7F216 /* DrawingEditorVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingEditorVC.swift; sourceTree = "<group>"; };
-		8D395AE92BCF2D7E00346BB0 /* CabinetGrotesk-Variable.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "CabinetGrotesk-Variable.ttf"; path = "../../../Downloads/CabinetGrotesk_Complete/Fonts/Variable/CabinetGrotesk-Variable.ttf"; sourceTree = "<group>"; };
 		8D3EE6492BEEEA4400ADBD49 /* layout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = layout.swift; sourceTree = "<group>"; };
 		8D4CDF792BB1DCD300474FCC /* StudyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StudyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D4CDF7C2BB1DCD300474FCC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -88,7 +88,7 @@
 		8D4CDF7B2BB1DCD300474FCC /* StudyApp */ = {
 			isa = PBXGroup;
 			children = (
-				8D395AE92BCF2D7E00346BB0 /* CabinetGrotesk-Variable.ttf */,
+				8D31BD4A2C194ED800676C85 /* LilGrotesk[wght].ttf */,
 				8D074AEA2BC4BC84000E6D9A /* FlashcardsVC.swift */,
 				8D4CDF7C2BB1DCD300474FCC /* AppDelegate.swift */,
 				8D4CDF7E2BB1DCD300474FCC /* SceneDelegate.swift */,
@@ -174,9 +174,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D4CDF892BB1DCD800474FCC /* LaunchScreen.storyboard in Resources */,
+				8D31BD4B2C194ED900676C85 /* LilGrotesk[wght].ttf in Resources */,
 				8D4CDF862BB1DCD800474FCC /* Assets.xcassets in Resources */,
 				8D4CDF842BB1DCD300474FCC /* Main.storyboard in Resources */,
-				8D395AEA2BCF2D7E00346BB0 /* CabinetGrotesk-Variable.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

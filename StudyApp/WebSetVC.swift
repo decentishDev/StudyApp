@@ -98,7 +98,7 @@ class WebSetVC: UIViewController {
             
             let backButton = UIButton()
             backButton.setTitle("< Back", for: .normal)
-            backButton.titleLabel!.font = UIFont(name: "CabinetGroteskVariable-Bold_Bold", size: 20)
+            backButton.titleLabel!.font = UIFont(name: "LilGrotesk-Bold", size: 20)
             backButton.addTarget(self, action: #selector(self.backButton(sender:)), for: .touchUpInside)
             backButton.setTitleColor(Colors.highlight, for: .normal)
             stackView.addArrangedSubview(backButton)
@@ -110,14 +110,14 @@ class WebSetVC: UIViewController {
             
             let titleLabel = UILabel()
             titleLabel.text = name
-            titleLabel.font = UIFont(name: "CabinetGroteskVariable-Bold_Extrabold", size: 50)
+            titleLabel.font = UIFont(name: "LilGrotesk-Black", size: 50)
             titleLabel.textColor = Colors.text
             titleLabel.sizeToFit()
             stackView.addArrangedSubview(titleLabel)
             
             let dateLabel = UILabel()
             dateLabel.text = date
-            dateLabel.font = UIFont(name: "CabinetGroteskVariable-Bold_Light", size: 20)
+            dateLabel.font = UIFont(name: "LilGrotesk-Light", size: 20)
             dateLabel.textColor = Colors.text
             dateLabel.sizeToFit()
             stackView.addArrangedSubview(dateLabel)
@@ -147,7 +147,7 @@ class WebSetVC: UIViewController {
             shareText.leadingAnchor.constraint(equalTo: shareIcon.trailingAnchor, constant: 10).isActive = true
             shareText.trailingAnchor.constraint(equalTo: shareButton.trailingAnchor).isActive = true
             shareText.text = "Download"
-            shareText.font = UIFont(name: "CabinetGroteskVariable-Bold_Regular", size: 20)
+            shareText.font = UIFont(name: "LilGrotesk-Regular", size: 20)
             shareText.textColor = Colors.highlight
             
             let breakView1 = UIView()
@@ -172,12 +172,12 @@ class WebSetVC: UIViewController {
     func createButton(withTitle title: String) -> UIButton {
         let button = UIButton()
         button.setTitle(title, for: .normal)
-        button.titleLabel!.font = UIFont(name: "CabinetGroteskVariable-Bold_Bold", size: 30)
+        button.titleLabel!.font = UIFont(name: "LilGrotesk-Bold", size: 30)
         button.setTitleColor(Colors.text, for: .normal)
         button.layer.cornerRadius = 10
         button.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
         button.heightAnchor.constraint(equalToConstant: 70).isActive = true
-        conW(button, (title as NSString).size(withAttributes: [NSAttributedString.Key.font: UIFont(name: "CabinetGroteskVariable-Bold_Bold", size: 30)!]).width + 40)
+        conW(button, (title as NSString).size(withAttributes: [NSAttributedString.Key.font: UIFont(name: "LilGrotesk-Bold", size: 30)!]).width + 40)
         button.layer.masksToBounds = true
 
         if(image == Colors.placeholderI){

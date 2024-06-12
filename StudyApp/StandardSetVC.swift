@@ -103,7 +103,7 @@ class StandardSetVC: UIViewController {
             
             let backButton = UIButton()
             backButton.setTitle("< Back", for: .normal)
-            backButton.titleLabel!.font = UIFont(name: "CabinetGroteskVariable-Bold_Bold", size: 20)
+            backButton.titleLabel!.font = UIFont(name: "LilGrotesk-Bold", size: 20)
             backButton.addTarget(self, action: #selector(self.backButton(sender:)), for: .touchUpInside)
             backButton.setTitleColor(Colors.highlight, for: .normal)
             stackView.addArrangedSubview(backButton)
@@ -115,14 +115,14 @@ class StandardSetVC: UIViewController {
             
             let titleLabel = UILabel()
             titleLabel.text = name
-            titleLabel.font = UIFont(name: "CabinetGroteskVariable-Bold_Extrabold", size: 50)
+            titleLabel.font = UIFont(name: "LilGrotesk-Black", size: 50)
             titleLabel.sizeToFit()
             titleLabel.textColor = Colors.text
             stackView.addArrangedSubview(titleLabel)
             
             let dateLabel = UILabel()
             dateLabel.text = date
-            dateLabel.font = UIFont(name: "CabinetGroteskVariable-Bold_Light", size: 20)
+            dateLabel.font = UIFont(name: "LilGrotesk-Light", size: 20)
             dateLabel.sizeToFit()
             dateLabel.textColor = Colors.text
             stackView.addArrangedSubview(dateLabel)
@@ -152,7 +152,7 @@ class StandardSetVC: UIViewController {
             shareText.leadingAnchor.constraint(equalTo: shareIcon.trailingAnchor, constant: 10).isActive = true
             shareText.trailingAnchor.constraint(equalTo: shareButton.trailingAnchor).isActive = true
             shareText.text = "Download"
-            shareText.font = UIFont(name: "CabinetGroteskVariable-Bold_Bold", size: 20)
+            shareText.font = UIFont(name: "LilGrotesk-Bold", size: 20)
             shareText.textColor = Colors.highlight
             
             let breakView1 = UIView()
@@ -182,7 +182,7 @@ class StandardSetVC: UIViewController {
             
             let termsLabel = UILabel()
             termsLabel.text = "Terms"
-            termsLabel.font = UIFont(name: "CabinetGroteskVariable-Bold_Bold", size: 30)
+            termsLabel.font = UIFont(name: "LilGrotesk-Bold", size: 30)
             termsLabel.sizeToFit()
             termsLabel.textColor = Colors.text
             stackView.addArrangedSubview(termsLabel)
@@ -210,29 +210,29 @@ class StandardSetVC: UIViewController {
                 if(card[0] as! String == "t"){
                     let termView = UILabel(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
                     termView.text = term
-                    termView.font = UIFont(name: "CabinetGroteskVariable-Bold_Regular", size: 20)
+                    termView.font = UIFont(name: "LilGrotesk-Regular", size: 20)
                     termView.translatesAutoresizingMaskIntoConstraints = false
                     termView.backgroundColor = .clear
                     termView.numberOfLines = 0
                     termView.textColor = Colors.text
-                    termView.widthAnchor.constraint(equalToConstant: (view.frame.width - 141)/2).isActive = true
+                    termView.widthAnchor.constraint(equalToConstant: (view.frame.width - 156)/2).isActive = true
                     termDefinitionStackView.addArrangedSubview(termView)
                     //termView.backgroundColor = .green
                 }else if(card[0] as! String == "i"){
                     let termImage = UIButton(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
                     termImage.translatesAutoresizingMaskIntoConstraints = false
                     //termImage.setImage(UIImage(named: "color1.png"), for: .normal)
-                    termImage.widthAnchor.constraint(equalToConstant: (view.frame.width - 141)/2).isActive = true
-                    termImage.heightAnchor.constraint(equalToConstant: (view.frame.width - 141)/3).isActive = true
+                    termImage.widthAnchor.constraint(equalToConstant: (view.frame.width - 156)/2).isActive = true
+                    termImage.heightAnchor.constraint(equalToConstant: (view.frame.width - 156)/3).isActive = true
                     termImage.imageView?.contentMode = .scaleAspectFit
                     termImage.setImage(UIImage(data: card[1] as! Data), for: .normal)
                     termDefinitionStackView.addArrangedSubview(termImage)
                     //termImage.backgroundColor = .blue
                 }else{
-                    let drawingsuperview = UIView(frame: CGRect(x: 0, y: 0, width: (view.frame.width - 141)/2, height: (view.frame.width - 141)/3))
-                    drawingsuperview.widthAnchor.constraint(equalToConstant: (view.frame.width - 141)/2).isActive = true
-                    drawingsuperview.heightAnchor.constraint(equalToConstant: (view.frame.width - 141)/3).isActive = true
-                    let termDrawing = PKCanvasView(frame: CGRect(x: 0, y: 0, width: view.frame.width - 141, height: 2*(view.frame.width - 141)/3))
+                    let drawingsuperview = UIView(frame: CGRect(x: 0, y: 0, width: (view.frame.width - 156)/2, height: (view.frame.width - 156)/3))
+                    drawingsuperview.widthAnchor.constraint(equalToConstant: (view.frame.width - 156)/2).isActive = true
+                    drawingsuperview.heightAnchor.constraint(equalToConstant: (view.frame.width - 156)/3).isActive = true
+                    let termDrawing = PKCanvasView(frame: CGRect(x: 0, y: 0, width: view.frame.width - 156, height: 2*(view.frame.width - 156)/3))
                     termDrawing.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
                     drawingsuperview.addSubview(termDrawing)
                     termDrawing.anchorPoint = drawingsuperview.anchorPoint
@@ -266,17 +266,17 @@ class StandardSetVC: UIViewController {
                     definitionView.numberOfLines = 0
                     definitionView.text = definition
                     definitionView.textColor = Colors.text
-                    definitionView.font = UIFont(name: "CabinetGroteskVariable-Bold_Regular", size: 20)
+                    definitionView.font = UIFont(name: "LilGrotesk-Regular", size: 20)
                     definitionView.translatesAutoresizingMaskIntoConstraints = false
                     definitionView.backgroundColor = .clear
                     termDefinitionStackView.addArrangedSubview(definitionView)
                     //definitionView.backgroundColor = .blue
                 }else if card[2] as! String == "d"{
-                    let drawingsuperview = UIView(frame: CGRect(x: 0, y: 0, width: 1, height: (view.frame.width - 141)/3))
+                    let drawingsuperview = UIView(frame: CGRect(x: 0, y: 0, width: 1, height: (view.frame.width - 156)/3))
                     drawingsuperview.translatesAutoresizingMaskIntoConstraints = false
-                    drawingsuperview.widthAnchor.constraint(equalToConstant: (view.frame.width - 141)/2).isActive = true
-                    drawingsuperview.heightAnchor.constraint(equalToConstant: (view.frame.width - 141)/3).isActive = true
-                    let definitionDrawing = PKCanvasView(frame: CGRect(x: 0, y: 0, width: view.frame.width - 141, height: 2*(view.frame.width - 141)/3))
+                    drawingsuperview.widthAnchor.constraint(equalToConstant: (view.frame.width - 156)/2).isActive = true
+                    drawingsuperview.heightAnchor.constraint(equalToConstant: (view.frame.width - 156)/3).isActive = true
+                    let definitionDrawing = PKCanvasView(frame: CGRect(x: 0, y: 0, width: view.frame.width - 156, height: 2*(view.frame.width - 156)/3))
                     definitionDrawing.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
                     definitionDrawing.layer.cornerRadius = 10
                     definitionDrawing.isUserInteractionEnabled = false
@@ -331,13 +331,13 @@ class StandardSetVC: UIViewController {
     func createButton(withTitle title: String) -> UIButton {
         let button = UIButton()
         button.setTitle(title, for: .normal)
-        button.titleLabel!.font = UIFont(name: "CabinetGroteskVariable-Bold_Bold", size: 30)
+        button.titleLabel!.font = UIFont(name: "LilGrotesk-Bold", size: 30)
         button.layer.cornerRadius = 10
         button.setTitleColor(Colors.text, for: .normal)
         button.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.heightAnchor.constraint(equalToConstant: 70).isActive = true
-        conW(button, (title as NSString).size(withAttributes: [NSAttributedString.Key.font: UIFont(name: "CabinetGroteskVariable-Bold_Bold", size: 30)!]).width + 40)
+        conW(button, (title as NSString).size(withAttributes: [NSAttributedString.Key.font: UIFont(name: "LilGrotesk-Bold", size: 30)!]).width + 40)
         button.layer.masksToBounds = true
 
         if(image == Colors.placeholderI){

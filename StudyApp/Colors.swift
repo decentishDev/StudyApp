@@ -27,7 +27,7 @@ struct Colors {
          UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1.0),
          UIColor(red: 0.87, green: 0.87, blue: 0.87, alpha: 1.0),
          UIColor(red: 0.55, green: 0.55, blue: 0.55, alpha: 1.0),
-         UIColor(red: 0.0, green: 0.5, blue: 0.0, alpha: 1.0),
+         UIColor(red: 0.318, green: 0.596, blue: 0.447, alpha: 1.0),
          UIColor(red: 0.0, green: 0.75, blue: 0.5, alpha: 1.0),
          UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0)],
         ["Blues and Orange",

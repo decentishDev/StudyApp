@@ -64,7 +64,7 @@ class SettingsVC: UIViewController {
         // Add other subviews
         let backButton = UIButton()
         backButton.setTitle("< Back", for: .normal)
-        backButton.titleLabel!.font = UIFont(name: "CabinetGroteskVariable-Bold_Bold", size: 20)
+        backButton.titleLabel!.font = UIFont(name: "LilGrotesk-Bold", size: 20)
         backButton.addTarget(self, action: #selector(self.backButton(sender:)), for: .touchUpInside)
         backButton.setTitleColor(Colors.highlight, for: .normal)
         stackView.addArrangedSubview(backButton)
@@ -76,7 +76,7 @@ class SettingsVC: UIViewController {
         
         let titleLabel = UILabel()
         titleLabel.text = "Settings"
-        titleLabel.font = UIFont(name: "CabinetGroteskVariable-Bold_Extrabold", size: 50)
+        titleLabel.font = UIFont(name: "LilGrotesk-Black", size: 50)
         titleLabel.sizeToFit()
         titleLabel.textColor = Colors.text
         stackView.addArrangedSubview(titleLabel)
@@ -88,7 +88,7 @@ class SettingsVC: UIViewController {
         
         let colorLabel = UILabel()
         colorLabel.text = "Color theme"
-        colorLabel.font = UIFont(name: "CabinetGroteskVariable-Bold_Regular", size: 30)
+        colorLabel.font = UIFont(name: "LilGrotesk-Regular", size: 30)
         colorLabel.sizeToFit()
         colorLabel.textColor = Colors.text
         stackView.addArrangedSubview(colorLabel)
@@ -123,7 +123,7 @@ class SettingsVC: UIViewController {
             button.backgroundColor = color[2] as? UIColor
             button.setTitle(color[0] as? String, for: .normal)
             button.setTitleColor(color[5] as? UIColor, for: .normal)
-            button.titleLabel!.font = UIFont(name: "CabinetGroteskVariable-Bold_Regular", size: 20)
+            button.titleLabel!.font = UIFont(name: "LilGrotesk-Regular", size: 20)
             button.layer.cornerRadius = 10
             colorStack.addArrangedSubview(button)
             button.accessibilityIdentifier = String(i)

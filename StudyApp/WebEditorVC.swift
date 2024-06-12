@@ -49,7 +49,7 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
         
         loadingView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
         loadingView.text = "Loading web . . ."
-        loadingView.font = UIFont(name: "CabinetGroteskVariable-Bold_Bold", size: 25)
+        loadingView.font = UIFont(name: "LilGrotesk-Bold", size: 25)
         loadingView.backgroundColor = Colors.background
         
         let backButton = UIButton()
@@ -67,7 +67,7 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
         titleField.text = name
         titleField.placeholder = "Set name"
         titleField.frame = CGRect(x: 90, y: 30, width: 350, height: 50)
-        titleField.font = UIFont(name: "CabinetGroteskVariable-Bold_Bold", size: 25)
+        titleField.font = UIFont(name: "LilGrotesk-Bold", size: 25)
         titleField.textColor = Colors.highlight
         titleField.backgroundColor = Colors.secondaryBackground
         titleField.layer.cornerRadius = 10
@@ -80,7 +80,7 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
         let addButton = UIButton()
         addButton.setTitle("+ Add term", for: .normal)
         addButton.setTitleColor(Colors.highlight, for: .normal)
-        addButton.titleLabel?.font = UIFont(name: "CabinetGroteskVariable-Bold_Bold", size: 25)
+        addButton.titleLabel?.font = UIFont(name: "LilGrotesk-Bold", size: 25)
         addButton.addTarget(self, action: #selector(addButtonTapped(_:)), for: .touchUpInside)
         addButton.frame = CGRect(x: view.frame.width - 420, y: 30, width: 150, height: 50)
         addButton.backgroundColor = Colors.secondaryBackground
@@ -91,7 +91,7 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
         let themesButton = UIButton()
         themesButton.setTitle("Themes", for: .normal)
         themesButton.setTitleColor(Colors.highlight, for: .normal)
-        themesButton.titleLabel?.font = UIFont(name: "CabinetGroteskVariable-Bold_Bold", size: 25)
+        themesButton.titleLabel?.font = UIFont(name: "LilGrotesk-Bold", size: 25)
         themesButton.addTarget(self, action: #selector(themeButtonTapped(_:)), for: .touchUpInside)
         themesButton.frame = CGRect(x: view.frame.width - 260, y: 30, width: 110, height: 50)
         themesButton.backgroundColor = Colors.secondaryBackground
@@ -145,7 +145,6 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
             let topConnections = UIStackView()
             let bottomConnections = UIStackView()
             topConnections.axis = .horizontal
-            //topConnections.backgroundColor = .purple
             topConnections.alignment = .fill
             topConnections.distribution = .fillProportionally
             topConnections.translatesAutoresizingMaskIntoConstraints = false
@@ -153,7 +152,6 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
             topConnections.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
             topConnections.autoresizesSubviews = false
             bottomConnections.axis = .horizontal
-            //bottomConnections.backgroundColor = .orange
             bottomConnections.alignment = .fill
             bottomConnections.distribution = .fillProportionally
             bottomConnections.translatesAutoresizingMaskIntoConstraints = false
@@ -173,7 +171,7 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
             let termLabel = UILabel(frame: CGRect(x: 5, y: 0, width: 170, height: 120))
             termLabel.text = term[0] as? String
             termLabel.textColor = Colors.text
-            termLabel.font = UIFont(name: "CabinetGroteskVariable-Bold_Normal", size: 15)
+            termLabel.font = UIFont(name: "LilGrotesk-Normal", size: 15)
             termLabel.textAlignment = .center
             termLabel.numberOfLines = 0
             visible.addSubview(termLabel)
@@ -186,39 +184,33 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
             
             scrollView.addSubview(rectangle)
             rectangles.append(rectangle)
-//            web.append([term[0], term[1], newX, newY, []])
-//            web[web.count - 1][2] = newX
-//            web[web.count - 1][3] = newY
         }
         for (i, rect) in rectangles.enumerated(){
             for connection in (web[i][4] as! [Int]){
                 let connectButton = UIButton()
                 connectButton.addTarget(self, action: #selector(editConnection(_:)), for: .touchUpInside)
-                connectButton.setImage(UIImage(systemName: "plus.circle.fill"), for: .normal)
-                connectButton.tintColor = .clear
-                //connectButton.setImage(nil, for: .normal)
+                connectButton.setImage(UIImage(systemName: "record.circle"), for: .normal)
+                connectButton.tintColor = Colors.text
                 connectButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
                 connectButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
                 connectButton.translatesAutoresizingMaskIntoConstraints = false
                 (rect.subviews[2] as! UIStackView).addArrangedSubview(connectButton)
-                //connectButton.backgroundColor = .blue
 
                 let otherButton = UIButton()
                 otherButton.addTarget(self, action: #selector(editConnection(_:)), for: .touchUpInside)
-                otherButton.setImage(UIImage(systemName: "plus.circle.fill"), for: .normal)
-                otherButton.tintColor = .clear
-                //otherButton.setImage(nil, for: .normal)
+                otherButton.setImage(UIImage(systemName: "record.circle"), for: .normal)
+                otherButton.tintColor = Colors.text
+
                 otherButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
                 otherButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
                 otherButton.translatesAutoresizingMaskIntoConstraints = false
                 otherButton.accessibilityIdentifier = String(i)
-                //otherButton.backgroundColor = .brown
+
                 (rectangles[connection].subviews[1] as! UIStackView).addArrangedSubview(otherButton)
 
 
                 let endPoint = otherButton.convert(otherButton.anchorPoint, to: connectButton)
-                // print(sender.center)
-                // print(endPoint)
+
                 let lineLayer = CAShapeLayer()
                 let linePath = UIBezierPath()
                 linePath.move(to: CGPoint(x: 15, y: 15))
@@ -232,13 +224,10 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
 
             let addConnection = UIButton()
             addConnection.setImage(UIImage(systemName: "plus.circle.fill"), for: .normal)
-            addConnection.imageView?.tintColor = Colors.highlight
+            addConnection.tintColor = Colors.highlight
             addConnection.imageView?.translatesAutoresizingMaskIntoConstraints = false
-            //addConnection.backgroundColor = .red
             addConnection.addTarget(self, action: #selector(newConnection(_:)), for: .touchUpInside)
             (rect.subviews[2] as! UIStackView).addArrangedSubview(addConnection)
-//            rectangle.addSubview(addConnection)
-//            addConnection.frame = CGRect(x: rectangle.frame.width / 2 - 15, y: rectangle.frame.height, width: 30, height: 30)
             addConnection.heightAnchor.constraint(equalToConstant: 30).isActive = true
             addConnection.translatesAutoresizingMaskIntoConstraints = false
             addConnection.widthAnchor.constraint(equalToConstant: 30).isActive = true
@@ -287,7 +276,6 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
     }
     
     @objc func themeButtonTapped(_ sender: UIButton) {
-        //print("themes")
         
     }
     
@@ -323,8 +311,25 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
     }
     
     func updateLines(){
+        for (i, term) in web.enumerated() {
+            var newOrder: [Int] = []
+            for j in (term[4] as! [Int]){
+                if newOrder.isEmpty {
+                    newOrder.append(j)
+                }else{
+                    for c in 0 ..< newOrder.count {
+                        if ((web[j][2] as! CGFloat) <= (web[newOrder[c]][2] as! CGFloat)){
+                            newOrder.insert(j, at: c)
+                            break
+                        }else if ((c + 1) == newOrder.count) {
+                            newOrder.append(j)
+                        }
+                    }
+                }
+            }
+            web[i][4] = newOrder
+        }
         for (rectI, movedView) in rectangles.enumerated(){
-//            let rectI = rectangles.firstIndex(of: movedView)
             let outgoing = web[rectI][4] as? [Int]
             if(outgoing!.count > 0){
                 for i in 0...outgoing!.count - 1 {
@@ -333,22 +338,19 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
                     
                     for button in (rectangles[outgoing![i]].subviews[1] as! UIStackView).arrangedSubviews{
                         otherButtonI += 1
-                        if(Int(button.accessibilityIdentifier!) == rectI){ //Unexpectedly found nil while unwrapping an optional value
+                        if(Int(button.accessibilityIdentifier!) == rectI){
                             break
                         }
                     }
                     
                     let otherButton = (rectangles[outgoing![i]].subviews[1] as! UIStackView).arrangedSubviews[otherButtonI]
-                    //print(otherButtonI)
+
                     let endPoint = otherButton.convert(otherButton.anchorPoint, to: thisButton)
-                    //print(thisButton.center)
+
                     let linePath = UIBezierPath()
                     linePath.move(to: CGPoint(x: 15, y: 15))
                     linePath.addLine(to: CGPoint(x: endPoint.x + 15, y: endPoint.y + 15))
-                    
-                    //print(thisButton.layer.sublayers!.count)
-                    //print(thisButton.layer.sublayers!)
-                    (thisButton.layer.sublayers![1] as! CAShapeLayer).path = linePath.cgPath //Could not cast value of type '_UILabelLayer' (0x1f494d310) to 'CAShapeLayer' (0x1f49a2870).
+                    (thisButton.layer.sublayers![1] as! CAShapeLayer).path = linePath.cgPath
                     
                 }
             }
@@ -356,8 +358,6 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
     }
     
     @objc func editCard(_ gestureRecognizer: UITapGestureRecognizer) {
-        //guard let rectangle = gestureRecognizer.view else { return }
-        //rectangle.backgroundColor = Colors.darkHighlight
         let popupVC = WebTermEditorVC()
         popupVC.delegate = self
         popupVC.modalPresentationStyle = .overCurrentContext
@@ -400,7 +400,6 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
             let topConnections = UIStackView()
             let bottomConnections = UIStackView()
             topConnections.axis = .horizontal
-            //topConnections.backgroundColor = .purple
             topConnections.alignment = .fill
             topConnections.distribution = .fillProportionally
             topConnections.translatesAutoresizingMaskIntoConstraints = false
@@ -408,7 +407,6 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
             topConnections.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
             topConnections.autoresizesSubviews = false
             bottomConnections.axis = .horizontal
-            //bottomConnections.backgroundColor = .orange
             bottomConnections.alignment = .fill
             bottomConnections.distribution = .fillProportionally
             bottomConnections.translatesAutoresizingMaskIntoConstraints = false
@@ -419,18 +417,13 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
             let addConnection = UIButton()
 
             addConnection.setImage(UIImage(systemName: "plus.circle.fill"), for: .normal)
-            addConnection.imageView?.tintColor = Colors.highlight
+            addConnection.tintColor = Colors.highlight
             addConnection.imageView?.translatesAutoresizingMaskIntoConstraints = false
-            //addConnection.backgroundColor = .red
             addConnection.addTarget(self, action: #selector(newConnection(_:)), for: .touchUpInside)
             bottomConnections.addArrangedSubview(addConnection)
-//            rectangle.addSubview(addConnection)
-//            addConnection.frame = CGRect(x: rectangle.frame.width / 2 - 15, y: rectangle.frame.height, width: 30, height: 30)
             addConnection.heightAnchor.constraint(equalToConstant: 30).isActive = true
             addConnection.translatesAutoresizingMaskIntoConstraints = false
             addConnection.widthAnchor.constraint(equalToConstant: 30).isActive = true
-//            addConnection.centerXAnchor.constraint(equalTo: rectangle.centerXAnchor).isActive = true
-//            addConnection.bottomAnchor.constraint(equalTo: rectangle.bottomAnchor).isActive = true
             rectangle.addSubview(topConnections)
             rectangle.addSubview(bottomConnections)
             NSLayoutConstraint.activate([
@@ -443,7 +436,7 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
             let termLabel = UILabel(frame: CGRect(x: 5, y: 0, width: 170, height: 120))
             termLabel.text = data[0] as? String
             termLabel.textColor = Colors.text
-            termLabel.font = UIFont(name: "CabinetGroteskVariable-Bold_Normal", size: 15)
+            termLabel.font = UIFont(name: "LilGrotesk-Normal", size: 15)
             termLabel.textAlignment = .center
             termLabel.numberOfLines = 0
             visible.addSubview(termLabel)
@@ -460,9 +453,6 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
             web[web.count - 1][2] = newX
             web[web.count - 1][3] = newY
             
-//            print(bottomConnections.frame)
-//            print(addConnection.frame)
-            
             save()
         }else{
             web[currentEdit] = [data[0], data[1], web[currentEdit][2], web[currentEdit][3], web[currentEdit][4]]
@@ -476,7 +466,6 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
     }
     
     @objc func newConnection(_ sender: UIButton){
-        //sender.backgroundColor = .red
         if(rectangles.count > 1){
             selectedButton = sender
             
@@ -487,13 +476,12 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
                     let addConnection = UIButton()
                     addConnection.setImage(UIImage(systemName: "plus.circle.fill"), for: .normal)
                     
-                    addConnection.imageView?.tintColor = Colors.highlight
+                    addConnection.tintColor = Colors.highlight
                     addConnection.imageView?.translatesAutoresizingMaskIntoConstraints = false
                     addConnection.imageView!.layoutIfNeeded()
                     addConnection.accessibilityIdentifier = String(index!)
-                    //addConnection.backgroundColor = .green
                     addConnection.addTarget(self, action: #selector(finishConnection(_:)), for: .touchUpInside)
-//                    addConnection.layoutIfNeeded()
+
                     (rectangle.subviews[1] as! UIStackView).addArrangedSubview(addConnection)
                     addConnection.translatesAutoresizingMaskIntoConstraints = false
                     addConnection.widthAnchor.constraint(equalToConstant: 30).isActive = true
@@ -503,27 +491,24 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
             }
             updateLines()
         }
-        //print(addedButtons)
-        //print(addedButtons.count)
+
     }
     
     @objc func finishConnection(_ sender: UIButton){
-        //print(sender)
-        //print(sender.frame)
+
         selectedButton?.setImage(nil, for: .normal)
         selectedButton?.isEnabled = true
-        sender.setImage(nil, for: .normal)
+        sender.setImage(UIImage(systemName: "record.circle"), for: .normal)
+        sender.tintColor = Colors.text
         sender.removeTarget(self, action: #selector(finishConnection(_:)), for: .touchUpInside)
         sender.addTarget(self, action: #selector(editConnection(_:)), for: .touchUpInside)
-//        guard let senderSuperview = sender.superview?.superview,
-//              let selectedSuperview = selectedButton?.superview?.superview else { return }
+
         
         let addConnection = UIButton()
         addConnection.setImage(UIImage(systemName: "plus.circle.fill"), for: .normal)
-        addConnection.imageView?.tintColor = Colors.highlight
+        addConnection.tintColor = Colors.highlight
         addConnection.imageView?.translatesAutoresizingMaskIntoConstraints = false
-//        addConnection.accessibilityIdentifier = String((selectedButton?.superview as! UIStackView).arrangedSubviews.count)
-        //addConnection.backgroundColor = .blue
+
         addConnection.addTarget(self, action: #selector(newConnection(_:)), for: .touchUpInside)
         (selectedButton?.superview as! UIStackView).addArrangedSubview(addConnection)
         
@@ -532,55 +517,81 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
         addConnection.heightAnchor.constraint(equalToConstant: 30).isActive = true
             
         let endPoint = sender.convert(sender.anchorPoint, to: selectedButton)
-        //print(sender.center)
-        //print(endPoint)
+
         let lineLayer = CAShapeLayer()
         let linePath = UIBezierPath()
         linePath.move(to: CGPoint(x: 15, y: 15))
         linePath.addLine(to: CGPoint(x: endPoint.x + 15, y: endPoint.y + 15))
         lineLayer.path = linePath.cgPath
         lineLayer.strokeColor = Colors.text.cgColor
-        lineLayer.lineWidth = 2.0 // Adjust line width as needed
+        lineLayer.lineWidth = 2.0
         
         selectedButton!.layer.addSublayer(lineLayer)
-        updateLines()
-//        print(lineLayer)
-//        print(selectedButton?.superview?.superview?.layer as Any)
-//        print(linePath)
+
         for _ in 0...addedButtons.count - 1 {
-            //print(addedButtons)
             if(addedButtons[0] != sender){
-                //                (rectangle.subviews[0] as! UIStackView).removeArrangedSubview(addedButtons[0])
                 addedButtons[0].removeFromSuperview()
             }
             addedButtons.remove(at: 0)
-            updateLines()
         }
         let rectI = rectangles.firstIndex(of: (selectedButton?.superview?.superview)!)! as Int
         let outI = rectangles.firstIndex(of: (sender.superview?.superview)!)! as Int
         if var webArray = web[rectI][4] as? [Int] {
             webArray.append(outI)
             web[rectI][4] = webArray
-            updateLines()
         }
         
         selectedButton?.removeTarget(self, action: #selector(newConnection(_:)), for: .touchUpInside)
         selectedButton?.addTarget(self, action: #selector(editConnection(_:)), for: .touchUpInside)
+        selectedButton?.setImage(UIImage(systemName: "record.circle"), for: .normal)
+        selectedButton?.tintColor = Colors.text
         
-        updateLines()
-        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1){
+            self.updateLines()
+        }
         save()
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        //print(textField.text!)
+
         name = textField.text!
         
         save()
     }
     
     @objc func editConnection(_ sender: UIButton){
-        
+        let thisIndex = rectangles.firstIndex(of: (sender.superview?.superview)!)
+        if let topIndex = sender.accessibilityIdentifier {
+            let topButtonStackI = (web[Int(topIndex)!][4] as! [Int]).firstIndex(of: thisIndex!)
+            let topButton = (rectangles[Int(topIndex)!].subviews[2] as! UIStackView).arrangedSubviews[topButtonStackI!]
+            topButton.removeFromSuperview()
+            var a = (web[Int(topIndex)!][4] as! [Int])
+            a.remove(at: topButtonStackI!)
+            var b = web[Int(topIndex)!]
+            b[4] = a
+            web[Int(topIndex)!] = b
+        }else{
+            let topButtonStackI = (sender.superview as! UIStackView).arrangedSubviews.firstIndex(of: sender)
+            let bottomI = (web[thisIndex!][4] as! [Int])[topButtonStackI!]
+            var a = (web[thisIndex!][4] as! [Int])
+            a.remove(at: topButtonStackI!)
+            var b = web[thisIndex!]
+            b[4] = a
+            web[thisIndex!] = b
+            for i in (rectangles[bottomI].subviews[1] as! UIStackView).arrangedSubviews {
+                if let x = i.accessibilityIdentifier {
+                    if Int(x) == thisIndex! {
+                        i.removeFromSuperview()
+                        break
+                    }
+                }
+            }
+        }
+        sender.removeFromSuperview()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1){
+            self.updateLines()
+        }
+        save()
     }
     
     @IBAction func cancel (_ unwindSegue: UIStoryboardSegue){
@@ -590,7 +601,7 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
     func deleteTerm() {
         print(web)
         for i in (web[currentEdit][4] as! [Int]){
-            for button in (rectangles[i].subviews[1] as! UIStackView).arrangedSubviews { //Swift/ContiguousArrayBuffer.swift:600: Fatal error: Index out of range
+            for button in (rectangles[i].subviews[1] as! UIStackView).arrangedSubviews {
                 if button.accessibilityIdentifier == String(currentEdit){
                     button.removeFromSuperview()
                 }
@@ -601,10 +612,6 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
         web.remove(at: currentEdit)
         for (i, term) in web.enumerated() {
             if var indices = term[4] as? [Int] {
-//                if let index = indices.firstIndex(of: currentEdit){
-//                    indices.remove(at: index)
-//                    (rectangles[i].subviews[2] as! UIStackView).arrangedSubviews[index].removeFromSuperview()
-//                }
                 for (j, I) in indices.enumerated() {
                     if I == currentEdit{
                         indices.remove(at: j)
@@ -614,8 +621,7 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
                         indices[j] = I - 1
                     }
                 }
-                web[i][4] = indices // Update the original array with the modified one
-                
+                web[i][4] = indices
             }
         }
         
@@ -628,8 +634,9 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
         }
         
         save()
-        print("////////////////////////////////////////////////")
-        print(web)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1){
+            self.updateLines()
+        }
     }
     
     @objc func changeImage(_ sender: UIButton) {

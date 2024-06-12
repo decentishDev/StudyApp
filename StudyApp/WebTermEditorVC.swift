@@ -40,6 +40,7 @@ class WebTermEditorVC: UIViewController {
         termField.layer.cornerRadius = 5
         termField.frame = CGRect(x: 50, y: 50, width: 400, height: 50)
         termField.textColor = Colors.text
+        termField.font = UIFont(name: "LilGrotesk-Regular", size: 20)
         
         centeredView.addSubview(defField)
         defField.placeholder = "Definition"
@@ -48,11 +49,13 @@ class WebTermEditorVC: UIViewController {
         defField.layer.cornerRadius = 5
         defField.textColor = Colors.text
         defField.frame = CGRect(x: 50, y: 120, width: 400, height: 50)
+        defField.font = UIFont(name: "LilGrotesk-Regular", size: 20)
         
         let cancelButton = UIButton(type: .system)
         centeredView.addSubview(cancelButton)
         cancelButton.setTitle("Cancel", for: .normal)
         cancelButton.setTitleColor(Colors.text, for: .normal)
+        cancelButton.titleLabel!.font = UIFont(name: "LilGrotesk-Regular", size: 20)
         cancelButton.backgroundColor = Colors.darkHighlight
         cancelButton.layer.cornerRadius = 5
         cancelButton.frame = CGRect(x: 50, y: 220, width: 190, height: 50)
@@ -70,6 +73,7 @@ class WebTermEditorVC: UIViewController {
         confirmButton.layer.cornerRadius = 5
         confirmButton.frame = CGRect(x: 260, y: 220, width: 190, height: 50)
         confirmButton.addTarget(self, action: #selector(confirm(_:)), for: .touchUpInside)
+        confirmButton.titleLabel!.font = UIFont(name: "LilGrotesk-Regular", size: 20)
         if !addingTerm {
             let deleteButton = UIButton(type: .system)
             centeredView.addSubview(deleteButton)
@@ -79,6 +83,7 @@ class WebTermEditorVC: UIViewController {
             deleteButton.layer.cornerRadius = 5
             deleteButton.frame = CGRect(x: 50, y: 290, width: 400, height: 50)
             deleteButton.addTarget(self, action: #selector(deleteTerm(_:)), for: .touchUpInside)
+            deleteButton.titleLabel!.font = UIFont(name: "LilGrotesk-Regular", size: 20)
         }
     }
     

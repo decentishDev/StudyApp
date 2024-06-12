@@ -49,7 +49,7 @@ class NewSetVC: UIViewController, UIDocumentPickerDelegate {
         newStandard.addSubview(standardIcon)
         let standardText = UILabel(frame: CGRect(x: 75, y: 0, width: 410, height: 75))
         standardText.text = "Create new standard set"
-        standardText.font = UIFont(name: "CabinetGroteskVariable-Bold_Regular", size: 30)
+        standardText.font = UIFont(name: "LilGrotesk-Regular", size: 30)
         standardText.textColor = Colors.text
         newStandard.addSubview(standardText)
         
@@ -66,7 +66,7 @@ class NewSetVC: UIViewController, UIDocumentPickerDelegate {
         newWeb.addSubview(webIcon)
         let webText = UILabel(frame: CGRect(x: 75, y: 0, width: 410, height: 75))
         webText.text = "Create new web set"
-        webText.font = UIFont(name: "CabinetGroteskVariable-Bold_Regular", size: 30)
+        webText.font = UIFont(name: "LilGrotesk-Regular", size: 30)
         webText.textColor = Colors.text
         newWeb.addSubview(webText)
         
@@ -83,7 +83,7 @@ class NewSetVC: UIViewController, UIDocumentPickerDelegate {
         importButton.addSubview(importIcon)
         let importText = UILabel(frame: CGRect(x: 75, y: 0, width: 410, height: 75))
         importText.text = "Import set"
-        importText.font = UIFont(name: "CabinetGroteskVariable-Bold_Regular", size: 30)
+        importText.font = UIFont(name: "LilGrotesk-Regular", size: 30)
         importText.textColor = Colors.text
         importButton.addSubview(importText)
         
@@ -100,7 +100,7 @@ class NewSetVC: UIViewController, UIDocumentPickerDelegate {
         searchButton.addSubview(searchIcon)
         let searchText = UILabel(frame: CGRect(x: 75, y: 0, width: 410, height: 75))
         searchText.text = "Search for sets"
-        searchText.font = UIFont(name: "CabinetGroteskVariable-Bold_Regular", size: 30)
+        searchText.font = UIFont(name: "LilGrotesk-Regular", size: 30)
         searchText.textColor = Colors.secondaryBackground
         searchButton.addSubview(searchText)
     }

@@ -116,7 +116,7 @@ class FlashcardsVC: UIViewController {
             
         }
         
-        CardLabel.font = UIFont(name: "CabinetGroteskVariable-Bold_Regular", size: 40)
+        CardLabel.font = UIFont(name: "LilGrotesk-Regular", size: 40)
         CardLabel.textAlignment = .center
         CardLabel.frame = CGRect(x: 20, y: 0, width: CardView.frame.width - 40, height: CardView.frame.height)
         CardLabel.numberOfLines = 0
@@ -208,7 +208,7 @@ class FlashcardsVC: UIViewController {
         settingsButton.addTarget(self, action: #selector(self.SettingsButton(sender:)), for: .touchUpInside)
         view.addSubview(settingsButton)
         cardCounter.frame = CGRect(x: 60, y: 20, width: view.frame.width - 120, height: 20)
-        cardCounter.font = UIFont(name: "CabinetGroteskVariable-Bold_Bold", size: 15)
+        cardCounter.font = UIFont(name: "LilGrotesk-Bold", size: 15)
         cardCounter.textAlignment = .center
         cardCounter.text = String(index + 1) + "/" + String(cardOrder.count)
         cardCounter.textColor = Colors.text
@@ -217,7 +217,7 @@ class FlashcardsVC: UIViewController {
         OverlayCard.frame = CardView.frame
         OverlayCard.layer.cornerRadius = 10
         OverlayCard.backgroundColor = Colors.secondaryBackground
-        OverlayLabel.font = UIFont(name: "CabinetGroteskVariable-Bold_Regular", size: 40)
+        OverlayLabel.font = UIFont(name: "LilGrotesk-Regular", size: 40)
         OverlayLabel.textAlignment = .center
         OverlayLabel.frame = CGRect(x: 20, y: 0, width: CardView.frame.width - 40, height: CardView.frame.height)
         OverlayLabel.numberOfLines = 0
@@ -242,7 +242,7 @@ class FlashcardsVC: UIViewController {
         CardView.addSubview(endScreen)
         
         endLabel.text = ""
-        endLabel.font = UIFont(name: "CabinetGroteskVariable-Bold_Regular", size: 40)
+        endLabel.font = UIFont(name: "LilGrotesk-Regular", size: 40)
         endLabel.textColor = Colors.text
         endLabel.frame = CGRect(x: 10, y: 10, width: CardView.frame.width - 20, height: CardView.frame.height - 130)
         endLabel.numberOfLines = 0
@@ -254,7 +254,7 @@ class FlashcardsVC: UIViewController {
         endButton.backgroundColor = Colors.highlight
         endButton.setTitle("Next round", for: .normal)
         endButton.setTitleColor(Colors.text, for: .normal)
-        endButton.titleLabel!.font = UIFont(name: "CabinetGroteskVariable-Bold_Bold", size: 30)
+        endButton.titleLabel!.font = UIFont(name: "LilGrotesk-Bold", size: 30)
         endButton.layer.cornerRadius = 10
         endButton.addTarget(self, action: #selector(self.nextRound(sender:)), for: .touchUpInside)
         endScreen.addSubview(endButton)

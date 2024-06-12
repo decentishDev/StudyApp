@@ -113,7 +113,7 @@ deinit {
         titleField.text = name
         titleField.placeholder = "Set name"
         titleField.frame = CGRect(x: 60, y: 0, width: 350, height: 50)
-        titleField.font = UIFont(name: "CabinetGroteskVariable-Bold_Bold", size: 25)
+        titleField.font = UIFont(name: "LilGrotesk-Bold", size: 25)
         titleField.textColor = Colors.highlight
         titleField.backgroundColor = Colors.secondaryBackground
         titleField.layer.cornerRadius = 10
@@ -169,7 +169,7 @@ deinit {
                 let termView = UITextView(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
                 termView.isEditable = true
                 termView.text = term
-                termView.font = UIFont(name: "CabinetGroteskVariable-Bold_Regular", size: 20)
+                termView.font = UIFont(name: "LilGrotesk-Regular", size: 20)
                 termView.delegate = self
                 termView.translatesAutoresizingMaskIntoConstraints = false
                 termView.isScrollEnabled = false
@@ -242,7 +242,7 @@ deinit {
                 let definitionView = UITextView(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
                 definitionView.isEditable = true
                 definitionView.text = definition
-                definitionView.font = UIFont(name: "CabinetGroteskVariable-Bold_Regular", size: 20)
+                definitionView.font = UIFont(name: "LilGrotesk-Regular", size: 20)
                 definitionView.delegate = self
                 definitionView.translatesAutoresizingMaskIntoConstraints = false
                 definitionView.isScrollEnabled = false
@@ -353,7 +353,7 @@ deinit {
             let recognize = UILabel(frame: CGRect(x: ((view.frame.width - 100) / 2) + 60, y: 0, width: 100, height: 30))
             recognize.text = "Recognize:"
             recognize.textAlignment = .right
-            recognize.font = UIFont(name: "CabinetGroteskVariable-Bold_Regular", size: 15)
+            recognize.font = UIFont(name: "LilGrotesk-Regular", size: 15)
             let button7 = UIButton()
             button7.frame = CGRect(x: ((view.frame.width - 100) / 2) + 160, y: 0, width: 30, height: 30)
             
@@ -420,7 +420,7 @@ deinit {
         let termView = UITextView()
         termView.isEditable = true
         termView.text = term
-        termView.font = UIFont(name: "CabinetGroteskVariable-Bold_Regular", size: 20)
+        termView.font = UIFont(name: "LilGrotesk-Regular", size: 20)
         termView.delegate = self
         termView.translatesAutoresizingMaskIntoConstraints = false
         termView.isScrollEnabled = false
@@ -439,7 +439,7 @@ deinit {
         let definitionView = UITextView()
         definitionView.isEditable = true
         definitionView.text = definition
-        definitionView.font = UIFont(name: "CabinetGroteskVariable-Bold_Regular", size: 20)
+        definitionView.font = UIFont(name: "LilGrotesk-Regular", size: 20)
         definitionView.delegate = self
         definitionView.translatesAutoresizingMaskIntoConstraints = false
         definitionView.isScrollEnabled = false
@@ -515,7 +515,7 @@ deinit {
         let recognize = UILabel(frame: CGRect(x: ((view.frame.width - 100) / 2) + 60, y: 0, width: 100, height: 30))
         recognize.text = "Recognize:"
         recognize.textAlignment = .right
-        recognize.font = UIFont(name: "CabinetGroteskVariable-Bold_Regular", size: 15)
+        recognize.font = UIFont(name: "LilGrotesk-Regular", size: 15)
         let button7 = UIButton()
         button7.frame = CGRect(x: ((view.frame.width - 100) / 2) + 160, y: 0, width: 30, height: 30)
         
@@ -584,7 +584,7 @@ deinit {
                 let termView = UITextView(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
                 termView.isEditable = true
                 termView.text = ""
-                termView.font = UIFont(name: "CabinetGroteskVariable-Bold_Regular", size: 20)
+                termView.font = UIFont(name: "LilGrotesk-Regular", size: 20)
                 termView.delegate = self
                 termView.translatesAutoresizingMaskIntoConstraints = false
                 termView.isScrollEnabled = false
@@ -674,7 +674,7 @@ deinit {
                 let definitionView = UITextView(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
                 definitionView.isEditable = true
                 definitionView.text = ""
-                definitionView.font = UIFont(name: "CabinetGroteskVariable-Bold_Regular", size: 20)
+                definitionView.font = UIFont(name: "LilGrotesk-Regular", size: 20)
                 definitionView.delegate = self
                 definitionView.translatesAutoresizingMaskIntoConstraints = false
                 definitionView.isScrollEnabled = false

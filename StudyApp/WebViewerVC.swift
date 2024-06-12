@@ -46,7 +46,7 @@ class WebViewerVC: UIViewController, UIScrollViewDelegate {
         
         loadingView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
         loadingView.text = "Loading web . . ."
-        loadingView.font = UIFont(name: "CabinetGroteskVariable-Bold_Bold", size: 25)
+        loadingView.font = UIFont(name: "LilGrotesk-Bold", size: 25)
         loadingView.backgroundColor = Colors.background
         
         let backButton = UIButton()
@@ -62,7 +62,7 @@ class WebViewerVC: UIViewController, UIScrollViewDelegate {
         let titleField = UILabel()
         titleField.text = name
         titleField.frame = CGRect(x: 90, y: 30, width: 350, height: 50)
-        titleField.font = UIFont(name: "CabinetGroteskVariable-Bold_Bold", size: 25)
+        titleField.font = UIFont(name: "LilGrotesk-Bold", size: 25)
         titleField.textColor = Colors.highlight
         //titleField.backgroundColor = Colors.secondaryBackground
         titleField.layer.cornerRadius = 10
@@ -76,7 +76,7 @@ class WebViewerVC: UIViewController, UIScrollViewDelegate {
 //        let addButton = UIButton()
 //        addButton.setTitle("+ Add term", for: .normal)
 //        addButton.setTitleColor(Colors.highlight, for: .normal)
-//        addButton.titleLabel?.font = UIFont(name: "CabinetGroteskVariable-Bold_Bold", size: 25)
+//        addButton.titleLabel?.font = UIFont(name: "LilGrotesk-Bold", size: 25)
 //        addButton.addTarget(self, action: #selector(addButtonTapped(_:)), for: .touchUpInside)
 //        addButton.frame = CGRect(x: view.frame.width - 300, y: 30, width: 150, height: 50)
 //        addButton.backgroundColor = Colors.secondaryBackground
@@ -87,7 +87,7 @@ class WebViewerVC: UIViewController, UIScrollViewDelegate {
 //        let themesButton = UIButton()
 //        themesButton.setTitle("Themes", for: .normal)
 //        themesButton.setTitleColor(Colors.highlight, for: .normal)
-//        themesButton.titleLabel?.font = UIFont(name: "CabinetGroteskVariable-Bold_Bold", size: 25)
+//        themesButton.titleLabel?.font = UIFont(name: "LilGrotesk-Bold", size: 25)
 //        themesButton.addTarget(self, action: #selector(themeButtonTapped(_:)), for: .touchUpInside)
 //        themesButton.frame = CGRect(x: view.frame.width - 140, y: 30, width: 110, height: 50)
 //        themesButton.backgroundColor = Colors.secondaryBackground
@@ -148,7 +148,7 @@ class WebViewerVC: UIViewController, UIScrollViewDelegate {
             let termLabel = UILabel(frame: CGRect(x: 5, y: 0, width: 170, height: 120))
             termLabel.text = term[0] as? String
             termLabel.textColor = Colors.text
-            termLabel.font = UIFont(name: "CabinetGroteskVariable-Bold_Normal", size: 15)
+            termLabel.font = UIFont(name: "LilGrotesk-Normal", size: 15)
             termLabel.textAlignment = .center
             termLabel.numberOfLines = 0
             visible.addSubview(termLabel)
@@ -417,7 +417,7 @@ class WebViewerVC: UIViewController, UIScrollViewDelegate {
 //            let termLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 180, height: 180))
 //            termLabel.text = data[0] as? String
 //            termLabel.textColor = Colors.text
-//            termLabel.font = UIFont(name: "CabinetGroteskVariable-Bold_Normal", size: 15)
+//            termLabel.font = UIFont(name: "LilGrotesk-Normal", size: 15)
 //            termLabel.textAlignment = .center
 //            rectangle.addSubview(termLabel)
 //            

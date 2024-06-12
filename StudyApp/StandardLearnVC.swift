@@ -128,7 +128,7 @@ class StandardLearnVC: UIViewController, PKCanvasViewDelegate, UITextFieldDelega
         cardCounter.textAlignment = .center
         cardCounter.text = String(index + 1) + "/" + String(cardOrder.count)
         view.addSubview(cardCounter)
-        CardLabel.font = UIFont(name: "CabinetGroteskVariable-Bold_Regular", size: 50)
+        CardLabel.font = UIFont(name: "LilGrotesk-Regular", size: 50)
         CardLabel.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: topHeight - keyboard)
         CardLabel.textColor = Colors.text
         CardLabel.textAlignment = .center
@@ -145,7 +145,7 @@ class StandardLearnVC: UIViewController, PKCanvasViewDelegate, UITextFieldDelega
         CardImage.contentMode = .scaleAspectFit
         view.addSubview(CardImage)
         TextField.frame = CGRect(x: 50, y: topHeight - keyboard + 20, width: view.frame.width - 100, height: 50)
-        TextField.font = UIFont(name: "CabinetGroteskVariable-Bold_Regular", size: 35)
+        TextField.font = UIFont(name: "LilGrotesk-Regular", size: 35)
         TextField.textColor = Colors.text
         TextField.placeholder = "Type your answer here . . ."
         TextField.delegate = self
@@ -177,7 +177,7 @@ class StandardLearnVC: UIViewController, PKCanvasViewDelegate, UITextFieldDelega
         view.addSubview(EndScreen)
         EndLabel.frame = CGRect(x: 100, y: 100, width: view.frame.width - 200, height: view.frame.height - 275)
         EndLabel.text = ""
-        EndLabel.font = UIFont(name: "CabinetGroteskVariable-Bold_Regular", size: 40)
+        EndLabel.font = UIFont(name: "LilGrotesk-Regular", size: 40)
         EndLabel.textColor = Colors.text
         EndLabel.textAlignment = .center
         EndLabel.numberOfLines = 0
@@ -188,7 +188,7 @@ class StandardLearnVC: UIViewController, PKCanvasViewDelegate, UITextFieldDelega
         EndButton.layer.cornerRadius = 15
         EndButton.setTitle("Next round", for: .normal)
         EndButton.setTitleColor(Colors.text, for: .normal)
-        EndButton.titleLabel!.font = UIFont(name: "CabinetGroteskVariable-Bold_Bold", size: 30)
+        EndButton.titleLabel!.font = UIFont(name: "LilGrotesk-Bold", size: 30)
         EndButton.addTarget(self, action: #selector(nextRound(sender:)), for: .touchUpInside)
         EndScreen.addSubview(EndButton)
         EndScreen.isHidden = true
