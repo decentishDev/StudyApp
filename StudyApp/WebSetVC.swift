@@ -167,6 +167,12 @@ class WebSetVC: UIViewController {
             buttonsStackView.distribution = .fill
             stackView.addArrangedSubview(buttonsStackView)
         }
+//        let icon = UIImageView(image: UIImage(named: "DendriticLearningIcon-01.svg")?.withRenderingMode(.alwaysTemplate))
+//        icon.tintColor = Colors.highlight
+//        icon.contentMode = .scaleAspectFit
+//        view.addSubview(icon)
+//        icon.frame = CGRect(x: view.frame.width / 2.5, y: view.frame.height / 2.5, width: max(view.frame.width, view.frame.height), height: max(view.frame.width, view.frame.height))
+//        icon.transform = icon.transform.rotated(by: -(.pi / 8))
     }
     
     func createButton(withTitle title: String) -> UIButton {
