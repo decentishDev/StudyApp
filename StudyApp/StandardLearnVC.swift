@@ -170,7 +170,6 @@ class StandardLearnVC: UIViewController, PKCanvasViewDelegate, UITextFieldDelega
         eraserButton.addTarget(self, action: #selector(eraser(_:)), for: .touchUpInside)
         DrawingView.addSubview(eraserButton)
         enterButton.frame = CGRect(x: view.frame.width - 100, y: topHeight-keyboard + 20, width: 50, height: 50)
-        //enterButton.backgroundColor = Colors.highlight
         enterButton.setImage(UIImage(systemName: "arrowshape.right.fill"), for: .normal)
         enterButton.tintColor = Colors.highlight
         enterButton.layer.cornerRadius = 10
@@ -264,6 +263,7 @@ class StandardLearnVC: UIViewController, PKCanvasViewDelegate, UITextFieldDelega
             self.DrawingView.backgroundColor = Colors.secondaryBackground
             self.TextField.backgroundColor = Colors.secondaryBackground
         })
+        TextField.text = ""
         known[i] = 0
         alreadyWrong = true
         save()
@@ -360,71 +360,64 @@ class StandardLearnVC: UIViewController, PKCanvasViewDelegate, UITextFieldDelega
         cardCounter.text = "1/" + String(cardOrder.count)
     }
     @objc func enter(sender: UIButton) {
-        if(currentInput == "t"){
-            var goal = ""
-            for i in cards[cardOrder[index]][3] as! String {
-                if(i != " "){
-                    goal += i.lowercased()
-                }
-            }
-            var current = ""
-            for i in TextField.text! {
-                if(i != " "){
-                    current += i.lowercased()
-                }
-            }
-            if(goal == current){
-                index+=1
+        if currentInput == "t" {
+            let goal = getNormalizedString(from: cards[cardOrder[index]][3] as! String)
+            let current = getNormalizedString(from: TextField.text ?? "")
+            
+            if goal == current {
+                index += 1
                 nextTerm()
                 correctAnim(cardOrder[index])
-            }else{
+            } else {
                 incorrectAnim(cardOrder[index])
             }
-        }else if(currentInput == "d"){
+        } else if currentInput == "d" {
             CardDrawing.isHidden = false
             CardLabel.isHidden = true
             CardImage.isHidden = true
+            
             do {
                 CardDrawing.drawing = try recolor(PKDrawing(data: cards[cardOrder[index]][3] as! Data))
-            }catch{
-                
+            } catch {
+                print("Error loading drawing: \(error)")
             }
+            
             incorrectButton.isHidden = false
             correctButton.isHidden = false
             
-            UIView.animate(withDuration: 0.3, animations: {
+            UIView.animate(withDuration: 0.3) {
                 self.incorrectButton.alpha = 1
                 self.correctButton.alpha = 1
                 self.enterButton.alpha = 0.5
-            })
+            }
             enterButton.isEnabled = false
-        }else if(currentInput == "d-r"){
-            if(processing){
+        } else if currentInput == "d-r" {
+            if processing {
                 waitingOnResult = true
-            }else{
-                var goal = ""
-                for i in self.cards[self.cardOrder[self.index]][3] as! String {
-                    if(i != " "){
-                        goal += i.lowercased()
-                    }
-                }
-                var current = ""
-                for i in recognizedText {
-                    if(i != " "){
-                        current += i.lowercased()
-                    }
-                }
-                if(goal == current){
-                    correctAnim(cardOrder[index])
-                    index+=1
-                    nextTerm()
-                }else{
-                    incorrectAnim(cardOrder[index])
-                }
-                DrawingView.drawing = recolor(PKDrawing())
+            } else {
+                processRecognitionResult()
             }
         }
     }
+
+    private func getNormalizedString(from input: String) -> String {
+        return input.filter { !$0.isWhitespace }.lowercased()
+    }
+
+    private func processRecognitionResult() {
+        let goal = getNormalizedString(from: cards[cardOrder[index]][3] as! String)
+        let current = getNormalizedString(from: recognizedText)
+        
+        if goal == current {
+            correctAnim(cardOrder[index])
+            index += 1
+            nextTerm()
+        } else {
+            incorrectAnim(cardOrder[index])
+        }
+        DrawingView.drawing = recolor(PKDrawing())
+    }
+
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         enter(sender: UIButton())
@@ -515,71 +508,65 @@ class StandardLearnVC: UIViewController, PKCanvasViewDelegate, UITextFieldDelega
     }
     
     func canvasViewDrawingDidChange(_ canvasView: PKCanvasView) {
-        if(canvasView != DrawingView || currentInput != "d-r"){
+        guard canvasView == DrawingView, currentInput == "d-r" else {
             return
         }
         
-        mostRecentProcess+=1
+        mostRecentProcess += 1
         let thisProcess = mostRecentProcess
         processing = true
         
-        UIGraphicsBeginImageContextWithOptions(DrawingView.bounds.size, false, UIScreen.main.scale)
-        DrawingView.drawHierarchy(in: DrawingView.bounds, afterScreenUpdates: true)
-        let image = UIGraphicsGetImageFromCurrentImageContext()?.cgImage
-        UIGraphicsEndImageContext()
-        
-        if(image != nil){
-            let requestHandler = VNImageRequestHandler(cgImage: image!)
+        DispatchQueue.main.async {
+            UIGraphicsBeginImageContextWithOptions(self.DrawingView.bounds.size, false, UIScreen.main.scale)
+            self.DrawingView.drawHierarchy(in: self.DrawingView.bounds, afterScreenUpdates: true)
+            let image = UIGraphicsGetImageFromCurrentImageContext()?.cgImage
+            UIGraphicsEndImageContext()
             
-            let request = VNRecognizeTextRequest { [self] (request, error) in
-                guard let observations = request.results as? [VNRecognizedTextObservation] else {return}
-                
-                self.currentDrawing = PKDrawing()
-                var processedText = ""
-                for observation in observations {
-                    guard let bestCandidate = observation.topCandidates(1).first else {continue}
-                    let detectedText = bestCandidate.string
-                    for i in detectedText {
-                        if(i != " "){
-                            processedText += i.lowercased()
-                        }
-                    }
-                }
-                if(self.mostRecentProcess == thisProcess){
-                    self.recognizedText = processedText
-                    self.processing = false
-                    if(self.waitingOnResult){
-                        var goal = ""
-                        for i in self.cards[self.cardOrder[self.index]][3] as! String {
-                            if(i != " "){
-                                goal += i.lowercased()
-                            }
-                        }
-                        var current = ""
-                        for i in recognizedText {
-                            if(i != " "){
-                                current += i.lowercased()
-                            }
-                        }
-                        if(goal == current){
-                            correctAnim(cardOrder[index])
-                            index+=1
-                            nextTerm()
-                        }else{
-                            incorrectAnim(cardOrder[index])
-                        }
-                        DrawingView.drawing = recolor(PKDrawing())
-                    }
-                }
+            guard let cgImage = image else {
+                self.processing = false
+                return
             }
             
-            do {
-                try requestHandler.perform([request])
-            } catch {
-                print("Error: \(error)")
+            DispatchQueue.global(qos: .userInitiated).async {
+                let requestHandler = VNImageRequestHandler(cgImage: cgImage)
+                let request = VNRecognizeTextRequest { [weak self] (request, error) in
+                    guard let self = self else { return }
+                    self.handleTextRecognitionResult(request, forProcess: thisProcess)
+                }
+                
+                do {
+                    try requestHandler.perform([request])
+                } catch {
+                    print("Error performing text recognition: \(error)")
+                    self.processing = false
+                }
             }
         }
     }
+
+    private func handleTextRecognitionResult(_ request: VNRequest, forProcess process: Int) {
+        guard let observations = request.results as? [VNRecognizedTextObservation], mostRecentProcess == process else {
+            return
+        }
+        
+        var processedText = ""
+        for observation in observations {
+            if let bestCandidate = observation.topCandidates(1).first {
+                processedText += bestCandidate.string.filter { !$0.isWhitespace }.lowercased()
+            }
+        }
+        
+        DispatchQueue.main.async {
+            self.recognizedText = processedText
+            self.processing = false
+            
+            if self.waitingOnResult {
+                self.processRecognitionResult()
+            }
+        }
+    }
+
+
     
     @IBAction func cancel (_ unwindSegue: UIStoryboardSegue){
     }
