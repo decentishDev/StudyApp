@@ -129,6 +129,29 @@ class SettingsVC: UIViewController {
             button.accessibilityIdentifier = String(i)
             button.addTarget(self, action: #selector(self.themeButton(sender:)), for: .touchUpInside)
         }
+        
+        let breakView02 = UIView()
+        breakView02.widthAnchor.constraint(equalToConstant: 15).isActive = true
+        breakView02.heightAnchor.constraint(equalToConstant: 15).isActive = true
+        stackView.addArrangedSubview(breakView02)
+        
+        let pencilLabel = UILabel()
+        pencilLabel.text = "Allows drawing with fingers"
+        pencilLabel.font = UIFont(name: "LilGrotesk-Regular", size: 30)
+        pencilLabel.frame = CGRect(x: 0, y: 0, width: view.frame.width - 100, height: 40)
+        con(pencilLabel, view.frame.width - 100, 40)
+        pencilLabel.textColor = Colors.text
+        stackView.addArrangedSubview(pencilLabel)
+        //pencilLabel.backgroundColor = .red
+        pencilLabel.clipsToBounds = false
+        pencilLabel.isUserInteractionEnabled = true
+        
+        let pencilSwitch = UISwitch(frame: CGRect(x: view.frame.width - 100 - 55, y: 5, width: 40, height: 40))
+        pencilLabel.addSubview(pencilSwitch)
+        pencilSwitch.isOn = defaults.value(forKey: "fingerDrawing")  as! Bool 
+        pencilSwitch.addTarget(self, action: #selector(self.pencilSwitched(sender:)), for: .valueChanged)
+        pencilSwitch.isUserInteractionEnabled = true
+        //pencilSwitch.backgroundColor = .green
     }
 
     @objc func themeButton(sender: UIButton){
@@ -141,6 +164,10 @@ class SettingsVC: UIViewController {
         Colors.lightHighlight = Colors.themes[i][5] as! UIColor
         Colors.text = Colors.themes[i][6] as! UIColor
         setup()
+    }
+    
+    @objc func pencilSwitched(sender: UISwitch){
+        defaults.setValue(sender.isOn, forKey: "fingerDrawing")
     }
     
     @objc func backButton(sender: UIButton){

@@ -134,7 +134,7 @@ class StandardLearnVC: UIViewController, PKCanvasViewDelegate, UITextFieldDelega
         CardImage.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: topHeight-keyboard)
         CardImage.contentMode = .scaleAspectFit
         view.addSubview(CardImage)
-        TextField.frame = CGRect(x: 50, y: topHeight - keyboard + 20, width: view.frame.width - 100, height: 50)
+        TextField.frame = CGRect(x: 50, y: topHeight - keyboard + 20, width: view.frame.width - 110, height: 50)
         TextField.font = UIFont(name: "LilGrotesk-Regular", size: 35)
         TextField.textColor = Colors.text
         TextField.placeholder = "Type your answer here . . ."
@@ -152,29 +152,34 @@ class StandardLearnVC: UIViewController, PKCanvasViewDelegate, UITextFieldDelega
         DrawingView.overrideUserInterfaceStyle = .light
         DrawingView.backgroundColor = Colors.secondaryBackground
         DrawingView.layer.cornerRadius = 10
+        DrawingView.allowsFingerDrawing = defaults.value(forKey: "fingerDrawing") as! Bool
         view.addSubview(DrawingView)
-        let clearButton = UIButton(frame: CGRect(x: 70, y: 10, width: 50, height: 50))
+        let clearButton = UIButton(frame: CGRect(x: 50, y: 10, width: 30, height: 30))
         DrawingView.addSubview(clearButton)
         clearButton.setImage(UIImage(systemName: "arrow.circlepath"), for: .normal)
         clearButton.contentMode = .scaleAspectFit
         clearButton.tintColor = Colors.highlight
-        clearButton.backgroundColor = Colors.background
-        clearButton.layer.cornerRadius = 10
+        clearButton.layoutMargins = .zero
+        //clearButton.backgroundColor = Colors.background
+        //clearButton.layer.cornerRadius = 10
         clearButton.addTarget(self, action: #selector(clear(_:)), for: .touchUpInside)
-        let eraserButton = UIButton(frame: CGRect(x: 10, y: 10, width: 50, height: 50))
+        let eraserButton = UIButton(frame: CGRect(x: 10, y: 10, width: 30, height: 30))
         eraserButton.setImage(UIImage(systemName: "eraser.fill"), for: .normal)
         eraserButton.contentMode = .scaleAspectFit
         eraserButton.tintColor = Colors.highlight
-        eraserButton.backgroundColor = Colors.background
-        eraserButton.layer.cornerRadius = 10
+        eraserButton.layoutMargins = .zero
+        //eraserButton.backgroundColor = Colors.background
+        //eraserButton.layer.cornerRadius = 10
         eraserButton.addTarget(self, action: #selector(eraser(_:)), for: .touchUpInside)
         DrawingView.addSubview(eraserButton)
         enterButton.frame = CGRect(x: view.frame.width - 100, y: topHeight-keyboard + 20, width: 50, height: 50)
         enterButton.setImage(UIImage(systemName: "arrowshape.right.fill"), for: .normal)
         enterButton.tintColor = Colors.highlight
-        enterButton.layer.cornerRadius = 10
+        //enterButton.backgroundColor = Colors.background
+        //enterButton.layer.cornerRadius = 10
         enterButton.addTarget(self, action: #selector(enter(sender:)), for: .touchUpInside)
-        enterButton.layoutMargins = .zero
+        enterButton.contentMode = .scaleAspectFit
+        enterButton.layoutMargins = .init(top: 10, left: 10, bottom: 10, right: 10)
         view.addSubview(enterButton)
         
         EndScreen.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
@@ -407,7 +412,7 @@ class StandardLearnVC: UIViewController, PKCanvasViewDelegate, UITextFieldDelega
     private func processRecognitionResult() {
         let goal = getNormalizedString(from: cards[cardOrder[index]][3] as! String)
         let current = getNormalizedString(from: recognizedText)
-        print(current)
+        //print(current)
         if goal == current {
             correctAnim(cardOrder[index])
             index += 1
@@ -500,7 +505,7 @@ class StandardLearnVC: UIViewController, PKCanvasViewDelegate, UITextFieldDelega
             self.CardImage.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.topHeight-self.keyboard)
             self.TextField.frame = CGRect(x: 50, y: self.topHeight-self.keyboard + 20, width: self.view.frame.width - 100, height: 50)
             self.DrawingView.frame = CGRect(x: 50, y: self.topHeight-self.keyboard + 20, width: self.view.frame.width - 100, height: 250)
-            self.enterButton.frame = CGRect(x: self.view.frame.width - 90, y: self.topHeight-self.keyboard + 30, width: 30, height: 30)
+            self.enterButton.frame = CGRect(x: self.view.frame.width - 100, y: self.topHeight-self.keyboard + 20, width: 50, height: 50)
             self.CardDrawing.center = CGPoint(x: self.view.frame.width/2, y: (self.topHeight-self.keyboard)/2)
             self.incorrectButton.frame = CGRect(x: (self.view.frame.width/2) - 60, y: self.topHeight - self.keyboard + 20 - 70, width: 50, height: 50)
             self.correctButton.frame = CGRect(x: (self.view.frame.width/2) + 10, y: self.topHeight - self.keyboard + 20 - 70, width: 50, height: 50)

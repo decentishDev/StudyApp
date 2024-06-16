@@ -60,4 +60,5 @@ struct Colors {
          UIColor(red: 1, green: 1, blue: 1, alpha: 1.0)]]
     
     static let version: Int = 1
+
 }

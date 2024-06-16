@@ -18,6 +18,8 @@ class DrawingEditorVC: UIViewController, PKCanvasViewDelegate {
     let canvas = PKCanvasView()
     var usingEraser = false
     
+    let defaults = UserDefaults.standard
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.definesPresentationContext = true
@@ -43,7 +45,7 @@ class DrawingEditorVC: UIViewController, PKCanvasViewDelegate {
         canvas.backgroundColor = Colors.background
         canvas.tool = Colors.pen
         canvas.overrideUserInterfaceStyle = .light
-        canvas.allowsFingerDrawing = true
+        canvas.allowsFingerDrawing = defaults.value(forKey: "fingerDrawing") as! Bool
         
         let card = ((UserDefaults.standard.value(forKey: "sets") as! [Dictionary<String, Any>])[set]["set"] as! [[Any]])
 
