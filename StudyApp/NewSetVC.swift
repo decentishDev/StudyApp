@@ -153,6 +153,7 @@ class NewSetVC: UIViewController, UIDocumentPickerDelegate {
                             
                         }
                     }
+                    
                         
                     var images = defaults.array(forKey: "images") as? [Data?] ?? []
                     images.append(Colors.placeholderI)

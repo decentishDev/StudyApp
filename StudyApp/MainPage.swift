@@ -83,7 +83,7 @@ class MainPage: UIViewController, NewSetDelegate {
             trivia["author"] = "mlundeen5270"
             trivia["flashcards"] = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]
             trivia["date"] = "Last edited: May 20th, 2024"
-            trivia["learn"] = [0]
+            trivia["learn"] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
             trivia["set"] = [
                 ["t", "What is the boiling point of water in Celsius?", "t", "100°C"],
                 ["t", "Who wrote the novel 'Pride and Prejudice'?", "t", "Jane Austen"],
@@ -106,7 +106,7 @@ class MainPage: UIViewController, NewSetDelegate {
                 ["t", "Who was the first woman to ever win a Nobel Prize in the whole entire large global world?", "t", "Marie Curie"],
                 ["t", "What is the capital of South Africa?", "t", "Pretoria"]
             ]
-            trivia["version"] = Int(0)
+            trivia["version"] = Colors.version
             defaults.setValue([trivia], forKey: "sets")
             defaults.setValue([Colors.placeholderI] as [Data?], forKey: "images")
             sets.append(["Trivia", "standard", Colors.placeholderI])
@@ -354,10 +354,11 @@ class MainPage: UIViewController, NewSetDelegate {
             trivia["type"] = "standard"
             trivia["author"] = "mlundeen5270"
             trivia["flashcards"] = [false]
-            trivia["date"] = "Last edited: May 20th, 2024"
+            trivia["date"] = "Last edited: " + dateString()
             trivia["image"] = Colors.placeholderI
             trivia["set"] = [["t", "Example term", "t", "Example definition"]]
             trivia["learn"] = [0]
+            trivia["version"] = Colors.version
             sets.append(["New Set", "standard", Colors.placeholderI])
             var oldData = defaults.value(forKey: "sets") as! [Any]
             oldData.append(trivia)
@@ -376,8 +377,9 @@ class MainPage: UIViewController, NewSetDelegate {
             revwar["name"] = "New Web"
             revwar["type"] = "web"
             revwar["author"] = "mlundeen5270"
-            revwar["date"] = "Last edited: May 20th, 2024"
+            revwar["date"] = "Last edited: " + dateString()
             revwar["set"] = []
+            revwar["version"] = Colors.version
             sets.append(["New Web", "web", Colors.placeholderI])
             var oldData = defaults.value(forKey: "sets") as! [Any]
             oldData.append(revwar)

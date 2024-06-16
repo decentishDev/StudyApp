@@ -119,7 +119,7 @@ class StandardLearnVC: UIViewController, PKCanvasViewDelegate, UITextFieldDelega
         cardCounter.text = String(index + 1) + "/" + String(cardOrder.count)
         view.addSubview(cardCounter)
         CardLabel.font = UIFont(name: "LilGrotesk-Regular", size: 50)
-        CardLabel.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: topHeight - keyboard)
+        CardLabel.frame = CGRect(x: 20, y: 0, width: view.frame.width - 40, height: topHeight - keyboard)
         CardLabel.textColor = Colors.text
         CardLabel.textAlignment = .center
         CardLabel.numberOfLines = 0
@@ -407,7 +407,7 @@ class StandardLearnVC: UIViewController, PKCanvasViewDelegate, UITextFieldDelega
     private func processRecognitionResult() {
         let goal = getNormalizedString(from: cards[cardOrder[index]][3] as! String)
         let current = getNormalizedString(from: recognizedText)
-        
+        print(current)
         if goal == current {
             correctAnim(cardOrder[index])
             index += 1
@@ -495,7 +495,7 @@ class StandardLearnVC: UIViewController, PKCanvasViewDelegate, UITextFieldDelega
     
     func reformat(){
         UIView.animate(withDuration: 0.5, animations: {
-            self.CardLabel.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.topHeight-self.keyboard)
+            self.CardLabel.frame = CGRect(x: 20, y: 0, width: self.view.frame.width - 40, height: self.topHeight-self.keyboard)
             self.CardDrawing.frame = CGRect(x: 0, y: 0, width: (self.view.frame.width - 161), height: 2*(self.view.frame.width - 161)/3)
             self.CardImage.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.topHeight-self.keyboard)
             self.TextField.frame = CGRect(x: 50, y: self.topHeight-self.keyboard + 20, width: self.view.frame.width - 100, height: 50)

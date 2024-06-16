@@ -27,6 +27,7 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
     
     let imagePicker = UIImagePickerController()
     let imageButton = UIButton()
+    let titleField = UITextField()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,7 +63,6 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
         
         view.addSubview(backButton)
         
-        let titleField = UITextField()
         titleField.delegate = self
         titleField.text = name
         titleField.placeholder = "Set name"
@@ -123,6 +123,9 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
         
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handleBackgroundPan(_:)))
         scrollView.addGestureRecognizer(panGesture)
+        
+        let deselect = UITapGestureRecognizer(target: self, action: #selector(handleBackTap(_:)))
+        scrollView.addGestureRecognizer(deselect)
 
         for term in web {
             let rectWidth: CGFloat = 180
@@ -242,8 +245,49 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
                 self.loadingView.removeFromSuperview()
             })
         }
+        
+        if defaults.value(forKey: "beenInWebEditor") == nil{
+            defaults.setValue(true, forKey: "beenInWebEditor")
+            
+            let introView = UIView(frame: CGRect(x: view.frame.width - 380, y: view.frame.height - 440, width: 350, height: 410))
+            view.addSubview(introView)
+            introView.backgroundColor = Colors.secondaryBackground
+            introView.layer.cornerRadius = 10
+            
+            let exitIntroButton = UIButton(frame: CGRect(x: 300, y: 20, width: 30, height: 30))
+            introView.addSubview(exitIntroButton)
+            exitIntroButton.tintColor = Colors.highlight
+            exitIntroButton.setImage(UIImage(systemName: "xmark"), for: .normal)
+            exitIntroButton.imageView?.contentMode = .scaleAspectFit
+            exitIntroButton.contentMode = .scaleAspectFit
+            exitIntroButton.layoutMargins = .zero
+            exitIntroButton.addTarget(self, action: #selector(exitIntro(_:)), for: .touchUpInside)
+            
+            let introTitle = UILabel(frame: CGRect(x: 20, y: 20 - 3, width: 290, height: 30))
+            introView.addSubview(introTitle)
+            introTitle.font = UIFont(name: "LilGrotesk-Bold", size: 23)
+            introTitle.textColor = Colors.text
+            introTitle.text = "Creating web sets"
+            introTitle.clipsToBounds = false
+            
+            let introTips = UILabel(frame: CGRect(x: 20, y: 60, width: 310, height: 340))
+            introView.addSubview(introTips)
+            introTips.numberOfLines = 0
+            introTips.font = UIFont(name: "LilGrotesk-Regular", size: 23)
+            introTips.textColor = Colors.text
+            introTips.text = " - Visualize processes by connecting terms downward\n\n - After adding multiple terms, connect them using the plus icons\n\n - You can tap on terms to edit them\n\n - You can tap on connections to remove them"
+        }
     }
-    
+    @objc func exitIntro(_ sender: UIButton) {
+        let introView = sender.superview!
+        UIView.animate(withDuration: 0.5, animations: {
+            introView.alpha = 0
+            introView.frame = CGRect(x: introView.frame.minX, y: introView.frame.minY + 800, width: introView.frame.width, height: introView.frame.height)
+        })
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6){
+            introView.removeFromSuperview()
+        }
+    }
     @objc func addButtonTapped(_ sender: UIButton) {
         currentEdit = -1
         
@@ -265,7 +309,7 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
             images.remove(at: self.set)
             self.defaults.setValue(images, forKey: "images")
             self.performSegue(withIdentifier: "webEditorVC_unwind", sender: nil)
-            
+            self.performSegue(withIdentifier: "webEditorVC_unwind", sender: nil)
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
@@ -281,6 +325,10 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
     
     @objc func back(_ sender: UIButton) {
         performSegue(withIdentifier: "webEditorVC_unwind", sender: nil)
+    }
+    
+    @objc func handleBackTap(_ gestureRecognizer: UITapGestureRecognizer) {
+        titleField.resignFirstResponder()
     }
     
     @objc func handlePan(_ gestureRecognizer: UIPanGestureRecognizer) {
@@ -307,6 +355,7 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
         var previousData = defaults.object(forKey: "sets") as! [Dictionary<String, Any>]
         previousData[set]["set"] = web
         previousData[set]["name"] = name
+        previousData[set]["date"] = "Last edited: " + dateString()
         defaults.set(previousData, forKey: "sets")
     }
     

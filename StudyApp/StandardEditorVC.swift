@@ -741,6 +741,7 @@ deinit {
         previousData[set]["name"] = name
         previousData[set]["flashcards"] = flashcards
         previousData[set]["learn"] = learn
+        previousData[set]["date"] = "Last edited: " + dateString()
         defaults.set(previousData, forKey: "sets")
     }
     

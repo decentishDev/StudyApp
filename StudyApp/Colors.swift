@@ -58,7 +58,6 @@ struct Colors {
          UIColor(red: 0.188, green: 0.447, blue: 0.761, alpha: 1.0),
          UIColor(red: 0.537, green: 0.580, blue: 0.706, alpha: 1.0),
          UIColor(red: 1, green: 1, blue: 1, alpha: 1.0)]]
+    
+    static let version: Int = 1
 }
-
-//    Reference by using: Colors.colorname
-//    Remember it returns a UIColor!
