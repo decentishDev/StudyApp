@@ -148,7 +148,7 @@ class WebViewerVC: UIViewController, UIScrollViewDelegate {
             let termLabel = UILabel(frame: CGRect(x: 5, y: 0, width: 170, height: 120))
             termLabel.text = term[0] as? String
             termLabel.textColor = Colors.text
-            termLabel.font = UIFont(name: "LilGrotesk-Normal", size: 15)
+            termLabel.font = UIFont(name: "LilGrotesk-Regular", size: 18)
             termLabel.textAlignment = .center
             termLabel.numberOfLines = 0
             visible.addSubview(termLabel)

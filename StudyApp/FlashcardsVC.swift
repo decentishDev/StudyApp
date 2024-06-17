@@ -413,7 +413,7 @@ class FlashcardsVC: UIViewController {
         
         if(onFront){
             if(cards[cardOrder[overlayI]][0] as! String == "t"){
-                OverlayLabel.text = cards[cardOrder[index]][1] as? String
+                OverlayLabel.text = cards[cardOrder[overlayI]][1] as? String
                 OverlayLabel.isHidden = false
                 OverlayDrawing.isHidden = true
                 OverlayImage.isHidden = true

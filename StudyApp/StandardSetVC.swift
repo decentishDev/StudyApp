@@ -162,11 +162,11 @@ class StandardSetVC: UIViewController {
             
             let learnButton = createButton(withTitle: "Learn")
             let flashcardsButton = createButton(withTitle: "Flashcards")
-            let testButton = createButton(withTitle: "Test")
+            //let testButton = createButton(withTitle: "Test")
             let editButton = createButton(withTitle: "Edit")
             let spacer = UIView()
             
-            let buttonsStackView = UIStackView(arrangedSubviews: [learnButton, flashcardsButton, testButton, editButton, spacer])
+            let buttonsStackView = UIStackView(arrangedSubviews: [learnButton, flashcardsButton, editButton, spacer]) // testButton,
             buttonsStackView.axis = .horizontal
             buttonsStackView.widthAnchor.constraint(equalToConstant: 600).isActive = true
             buttonsStackView.spacing = 20
@@ -397,6 +397,16 @@ class StandardSetVC: UIViewController {
     
     @objc func export(sender: UIButton){
         var cardsDictionary: [String: Any] = (defaults.object(forKey: "sets") as! [Dictionary<String, Any>])[set]
+        var oldLearn: [Int] = []
+        for _ in 0 ..< cardsDictionary.count {
+            oldLearn.append(0)
+        }
+        var oldFlash: [Bool] = []
+        for _ in 0 ..< cardsDictionary.count {
+            oldFlash.append(false)
+        }
+        cardsDictionary["flashcards"] = oldFlash
+        cardsDictionary["learn"] = oldLearn
         //cardsDictionary["images"] = (defaults.object(forKey: "images") as! [Data?])[set]
         guard let data = try? NSKeyedArchiver.archivedData(withRootObject: cardsDictionary, requiringSecureCoding: false) else {
             print("Failed to archive data.")
