@@ -110,6 +110,7 @@ class MainPage: UIViewController, NewSetDelegate {
             defaults.setValue([trivia], forKey: "sets")
             defaults.setValue([Colors.placeholderI] as [Data?], forKey: "images")
             sets.append(["Trivia", "standard", Colors.placeholderI])
+            defaults.setValue(false, forKey: "fingerDrawing")
 //            let image = UIImage(named: "samuel-branch-ZPVisr0s_hQ-unsplash.jpg")?.pngData()
 //            sets.append(["American Revolution", "web", image])
         }
