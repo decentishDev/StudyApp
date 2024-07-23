@@ -50,18 +50,9 @@ class DrawingEditorVC: UIViewController, PKCanvasViewDelegate {
         let card = ((UserDefaults.standard.value(forKey: "sets") as! [Dictionary<String, Any>])[set]["set"] as! [[Any]])
 
         if(term){
-            do {
-                try canvas.drawing = recolor(PKDrawing(data: card[i][1] as! Data))
-            } catch {
-                
-            }
-                
+            setDrawing(card[i][1] as! String, canvas)
         }else{
-            do {
-                try canvas.drawing = recolor(PKDrawing(data: card[i][3] as! Data))
-            } catch {
-                
-            }
+            setDrawing(card[i][3] as! String, canvas)
         }
         canvas.delegate = self
         centeredView.addSubview(canvas)
@@ -90,6 +81,14 @@ class DrawingEditorVC: UIViewController, PKCanvasViewDelegate {
         eraserButton.layer.cornerRadius = 10
         eraserButton.addTarget(self, action: #selector(eraser(_:)), for: .touchUpInside)
         centeredView.addSubview(eraserButton)
+        let undoButton = UIButton(frame: CGRect(x: 190, y: 10, width: 50, height: 50))
+        undoButton.setImage(UIImage(systemName: "arrow.uturn.backward"), for: .normal)
+        undoButton.contentMode = .scaleAspectFit
+        undoButton.tintColor = Colors.highlight
+        undoButton.backgroundColor = Colors.secondaryBackground
+        undoButton.layer.cornerRadius = 10
+        undoButton.addTarget(self, action: #selector(undo(_:)), for: .touchUpInside)
+        centeredView.addSubview(undoButton)
     }
     
     @objc func dismissIt(_ sender: UITapGestureRecognizer){
@@ -100,9 +99,15 @@ class DrawingEditorVC: UIViewController, PKCanvasViewDelegate {
     func canvasViewDrawingDidChange(_ canvasView: PKCanvasView) {
         var card = ((UserDefaults.standard.value(forKey: "sets") as! [Dictionary<String, Any>])[set]["set"] as! [[Any]])
         if(term){
-            card[i][1] = canvasView.drawing.dataRepresentation()
+            defaults.removeObject(forKey: card[i][1] as! String)
+            let id = generateRandomID(16)
+            defaults.setValue(canvasView.drawing.dataRepresentation(), forKey: id)
+            card[i][1] = id
         }else{
-            card[i][3] = canvasView.drawing.dataRepresentation()
+            defaults.removeObject(forKey: card[i][3] as! String)
+            let id = generateRandomID(16)
+            defaults.setValue(canvasView.drawing.dataRepresentation(), forKey: id)
+            card[i][3] = id
         }
         var originalset = (UserDefaults.standard.value(forKey: "sets") as! [Dictionary<String, Any>])[set]
         originalset["set"] = card
@@ -129,5 +134,9 @@ class DrawingEditorVC: UIViewController, PKCanvasViewDelegate {
     
     @objc func clear(_ sender: UIButton) {
         canvas.drawing = recolor(PKDrawing())
+    }
+    
+    @objc func undo(_ sender: UIButton) {
+        canvas.undoManager?.undo()
     }
 }

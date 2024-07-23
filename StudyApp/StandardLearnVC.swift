@@ -131,7 +131,7 @@ class StandardLearnVC: UIViewController, PKCanvasViewDelegate, UITextFieldDelega
         CardDrawing.tool = Colors.pen
         CardDrawing.overrideUserInterfaceStyle = .light
         view.addSubview(CardDrawing)
-        CardImage.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: topHeight-keyboard)
+        CardImage.frame = CGRect(x: 0, y: 60, width: view.frame.width, height: topHeight-keyboard - 60)
         CardImage.contentMode = .scaleAspectFit
         view.addSubview(CardImage)
         TextField.frame = CGRect(x: 50, y: topHeight - keyboard + 20, width: view.frame.width - 110, height: 50)
@@ -154,15 +154,15 @@ class StandardLearnVC: UIViewController, PKCanvasViewDelegate, UITextFieldDelega
         DrawingView.layer.cornerRadius = 10
         DrawingView.allowsFingerDrawing = defaults.value(forKey: "fingerDrawing") as! Bool
         view.addSubview(DrawingView)
+        
         let clearButton = UIButton(frame: CGRect(x: 50, y: 10, width: 30, height: 30))
         DrawingView.addSubview(clearButton)
         clearButton.setImage(UIImage(systemName: "arrow.circlepath"), for: .normal)
         clearButton.contentMode = .scaleAspectFit
         clearButton.tintColor = Colors.highlight
         clearButton.layoutMargins = .zero
-        //clearButton.backgroundColor = Colors.background
-        //clearButton.layer.cornerRadius = 10
         clearButton.addTarget(self, action: #selector(clear(_:)), for: .touchUpInside)
+        
         let eraserButton = UIButton(frame: CGRect(x: 10, y: 10, width: 30, height: 30))
         eraserButton.setImage(UIImage(systemName: "eraser.fill"), for: .normal)
         eraserButton.contentMode = .scaleAspectFit
@@ -172,6 +172,15 @@ class StandardLearnVC: UIViewController, PKCanvasViewDelegate, UITextFieldDelega
         //eraserButton.layer.cornerRadius = 10
         eraserButton.addTarget(self, action: #selector(eraser(_:)), for: .touchUpInside)
         DrawingView.addSubview(eraserButton)
+        
+        let undoButton = UIButton(frame: CGRect(x: 90, y: 10, width: 30, height: 30))
+        DrawingView.addSubview(undoButton)
+        undoButton.setImage(UIImage(systemName: "arrow.uturn.backward"), for: .normal)
+        undoButton.contentMode = .scaleAspectFit
+        undoButton.tintColor = Colors.highlight
+        undoButton.layoutMargins = .zero
+        undoButton.addTarget(self, action: #selector(undo(_:)), for: .touchUpInside)
+        
         enterButton.frame = CGRect(x: view.frame.width - 100, y: topHeight-keyboard + 20, width: 50, height: 50)
         enterButton.setImage(UIImage(systemName: "arrowshape.right.fill"), for: .normal)
         enterButton.tintColor = Colors.highlight
@@ -182,9 +191,9 @@ class StandardLearnVC: UIViewController, PKCanvasViewDelegate, UITextFieldDelega
         enterButton.layoutMargins = .init(top: 10, left: 10, bottom: 10, right: 10)
         view.addSubview(enterButton)
         
-        EndScreen.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
+        EndScreen.frame = CGRect(x: 0, y: 60, width: view.frame.width, height: view.frame.height - 60)
         view.addSubview(EndScreen)
-        EndLabel.frame = CGRect(x: 100, y: 100, width: view.frame.width - 200, height: view.frame.height - 275)
+        EndLabel.frame = CGRect(x: 100, y: 100 - 60, width: view.frame.width - 200, height: view.frame.height - 275)
         EndLabel.text = ""
         EndLabel.font = UIFont(name: "LilGrotesk-Regular", size: 40)
         EndLabel.textColor = Colors.text
@@ -192,7 +201,7 @@ class StandardLearnVC: UIViewController, PKCanvasViewDelegate, UITextFieldDelega
         EndLabel.numberOfLines = 0
         EndScreen.addSubview(EndLabel)
         let EndButton = UIButton()
-        EndButton.frame = CGRect(x: (view.frame.width / 2) - 125, y: view.frame.height - 175, width: 250, height: 75)
+        EndButton.frame = CGRect(x: (view.frame.width / 2) - 125, y: view.frame.height - 175 - 60, width: 250, height: 75)
         EndButton.backgroundColor = Colors.highlight
         EndButton.layer.cornerRadius = 15
         EndButton.setTitle("Next round", for: .normal)
@@ -246,7 +255,9 @@ class StandardLearnVC: UIViewController, PKCanvasViewDelegate, UITextFieldDelega
     @objc func clear(_ sender: UIButton) {
         DrawingView.drawing = recolor(PKDrawing())
     }
-    
+    @objc func undo(_ sender: UIButton) {
+        DrawingView.undoManager?.undo()
+    }
     func correctAnim(_ i: Int){
         DrawingView.backgroundColor = Colors.green
         TextField.backgroundColor = Colors.green
@@ -276,26 +287,32 @@ class StandardLearnVC: UIViewController, PKCanvasViewDelegate, UITextFieldDelega
             UIView.animate(withDuration: 0.2, animations: {
                 self.CardLabel.alpha = 0
                 self.CardDrawing.alpha = 0
+                self.CardImage.alpha = 0
             }, completion: {_ in
                 self.CardLabel.text = self.cards[i][3] as? String
+                self.CardLabel.isHidden = false
                 UIView.animate(withDuration: 1, animations: {
                     self.CardLabel.alpha = 1
                 }, completion: {_ in
                     UIView.animate(withDuration: 1, animations: {
                         self.CardLabel.alpha = 0
                     }, completion: {_ in
+                        self.CardLabel.isHidden = true
+                        self.CardDrawing.isHidden = true
+                        self.CardImage.isHidden = true
                         if(self.cards[i][0] as! String == "t"){
                             self.CardLabel.text = self.cards[i][1] as? String
+                            self.CardLabel.isHidden = false
+                        }else if(self.cards[i][0] as! String == "d"){
+                            setDrawing(self.cards[i][1] as! String, self.CardDrawing)
+                            self.CardDrawing.isHidden = false
                         }else{
-                            do {
-                                try self.CardDrawing.drawing = PKDrawing(data: self.cards[i][1] as! Data)
-                            } catch {
-                                
-                            }
+                            self.CardImage.isHidden = false
                         }
                         UIView.animate(withDuration: 0.2, animations: {
                             self.CardLabel.alpha = 1
                             self.CardDrawing.alpha = 1
+                            self.CardImage.alpha = 1
                         })
                     })
                 })
@@ -381,12 +398,7 @@ class StandardLearnVC: UIViewController, PKCanvasViewDelegate, UITextFieldDelega
             CardLabel.isHidden = true
             CardImage.isHidden = true
             
-            do {
-                CardDrawing.drawing = try recolor(PKDrawing(data: cards[cardOrder[index]][3] as! Data))
-            } catch {
-                print("Error loading drawing: \(error)")
-            }
-            
+            setDrawing(cards[cardOrder[index]][3] as! String, CardDrawing)
             incorrectButton.isHidden = false
             correctButton.isHidden = false
             
@@ -462,14 +474,10 @@ class StandardLearnVC: UIViewController, PKCanvasViewDelegate, UITextFieldDelega
                 CardLabel.text = cards[cardOrder[index]][1] as? String
             }else if(cards[cardOrder[index]][0] as! String == "d"){
                 CardDrawing.isHidden = false
-                do {
-                    CardDrawing.drawing = try recolor(PKDrawing(data: cards[cardOrder[index]][1] as! Data))
-                }catch{
-                    
-                }
+                setDrawing(cards[cardOrder[index]][1] as! String, CardDrawing)
             }else{
                 CardImage.isHidden = false
-                CardImage.image = UIImage(data: cards[cardOrder[index]][1] as! Data)
+                CardImage.image = getImage(cards[cardOrder[index]][1] as! String)
             }
             currentInput = cards[cardOrder[index]][2] as! String
             if(currentInput == "t"){
@@ -502,7 +510,7 @@ class StandardLearnVC: UIViewController, PKCanvasViewDelegate, UITextFieldDelega
         UIView.animate(withDuration: 0.5, animations: {
             self.CardLabel.frame = CGRect(x: 20, y: 0, width: self.view.frame.width - 40, height: self.topHeight-self.keyboard)
             self.CardDrawing.frame = CGRect(x: 0, y: 0, width: (self.view.frame.width - 161), height: 2*(self.view.frame.width - 161)/3)
-            self.CardImage.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.topHeight-self.keyboard)
+            self.CardImage.frame = CGRect(x: 0, y: 60, width: self.view.frame.width, height: self.topHeight-self.keyboard-60)
             self.TextField.frame = CGRect(x: 50, y: self.topHeight-self.keyboard + 20, width: self.view.frame.width - 100, height: 50)
             self.DrawingView.frame = CGRect(x: 50, y: self.topHeight-self.keyboard + 20, width: self.view.frame.width - 100, height: 250)
             self.enterButton.frame = CGRect(x: self.view.frame.width - 100, y: self.topHeight-self.keyboard + 20, width: 50, height: 50)

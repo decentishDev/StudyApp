@@ -112,3 +112,35 @@ func dateString() -> String {
         
         return formattedDate
     }
+
+func getImage(_ name: String) -> UIImage{
+    if let image = UserDefaults.standard.value(forKey: name) as? Data{
+        return UIImage(data: image)!
+    }
+    return UIImage(named: "color1.png")!
+}
+
+func setDrawing(_ name: String, _ canvas: PKCanvasView){
+    if let drawing = UserDefaults.standard.value(forKey: name) as? Data{
+        do {
+            try canvas.drawing = recolor(PKDrawing(data: drawing))
+        } catch {
+            canvas.drawing = PKDrawing()
+        }
+    }else{
+        canvas.drawing = PKDrawing()
+    }
+}
+
+func generateRandomID(_ length: Int) -> String {
+    let characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+    let charactersArray = Array(characters)
+    var randomID = ""
+
+    for _ in 0..<length {
+        let randomIndex = Int(arc4random_uniform(UInt32(charactersArray.count)))
+        randomID.append(charactersArray[randomIndex])
+    }
+
+    return randomID
+}

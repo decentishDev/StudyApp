@@ -141,7 +141,7 @@ class NewSetVC: UIViewController, UIDocumentPickerDelegate {
         do {
             if fileURL.pathExtension == "dlset" {
                 let data = try Data(contentsOf: fileURL)
-                if let decodedCards = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? [String: Any] {
+                if var decodedCards = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? [String: Any] {
                     
 //                    if let image = decodedCards["image"] as? Data {
 //                        var images = defaults.array(forKey: "images") as? [Data?] ?? []
@@ -154,10 +154,43 @@ class NewSetVC: UIViewController, UIDocumentPickerDelegate {
                         }
                     }
                     
-                        
-                    var images = defaults.array(forKey: "images") as? [Data?] ?? []
-                    images.append(Colors.placeholderI)
-                    defaults.setValue(images, forKey: "images")
+                    if decodedCards["type"] as! String == "standard"{
+                        if var cards = decodedCards["set"] as? [[Any]]{
+                            for (i, term) in cards.enumerated() {
+                                if term[0] as! String == "d" || term[0] as! String == "i"{
+                                    let id = generateRandomID(16)
+                                    defaults.setValue(term[1], forKey: id)
+                                    cards[i][1] = id
+                                }
+                                
+                                if term[2] as! String == "d"{
+                                    let id = generateRandomID(16)
+                                    defaults.setValue(term[3], forKey: id)
+                                    cards[i][3] = id
+                                }
+                            }
+                            decodedCards["set"] = cards
+                            
+                            var oldLearn: [Int] = []
+                            for _ in 0 ..< cards.count {
+                                oldLearn.append(0)
+                            }
+                            var oldFlash: [Bool] = []
+                            for _ in 0 ..< cards.count {
+                                oldFlash.append(false)
+                            }
+                            decodedCards["flashcards"] = oldFlash
+                            decodedCards["learn"] = oldLearn
+                        }
+                    }
+                    print(decodedCards["image"])
+                    if var image = decodedCards["image"] as? Data{
+                        let id = generateRandomID(16)
+                        defaults.setValue(image, forKey: id)
+                        decodedCards["image"] = id
+                    }else{
+                        decodedCards["image"] = ""
+                    }
                     
                     var sets = defaults.array(forKey: "sets") as? [[String: Any]] ?? []
                     sets.append(decodedCards)

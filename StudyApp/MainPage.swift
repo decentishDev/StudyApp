@@ -62,8 +62,8 @@ class MainPage: UIViewController, NewSetDelegate {
             //print(data)
             for (index, i) in data.enumerated() {
 //                if i["image"] != nil {
-                sets.append([i["name"] as! String, i["type"] as! String, (defaults.value(forKey: "images") as! [Data?])[index]])
-                    
+                sets.append([i["name"] as! String, i["type"] as! String, i["image"] as? String])
+                    //print(i["image"] as? String)
 //                }else{
 //                    sets.append([i["name"] as! String, i["type"] as! String, nil])
 //                }
@@ -78,38 +78,19 @@ class MainPage: UIViewController, NewSetDelegate {
 //            revwar["date"] = "Last edited: May 20th, 2024"
 //            revwar["set"] = []
             var trivia: Dictionary<String, Any> = Dictionary()
-            trivia["name"] = "Trivia"
+            trivia["name"] = "Example Set"
             trivia["type"] = "standard"
-            trivia["author"] = "mlundeen5270"
-            trivia["flashcards"] = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]
-            trivia["date"] = "Last edited: May 20th, 2024"
-            trivia["learn"] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            trivia["author"] = ""
+            trivia["flashcards"] = [false]
+            trivia["date"] = "Last edited: " + dateString()
+            trivia["learn"] = [0]
             trivia["set"] = [
-                ["t", "What is the boiling point of water in Celsius?", "t", "100°C"],
-                ["t", "Who wrote the novel 'Pride and Prejudice'?", "t", "Jane Austen"],
-                ["t", "What is the chemical symbol for gold?", "t", "Au"],
-                ["t", "What is the tallest mountain in the world?", "t", "Mount Everest"],
-                ["t", "What year did the Titanic sink?", "t", "1912"],
-                ["t", "What is the capital of Brazil?", "t", "Brasília"],
-                ["t", "Who painted the 'Mona Lisa'?", "t", "Leonardo da Vinci"],
-                ["t", "What is the currency of Japan?", "t", "Japanese yen"],
-                ["t", "What is the largest mammal in the world?", "t", "Blue whale"],
-                ["t", "What is the chemical formula for water?", "t", "H2O"],
-                ["t", "Who discovered penicillin?", "t", "Alexander Fleming"],
-                ["t", "What is the main ingredient in guacamole?", "t", "Avocado"],
-                ["t", "What is the capital of Australia?", "t", "Canberra"],
-                ["t", "What is the square root of 144?", "t", "12"],
-                ["t", "Who wrote 'To Kill a Mockingbird'?", "t", "Harper Lee"],
-                ["t", "What is the chemical symbol for iron?", "t", "Fe"],
-                ["t", "What is the largest ocean on Earth?", "t", "Pacific Ocean"],
-                ["t", "What is the speed of light in a vacuum?", "t", "299,792,458 meters per second"],
-                ["t", "Who was the first woman to ever win a Nobel Prize in the whole entire large global world?", "t", "Marie Curie"],
-                ["t", "What is the capital of South Africa?", "t", "Pretoria"]
+                ["t", "Example question", "t", "Example answer"],
             ]
             trivia["version"] = Colors.version
+            trivia["image"] = ""
             defaults.setValue([trivia], forKey: "sets")
-            defaults.setValue([Colors.placeholderI] as [Data?], forKey: "images")
-            sets.append(["Trivia", "standard", Colors.placeholderI])
+            sets.append(["Example Set", "standard", ""])
             defaults.setValue(false, forKey: "fingerDrawing")
 //            let image = UIImage(named: "samuel-branch-ZPVisr0s_hQ-unsplash.jpg")?.pngData()
 //            sets.append(["American Revolution", "web", image])
@@ -149,7 +130,7 @@ class MainPage: UIViewController, NewSetDelegate {
         //topBar.frame = CGRect(x: 0, y: 0, width: stackView.frame.width, height: 50)
         topBar.heightAnchor.constraint(equalToConstant: 50).isActive = true
         stackView.addArrangedSubview(topBar)
-        topBar.widthAnchor.constraint(equalTo: stackView.widthAnchor).isActive = true
+        topBar.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -120).isActive = true
         //topBar.translatesAutoresizingMaskIntoConstraints = false
         //topBar.backgroundColor = .red
         let icon = UIImageView(image: UIImage(named: "DendriticLearningIcon-01.svg")?.withRenderingMode(.alwaysTemplate))
@@ -230,8 +211,8 @@ class MainPage: UIViewController, NewSetDelegate {
                         let setView = UIView()
                         row.addArrangedSubview(setView)
                         var image = UIImageView()
-                        if sets[j][2] as? Data != Colors.placeholderI {
-                            image = UIImageView(image: UIImage(data: sets[j][2] as! Data))
+                        if sets[j][2] as? String != "" {
+                            image = UIImageView(image: getImage(sets[j][2] as! String))
                             image.layer.cornerRadius = 10
                             image.contentMode = .scaleAspectFill
                             image.clipsToBounds = true
@@ -356,17 +337,15 @@ class MainPage: UIViewController, NewSetDelegate {
             trivia["author"] = "mlundeen5270"
             trivia["flashcards"] = [false]
             trivia["date"] = "Last edited: " + dateString()
-            trivia["image"] = Colors.placeholderI
+            trivia["image"] = ""
             trivia["set"] = [["t", "Example term", "t", "Example definition"]]
             trivia["learn"] = [0]
             trivia["version"] = Colors.version
-            sets.append(["New Set", "standard", Colors.placeholderI])
+            trivia["image"] = ""
+            sets.append(["New Set", "standard", ""])
             var oldData = defaults.value(forKey: "sets") as! [Any]
             oldData.append(trivia)
             defaults.setValue(oldData, forKey: "sets")
-            var images = (defaults.value(forKey: "images") as! [Data?])
-            images.append(Colors.placeholderI)
-            defaults.setValue(images, forKey: "images")
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
                 self.performSegue(withIdentifier: "viewStandardSet", sender: self)
                 //goToEditor = false
@@ -381,13 +360,11 @@ class MainPage: UIViewController, NewSetDelegate {
             revwar["date"] = "Last edited: " + dateString()
             revwar["set"] = []
             revwar["version"] = Colors.version
-            sets.append(["New Web", "web", Colors.placeholderI])
+            revwar["image"] = ""
+            sets.append(["New Web", "web", ""])
             var oldData = defaults.value(forKey: "sets") as! [Any]
             oldData.append(revwar)
             defaults.setValue(oldData, forKey: "sets")
-            var images = (defaults.value(forKey: "images") as! [Data?])
-            images.append(Colors.placeholderI)
-            defaults.setValue(images, forKey: "images")
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
                 self.performSegue(withIdentifier: "viewWebSet", sender: self)
             }

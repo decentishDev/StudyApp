@@ -17,10 +17,10 @@ class WebSetVC: UIViewController {
     var set = 0 //No need to pass actual web with the content since we can't view it on this screen
     var goToEditor = false
     
-    var name: String = ""
-    var date: String = ""
+    var name = ""
+    var date = ""
     
-    var image: Data? = Colors.placeholderI
+    var image = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,7 +53,7 @@ class WebSetVC: UIViewController {
             }
             name = data["name"] as! String
             date = data["date"] as! String
-            image = (defaults.value(forKey: "images") as! [Data?])[set]
+            image = (data["image"] as? String) ?? ""
             
             for subview in stackView.arrangedSubviews {
                 stackView.removeArrangedSubview(subview)
@@ -63,10 +63,10 @@ class WebSetVC: UIViewController {
             for subview in view.subviews {
                 subview.removeFromSuperview()
             }
-            if(image == Colors.placeholderI){
+            if(image == ""){
                 view.backgroundColor = Colors.background
             }else{
-                let backgroundImage = UIImageView(image: UIImage(data: image!))
+                let backgroundImage = UIImageView(image: getImage(image))
                 backgroundImage.contentMode = .scaleAspectFill
                 view.addSubview(backgroundImage)
                 backgroundImage.translatesAutoresizingMaskIntoConstraints = false
@@ -186,7 +186,7 @@ class WebSetVC: UIViewController {
         conW(button, (title as NSString).size(withAttributes: [NSAttributedString.Key.font: UIFont(name: "LilGrotesk-Bold", size: 30)!]).width + 40)
         button.layer.masksToBounds = true
 
-        if(image == Colors.placeholderI){
+        if(image == ""){
             button.backgroundColor = Colors.secondaryBackground
         }else{
             var blurEffect = UIBlurEffect(style: .systemThinMaterial)
@@ -236,7 +236,9 @@ class WebSetVC: UIViewController {
     
     @objc func export(sender: UIButton){
         var cardsDictionary: [String: Any] = (defaults.object(forKey: "sets") as! [Dictionary<String, Any>])[set]
-        //cardsDictionary["images"] = (defaults.object(forKey: "images") as! [Data?])[set]
+        if let image = cardsDictionary["images"] as? String{
+            cardsDictionary["images"] = defaults.object(forKey: image) as! Data
+        }
         guard let data = try? NSKeyedArchiver.archivedData(withRootObject: cardsDictionary, requiringSecureCoding: false) else {
             print("Failed to archive data.")
             return

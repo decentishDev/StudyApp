@@ -140,16 +140,12 @@ class FlashcardsVC: UIViewController {
                 CardDrawing.isHidden = true
                 CardImage.isHidden = true
             }else if(cards[cardOrder[index]][0] as! String == "d"){
-                do {
-                    try CardDrawing.drawing = recolor(PKDrawing(data: cards[cardOrder[index]][1] as! Data))
-                } catch {
-                    
-                }
+                setDrawing(cards[cardOrder[index]][1] as! String, CardDrawing)
                 CardLabel.isHidden = true
                 CardDrawing.isHidden = false
                 CardImage.isHidden = true
             }else{
-                CardImage.image = UIImage(data: cards[cardOrder[index]][1] as! Data)
+                CardImage.image = getImage(cards[cardOrder[index]][1] as! String)
                 CardLabel.isHidden = true
                 CardDrawing.isHidden = true
                 CardImage.isHidden = false
@@ -306,16 +302,12 @@ class FlashcardsVC: UIViewController {
                 self.CardDrawing.isHidden = true
                 self.CardImage.isHidden = true
             }else if(self.cards[self.cardOrder[self.index]][0] as! String == "d"){
-                do {
-                    try self.CardDrawing.drawing = recolor(PKDrawing(data: self.cards[self.cardOrder[self.index]][1] as! Data))
-                } catch {
-                    
-                }
+                setDrawing(self.cards[self.cardOrder[self.index]][1] as! String, self.CardDrawing)
                 self.CardLabel.isHidden = true
                 self.CardDrawing.isHidden = false
                 self.CardImage.isHidden = true
             }else{
-                self.CardImage.image = UIImage(data: self.cards[self.cardOrder[self.index]][1] as! Data)
+                self.CardImage.image = getImage(self.cards[self.cardOrder[self.index]][1] as! String)
                 self.CardLabel.isHidden = true
                 self.CardDrawing.isHidden = true
                 self.CardImage.isHidden = false
@@ -391,16 +383,12 @@ class FlashcardsVC: UIViewController {
                 self.CardDrawing.isHidden = true
                 self.CardImage.isHidden = true
             }else if(self.cards[self.cardOrder[self.index]][0] as! String == "d"){
-                do {
-                    try self.CardDrawing.drawing = recolor(PKDrawing(data: self.cards[self.cardOrder[self.index]][1] as! Data))
-                } catch {
-                    
-                }
+                setDrawing(self.cards[self.cardOrder[self.index]][1] as! String, self.CardDrawing)
                 self.CardLabel.isHidden = true
                 self.CardDrawing.isHidden = false
                 self.CardImage.isHidden = true
             }else{
-                self.CardImage.image = UIImage(data: self.cards[self.cardOrder[self.index]][1] as! Data)
+                self.CardImage.image = getImage(self.cards[self.cardOrder[self.index]][1] as! String)
                 self.CardLabel.isHidden = true
                 self.CardDrawing.isHidden = true
                 self.CardImage.isHidden = false
@@ -418,16 +406,12 @@ class FlashcardsVC: UIViewController {
                 OverlayDrawing.isHidden = true
                 OverlayImage.isHidden = true
             }else if(cards[cardOrder[overlayI]][0] as! String == "d"){
-                do {
-                    try OverlayDrawing.drawing = recolor(PKDrawing(data: cards[cardOrder[overlayI]][1] as! Data))
-                } catch {
-                    
-                }
+                setDrawing(cards[cardOrder[overlayI]][1] as! String, OverlayDrawing)
                 OverlayLabel.isHidden = true
                 OverlayDrawing.isHidden = false
                 OverlayImage.isHidden = true
             }else{
-                OverlayImage.image = UIImage(data: cards[cardOrder[overlayI]][1] as! Data)
+                OverlayImage.image = getImage(cards[cardOrder[overlayI]][1] as! String)
                 OverlayLabel.isHidden = true
                 OverlayDrawing.isHidden = true
                 OverlayImage.isHidden = false
@@ -439,11 +423,7 @@ class FlashcardsVC: UIViewController {
                 OverlayDrawing.isHidden = true
                 OverlayImage.isHidden = true
             }else if(cards[cardOrder[overlayI]][2] as! String == "d"){
-                do {
-                    try OverlayDrawing.drawing = recolor(PKDrawing(data: cards[cardOrder[overlayI]][3] as! Data))
-                } catch {
-                    
-                }
+                setDrawing(cards[cardOrder[overlayI]][3] as! String, OverlayDrawing)
                 OverlayLabel.isHidden = true
                 OverlayDrawing.isHidden = false
                 OverlayImage.isHidden = true
@@ -504,11 +484,7 @@ class FlashcardsVC: UIViewController {
                     self.CardDrawing.isHidden = true
                     self.CardImage.isHidden = true
                 }else if(self.cards[self.cardOrder[self.index]][2] as! String == "d"){
-                    do {
-                        try self.CardDrawing.drawing = recolor(PKDrawing(data: self.cards[self.cardOrder[self.index]][3] as! Data))
-                    } catch {
-                        
-                    }
+                    setDrawing(self.cards[self.cardOrder[self.index]][3] as! String, self.CardDrawing)
                     self.CardDrawing.layer.transform = CATransform3DMakeRotation(CGFloat.pi, 1, 0, 0)
                     self.CardLabel.isHidden = true
                     self.CardDrawing.isHidden = false
@@ -527,17 +503,13 @@ class FlashcardsVC: UIViewController {
                     self.CardDrawing.isHidden = true
                     self.CardImage.isHidden = true
                 }else if(self.cards[self.cardOrder[self.index]][0] as! String == "d"){
-                    do {
-                        try self.CardDrawing.drawing = recolor(PKDrawing(data: self.cards[self.cardOrder[self.index]][1] as! Data))
-                    } catch {
-                        
-                    }
+                    setDrawing(self.cards[self.cardOrder[self.index]][1] as! String, self.CardDrawing)
                     self.CardDrawing.layer.transform = CATransform3DMakeRotation(CGFloat.pi, 0, 0, 0)
                     self.CardLabel.isHidden = true
                     self.CardDrawing.isHidden = false
                     self.CardImage.isHidden = true
                 }else{
-                    self.CardImage.image = UIImage(data: self.cards[self.cardOrder[self.index]][1] as! Data)
+                    self.CardImage.image = getImage(self.cards[self.cardOrder[self.index]][1] as! String)
                     self.CardImage.layer.transform = CATransform3DMakeRotation(CGFloat.pi, 0, 0, 0)
                     self.CardLabel.isHidden = true
                     self.CardDrawing.isHidden = true

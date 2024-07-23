@@ -19,6 +19,7 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
     var currentEdit: Int = -1
     var selectedButton: UIButton? = nil
     var addedButtons: [UIButton] = []
+    var image = ""
     
     var moveRequestNumber = 0
     
@@ -38,7 +39,7 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
         //print(data)
         name = data["name"] as! String
         web = data["set"] as! [[Any]]
-        
+        image = (data["image"] as? String) ?? ""
         scrollView = UIScrollView(frame: view.bounds)
         scrollView.contentSize = CGSize(width: view.bounds.width, height: view.bounds.height)
         scrollView.showsVerticalScrollIndicator = false
@@ -82,7 +83,7 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
         addButton.setTitleColor(Colors.highlight, for: .normal)
         addButton.titleLabel?.font = UIFont(name: "LilGrotesk-Bold", size: 25)
         addButton.addTarget(self, action: #selector(addButtonTapped(_:)), for: .touchUpInside)
-        addButton.frame = CGRect(x: view.frame.width - 420, y: 30, width: 150, height: 50)
+        addButton.frame = CGRect(x: view.frame.width - 300, y: 30, width: 150, height: 50)
         addButton.backgroundColor = Colors.secondaryBackground
         addButton.layer.cornerRadius = 10
         
@@ -97,8 +98,9 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
         themesButton.backgroundColor = Colors.secondaryBackground
         themesButton.layer.cornerRadius = 10
         
-        view.addSubview(themesButton)
-        if((defaults.value(forKey: "images") as! [Data?])[set] == Colors.placeholderI){
+        //view.addSubview(themesButton)
+        
+        if(image == ""){
             imageButton.setImage(UIImage(systemName: "photo"), for: .normal)
         }else{
             imageButton.setImage(UIImage(systemName: "rectangle.badge.xmark.fill"), for: .normal)
@@ -290,13 +292,12 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
     }
     @objc func addButtonTapped(_ sender: UIButton) {
         currentEdit = -1
-        
+        handleBackTap(UITapGestureRecognizer())
         let popupVC = WebTermEditorVC()
         popupVC.delegate = self
         popupVC.modalPresentationStyle = .overCurrentContext
         popupVC.modalTransitionStyle = .crossDissolve
         present(popupVC, animated: true, completion: nil)
-        
     }
     
     @objc func deleteSet(_ sender: UIButton) {
@@ -305,9 +306,7 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
             var sets = self.defaults.object(forKey: "sets") as! [Any]
             sets.remove(at: self.set)
             self.defaults.setValue(sets, forKey: "sets")
-            var images = self.defaults.array(forKey: "images") as? [Data?] ?? []
-            images.remove(at: self.set)
-            self.defaults.setValue(images, forKey: "images")
+            self.defaults.removeObject(forKey: self.image)
             self.performSegue(withIdentifier: "webEditorVC_unwind", sender: nil)
             self.performSegue(withIdentifier: "webEditorVC_unwind", sender: nil)
         }
@@ -329,6 +328,17 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
     
     @objc func handleBackTap(_ gestureRecognizer: UITapGestureRecognizer) {
         titleField.resignFirstResponder()
+        selectedButton?.isEnabled = true
+        for i in addedButtons {
+            i.removeFromSuperview()
+        }
+        addedButtons = []
+        for i in 0..<100{
+            DispatchQueue.main.asyncAfter(deadline: .now() + (0.01 * Double(i))){
+                self.updateLines()
+            }
+        }
+        //updateLines()
     }
     
     @objc func handlePan(_ gestureRecognizer: UIPanGestureRecognizer) {
@@ -356,6 +366,7 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
         previousData[set]["set"] = web
         previousData[set]["name"] = name
         previousData[set]["date"] = "Last edited: " + dateString()
+        previousData[set]["image"] = image
         defaults.set(previousData, forKey: "sets")
     }
     
@@ -377,6 +388,23 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
                 }
             }
             web[i][4] = newOrder
+            
+            
+            
+            var previousOrder: [Int] = []
+            for (bI, button) in (rectangles[i].subviews[1] as! UIStackView).arrangedSubviews.enumerated() {
+                //if(bI != (rectangles[i].subviews[1] as! UIStackView).arrangedSubviews.count - 1){
+                    previousOrder.append(Int(button.accessibilityIdentifier!)!)
+                //}
+            }
+            previousOrder = previousOrder.sorted{ (web[$0][2] as! CGFloat) < (web[$1][2] as! CGFloat) }
+            for (bI, button) in (rectangles[i].subviews[1] as! UIStackView).arrangedSubviews.enumerated() {
+                //if(bI != (rectangles[i].subviews[1] as! UIStackView).arrangedSubviews.count - 1){
+                    button.accessibilityIdentifier = String(previousOrder[bI])
+                    //print(web[previousOrder[bI]][2])
+                //}
+            }
+            //print("////////////")
         }
         for (rectI, movedView) in rectangles.enumerated(){
             let outgoing = web[rectI][4] as? [Int]
@@ -515,6 +543,11 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
     }
     
     @objc func newConnection(_ sender: UIButton){
+        selectedButton?.isEnabled = true
+        for i in addedButtons {
+            i.removeFromSuperview()
+        }
+        addedButtons = []
         if(rectangles.count > 1){
             selectedButton = sender
             
@@ -538,9 +571,14 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
                     addedButtons.append(addConnection)
                 }
             }
-            updateLines()
+            //updateLines()
         }
-
+        for i in 0..<100{
+            DispatchQueue.main.asyncAfter(deadline: .now() + (0.01 * Double(i))){
+                self.updateLines()
+            }
+        }
+        //updateLines()
     }
     
     @objc func finishConnection(_ sender: UIButton){
@@ -599,6 +637,7 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
             self.updateLines()
         }
         save()
+        addedButtons = []
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
@@ -648,7 +687,7 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
     }
     
     func deleteTerm() {
-        print(web)
+        //print(web)
         for i in (web[currentEdit][4] as! [Int]){
             for button in (rectangles[i].subviews[1] as! UIStackView).arrangedSubviews {
                 if button.accessibilityIdentifier == String(currentEdit){
@@ -689,23 +728,25 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
     }
     
     @objc func changeImage(_ sender: UIButton) {
-        var images = (defaults.value(forKey: "images") as! [Data?])
-        if images[set] == Colors.placeholderI {
+        if image == "" {
             present(imagePicker, animated: true, completion: nil)
         }else{
-            images[set] = Colors.placeholderI
-            defaults.setValue(images, forKey: "images")
+            defaults.removeObject(forKey: image)
+            image = ""
             imageButton.setImage(UIImage(systemName: "photo"), for: .normal)
         }
+        save()
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             if let imageData = pickedImage.pngData() {
-                var images = (defaults.value(forKey: "images") as! [Data?])
-                images[set] = imageData
-                defaults.setValue(images, forKey: "images")
+                if image == "" {
+                    image = generateRandomID(16)
+                }
+                defaults.set(imageData, forKey: image)
                 imageButton.setImage(UIImage(systemName: "rectangle.badge.xmark.fill"), for: .normal)
+                save()
             }
         }
         dismiss(animated: true, completion: nil)

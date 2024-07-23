@@ -19,12 +19,11 @@ class WebTermEditorVC: UIViewController {
         // Set preferred content size
         self.definesPresentationContext = true
         view.backgroundColor = .black.withAlphaComponent(0.5)
-        let centeredView = UIView(frame: CGRect(x: 0, y: 0, width: 500, height: 320))
+        let centeredView = UIView(frame: CGRect(x: (view.frame.width/2) - 250, y: 80, width: 500, height: 320))
         if !addingTerm {
-            centeredView.frame = CGRect(x: 0, y: 0, width: 500, height: 390)
+            centeredView.frame = CGRect(x: (view.frame.width/2) - 250, y: 80, width: 500, height: 390)
         }
         view.addSubview(centeredView)
-        centeredView.center = view.center
         view.layer.cornerRadius = 10
         view.clipsToBounds = true
 //        view.addGestureRecognizer(UIGestureRecognizer(target: self, action: #selector(cancelTap(_:))))
@@ -88,7 +87,7 @@ class WebTermEditorVC: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        view.subviews[0].center = view.center
+        //view.subviews[0].center = view.center
     }
     
     @objc func deleteTerm(_ sender: UIButton){

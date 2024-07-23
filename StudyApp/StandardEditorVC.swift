@@ -27,6 +27,7 @@ class StandardEditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegat
     
     let imagePicker = UIImagePickerController()
     let imageButton = UIButton()
+    var image = ""
     
     var keyboardHeight = 0
     
@@ -41,6 +42,7 @@ class StandardEditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegat
         name = data["name"] as! String
         date = data["date"] as! String
         cards = data["set"] as! [[Any]]
+        image = (data["image"] as? String) ?? ""
         flashcards = data["flashcards"] as! [Bool]
         learn = data["learn"] as! [Int]
         view.backgroundColor = Colors.background
@@ -128,7 +130,7 @@ deinit {
         
         topBar.addSubview(titleField)
         
-        if((defaults.value(forKey: "images") as! [Data?])[set] == Colors.placeholderI){
+        if(image == ""){
             imageButton.setImage(UIImage(systemName: "photo"), for: .normal)
         }else{
             imageButton.setImage(UIImage(systemName: "rectangle.badge.xmark.fill"), for: .normal)
@@ -197,7 +199,7 @@ deinit {
                 termImage.layer.cornerRadius = 10
                 termImage.accessibilityIdentifier = String(i)
                 termImage.addTarget(self, action: #selector(changeTermImage(_:)), for: .touchUpInside)
-                termImage.setImage(UIImage(data: card[1] as! Data), for: .normal)
+                termImage.setImage(getImage(card[1] as! String), for: .normal)
                 termImage.accessibilityIdentifier = String(i)
                 termDefinitionStackView.addArrangedSubview(termImage)
                 //termImage.backgroundColor = .blue
@@ -217,11 +219,7 @@ deinit {
                 //definitionDrawing.widthAnchor.constraint(equalTo: definitionView.widthAnchor).isActive = true
                 //definitionDrawing.heightAnchor.constraint(equalToConstant: (view.frame.width - 141)/3).isActive = true
                 termDrawing.isUserInteractionEnabled = false
-                do {
-                    try termDrawing.drawing = recolor(PKDrawing(data: card[1] as! Data))
-                } catch {
-                    
-                }
+                setDrawing(card[1] as! String, termDrawing)
                 termDrawing.translatesAutoresizingMaskIntoConstraints = false
                 //definitionDrawing.backgroundColor = .red
                 drawingButton.insertSubview(termDrawing, at: 0)
@@ -272,11 +270,7 @@ deinit {
                 definitionDrawing.isUserInteractionEnabled = false
                 definitionDrawing.tool = Colors.pen
                 definitionDrawing.overrideUserInterfaceStyle = .light
-                do {
-                    try definitionDrawing.drawing = recolor(PKDrawing(data: card[3] as! Data))
-                } catch {
-                    
-                }
+                setDrawing(card[3] as! String, definitionDrawing)
                 definitionDrawing.translatesAutoresizingMaskIntoConstraints = false
                 //definitionDrawing.backgroundColor = .red
                 drawingButton.insertSubview(definitionDrawing, at: 0)
@@ -523,7 +517,7 @@ deinit {
             termDefinitionStackView.addArrangedSubview(termView)
             //termView.backgroundColor = .green
         }else if(defaultTerm == "i"){
-            term = UIImage(named: "color1.png")!.pngData()!
+            //term = ""
             let termImage = UIButton(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
             termImage.translatesAutoresizingMaskIntoConstraints = false
             //termImage.setImage(UIImage(named: "color1.png"), for: .normal)
@@ -538,7 +532,7 @@ deinit {
             termDefinitionStackView.addArrangedSubview(termImage)
             //termImage.backgroundColor = .blue
         }else{
-            term = PKDrawing().dataRepresentation()
+            //term = ""
             let drawingButton = UIButton(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
             drawingButton.translatesAutoresizingMaskIntoConstraints = false
             drawingButton.widthAnchor.constraint(equalToConstant: (view.frame.width - 141)/2).isActive = true
@@ -591,7 +585,7 @@ deinit {
             termDefinitionStackView.addArrangedSubview(definitionView)
             //definitionView.backgroundColor = .blue
         }else if defaultDefinition == "d"{
-            definition = PKDrawing().dataRepresentation()
+            //definition = ""
             let drawingButton = UIButton(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
             drawingButton.translatesAutoresizingMaskIntoConstraints = false
             drawingButton.heightAnchor.constraint(equalToConstant: (view.frame.width - 141)/3).isActive = true
@@ -838,7 +832,7 @@ deinit {
 //                let original = ((sender.superview!.superview! as! UIStackView).arrangedSubviews[0] as! UIStackView).arrangedSubviews[0]
 //                ((sender.superview!.superview! as! UIStackView).arrangedSubviews[0] as! UIStackView).removeArrangedSubview(original)
                 ((sender.superview!.superview! as! UIStackView).arrangedSubviews[0] as! UIStackView).insertArrangedSubview(drawingButton, at: 0)
-                cards[i][1] = PKDrawing().dataRepresentation()
+                cards[i][1] = ""
             }
         case "4":
             if cards[i][2] as! String != "t" && cards[i][2] as! String != "d-r"{
@@ -897,7 +891,7 @@ deinit {
 //            let original = ((sender.superview!.superview! as! UIStackView).arrangedSubviews[0] as! UIStackView).arrangedSubviews[2]
 //            ((sender.superview!.superview! as! UIStackView).arrangedSubviews[0] as! UIStackView).removeArrangedSubview(original)
             ((sender.superview!.superview! as! UIStackView).arrangedSubviews[0] as! UIStackView).addArrangedSubview(drawingButton)
-            cards[i][3] = PKDrawing().dataRepresentation()
+            cards[i][3] = ""
         case "6":
             if(cards[i][2] as! String == "d-r"){
                 sender.setImage(UIImage(systemName: "circle"), for: .normal)
@@ -962,6 +956,7 @@ deinit {
         previousData[set]["flashcards"] = flashcards
         previousData[set]["learn"] = learn
         previousData[set]["date"] = "Last edited: " + dateString()
+        previousData[set]["image"] = image
         defaults.set(previousData, forKey: "sets")
     }
     
@@ -997,9 +992,17 @@ deinit {
             var sets = self.defaults.object(forKey: "sets") as! [Any]
             sets.remove(at: self.set)
             self.defaults.setValue(sets, forKey: "sets")
-            var images = self.defaults.array(forKey: "images") as? [Data?] ?? []
-            images.remove(at: self.set)
-            self.defaults.setValue(images, forKey: "images")
+            self.defaults.removeObject(forKey: self.image)
+            for i in self.cards {
+                if i[0] as! String == "i"{
+                    self.defaults.removeObject(forKey: i[1] as! String)
+                }else if i[0] as! String == "d"{
+                    self.defaults.removeObject(forKey: i[1] as! String)
+                }
+                if i[2] as! String == "d"{
+                    self.defaults.removeObject(forKey: i[3] as! String)
+                }
+            }
             self.performSegue(withIdentifier: "standardEditorVC_unwind", sender: nil)
             self.performSegue(withIdentifier: "standardEditorVC_unwind", sender: nil)
         }
@@ -1055,13 +1058,12 @@ deinit {
     
     
     @objc func changeImage(_ sender: UIButton) {
-        var images = (defaults.value(forKey: "images") as! [Data?])
-        if images[set] == Colors.placeholderI {
+        if image == "" {
             currentImagePicker = -1
             present(imagePicker, animated: true, completion: nil)
         }else{
-            images[set] = Colors.placeholderI
-            defaults.setValue(images, forKey: "images")
+            defaults.removeObject(forKey: image)
+            image = ""
             imageButton.setImage(UIImage(systemName: "photo"), for: .normal)
         }
         save()
@@ -1080,12 +1082,15 @@ deinit {
         if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             if let imageData = pickedImage.pngData() {
                 if(currentImagePicker == -1){
-                    var images = (defaults.value(forKey: "images") as! [Data?])
-                    images[set] = imageData
-                    defaults.setValue(images, forKey: "images")
+                    if image == "" {
+                        image = generateRandomID(16)
+                    }
+                    defaults.set(imageData, forKey: image)
                     imageButton.setImage(UIImage(systemName: "rectangle.badge.xmark.fill"), for: .normal)
                 }else{
-                    cards[currentImagePicker][1] = imageData
+                    let id = generateRandomID(16)
+                    cards[currentImagePicker][1] = id
+                    defaults.setValue(imageData, forKey: id)
                     (((allTermsStackView.arrangedSubviews[currentImagePicker] as! UIStackView).arrangedSubviews[0] as! UIStackView).arrangedSubviews[0] as! UIButton).setImage(UIImage(data: imageData), for: .normal)
                 }
             }

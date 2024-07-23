@@ -17,10 +17,10 @@ class StandardSetVC: UIViewController {
     
     var set = 0 // passed through mainpage
     var cards: [[Any]] = [] //t: text, d: drawing, s: speech - maybe
-    var name: String = ""
-    var date: String = ""
+    var name = ""
+    var date = ""
     
-    var image: Data? = Colors.placeholderI
+    var image = ""
     
     var goToEditor = false
     
@@ -58,8 +58,8 @@ class StandardSetVC: UIViewController {
             name = data["name"] as! String
             date = data["date"] as! String
             cards = data["set"] as! [[Any]]
+            image = (data["image"] as? String) ?? ""
 
-            image = (defaults.value(forKey: "images") as! [Data?])[set]
             for subview in stackView.arrangedSubviews {
                 stackView.removeArrangedSubview(subview)
                 subview.removeFromSuperview()
@@ -68,10 +68,10 @@ class StandardSetVC: UIViewController {
             for subview in view.subviews {
                 subview.removeFromSuperview()
             }
-            if(image == Colors.placeholderI){
+            if(image == ""){
                 view.backgroundColor = Colors.background
             }else{
-                let backgroundImage = UIImageView(image: UIImage(data: image!))
+                let backgroundImage = UIImageView(image: getImage(image))
                 backgroundImage.contentMode = .scaleAspectFill
                 view.addSubview(backgroundImage)
                 backgroundImage.translatesAutoresizingMaskIntoConstraints = false
@@ -225,7 +225,7 @@ class StandardSetVC: UIViewController {
                     termImage.widthAnchor.constraint(equalToConstant: (view.frame.width - 156)/2).isActive = true
                     termImage.heightAnchor.constraint(equalToConstant: (view.frame.width - 156)/3).isActive = true
                     termImage.imageView?.contentMode = .scaleAspectFit
-                    termImage.setImage(UIImage(data: card[1] as! Data), for: .normal)
+                    termImage.setImage(getImage(card[1] as! String), for: .normal)
                     termDefinitionStackView.addArrangedSubview(termImage)
                     //termImage.backgroundColor = .blue
                 }else{
@@ -241,13 +241,9 @@ class StandardSetVC: UIViewController {
                     termDrawing.translatesAutoresizingMaskIntoConstraints = false
                     termDrawing.tool = Colors.pen
                     termDrawing.overrideUserInterfaceStyle = .light
-                    do {
-                        try termDrawing.drawing = recolor(PKDrawing(data: card[1] as! Data))
-                    } catch {
-                        
-                    }
+                    setDrawing(card[1] as! String, termDrawing)
                     termDrawing.anchorPoint = CGPoint(x: 1, y: 1)
-                    termDrawing.backgroundColor = Colors.background
+                    termDrawing.backgroundColor = .clear
                     termDrawing.layer.cornerRadius = 10
                     termDefinitionStackView.addArrangedSubview(drawingsuperview)
                     //centerDrawing(termDrawing)
@@ -282,16 +278,12 @@ class StandardSetVC: UIViewController {
                     definitionDrawing.isUserInteractionEnabled = false
                     definitionDrawing.tool = Colors.pen
                     definitionDrawing.overrideUserInterfaceStyle = .light
-                    do {
-                        try definitionDrawing.drawing = recolor(PKDrawing(data: card[3] as! Data))
-                    } catch {
-                        
-                    }
+                    setDrawing(card[3] as! String, definitionDrawing)
                     definitionDrawing.translatesAutoresizingMaskIntoConstraints = false
                     
                     drawingsuperview.addSubview(definitionDrawing)
                     definitionDrawing.anchorPoint = CGPoint(x: 1, y: 1)
-                    definitionDrawing.backgroundColor = Colors.background
+                    definitionDrawing.backgroundColor = .clear
                     //definitionDrawing.backgroundColor = .red
                     termDefinitionStackView.addArrangedSubview(drawingsuperview)
                     
@@ -305,7 +297,7 @@ class StandardSetVC: UIViewController {
                 termDefinitionStackView.spacing = 15
                 conW(termDefinitionStackView, view.frame.width - 100)
                 
-                if(image == Colors.placeholderI){
+                if(image == ""){
                     termDefinitionStackView.backgroundColor = Colors.secondaryBackground
                     termDefinitionStackView.layer.cornerRadius = 10
                 }else{
@@ -340,7 +332,7 @@ class StandardSetVC: UIViewController {
         conW(button, (title as NSString).size(withAttributes: [NSAttributedString.Key.font: UIFont(name: "LilGrotesk-Bold", size: 30)!]).width + 40)
         button.layer.masksToBounds = true
 
-        if(image == Colors.placeholderI){
+        if(image == ""){
             button.backgroundColor = Colors.secondaryBackground
         }else{
             var blurEffect = UIBlurEffect(style: .systemThinMaterial)
@@ -397,17 +389,24 @@ class StandardSetVC: UIViewController {
     
     @objc func export(sender: UIButton){
         var cardsDictionary: [String: Any] = (defaults.object(forKey: "sets") as! [Dictionary<String, Any>])[set]
-        var oldLearn: [Int] = []
-        for _ in 0 ..< cardsDictionary.count {
-            oldLearn.append(0)
+        cardsDictionary.removeValue(forKey: "flashcards")
+        cardsDictionary.removeValue(forKey: "learn")
+        if let image = cardsDictionary["image"] as? String{
+            if image != ""{
+                cardsDictionary["image"] = defaults.object(forKey: image) as! Data
+            }
         }
-        var oldFlash: [Bool] = []
-        for _ in 0 ..< cardsDictionary.count {
-            oldFlash.append(false)
+        var cards = self.cards 
+        for (i, term) in cards.enumerated() {
+            if term[0] as! String == "d" || term[0] as! String == "i"{
+                cards[i][1] = defaults.value(forKey: cards[i][1] as! String)
+            }
+            
+            if term[2] as! String == "d" {
+                cards[i][3] = defaults.value(forKey: cards[i][3] as! String)
+            }
         }
-        cardsDictionary["flashcards"] = oldFlash
-        cardsDictionary["learn"] = oldLearn
-        //cardsDictionary["images"] = (defaults.object(forKey: "images") as! [Data?])[set]
+        cardsDictionary["sets"] = cards
         guard let data = try? NSKeyedArchiver.archivedData(withRootObject: cardsDictionary, requiringSecureCoding: false) else {
             print("Failed to archive data.")
             return

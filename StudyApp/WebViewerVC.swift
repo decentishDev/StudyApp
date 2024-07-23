@@ -278,6 +278,41 @@ class WebViewerVC: UIViewController, UIScrollViewDelegate {
 //    }
     
     func updateLines(){
+        for (i, term) in web.enumerated() {
+            var newOrder: [Int] = []
+            for j in (term[4] as! [Int]){
+                if newOrder.isEmpty {
+                    newOrder.append(j)
+                }else{
+                    for c in 0 ..< newOrder.count {
+                        if ((web[j][2] as! CGFloat) <= (web[newOrder[c]][2] as! CGFloat)){
+                            newOrder.insert(j, at: c)
+                            break
+                        }else if ((c + 1) == newOrder.count) {
+                            newOrder.append(j)
+                        }
+                    }
+                }
+            }
+            web[i][4] = newOrder
+            
+            
+            
+            var previousOrder: [Int] = []
+            for (bI, button) in (rectangles[i].subviews[1] as! UIStackView).arrangedSubviews.enumerated() {
+                //if(bI != (rectangles[i].subviews[1] as! UIStackView).arrangedSubviews.count - 1){
+                    previousOrder.append(Int(button.accessibilityIdentifier!)!)
+                //}
+            }
+            previousOrder = previousOrder.sorted{ (web[$0][2] as! CGFloat) < (web[$1][2] as! CGFloat) }
+            for (bI, button) in (rectangles[i].subviews[1] as! UIStackView).arrangedSubviews.enumerated() {
+                //if(bI != (rectangles[i].subviews[1] as! UIStackView).arrangedSubviews.count - 1){
+                    button.accessibilityIdentifier = String(previousOrder[bI])
+                    //print(web[previousOrder[bI]][2])
+                //}
+            }
+            //print("////////////")
+        }
         for (rectI, movedView) in rectangles.enumerated(){
 //            let rectI = rectangles.firstIndex(of: movedView)
             let outgoing = web[rectI][4] as? [Int]
