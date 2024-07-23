@@ -1,0 +1,225 @@
+2024-07-23 19:17:56 +0000  Initial pipeline context: <IDEDistributionProcessingPipelineContext: 0x7fea796bcd00; archive(resolved)="<IDEArchive: 0x600075a9f840>", distributionTask(resolved)="2", distributionDestination(resolved)="1", distributionMethod(resolved)="<IDEDistributionMethodDevelopmentSigned: 0x600007ca70e0>", team(resolved)="<IDEProvisioningDisambiguatableBasicTeam: 0x600002466e40; teamID='366XTZF564', teamName='Jennifer Lundeen', teamType='Individual', username='decentishdev@gmail.com', isFreeProvisioningTeam='0'>">
+	Chain (15, self inclusive):
+	<IDEDistributionProcessingPipelineContext: 0x7fea796bcd00; archive = "<IDEArchive: 0x600075a9f840>", distributionMethod="<IDEDistributionMethodDevelopmentSigned: 0x600007ca70e0>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x600002466e40; teamID='366XTZF564', teamName='Jennifer Lundeen', teamType='Individual', username='decentishdev@gmail.com', isFreeProvisioningTeam='0'>">
+	<IDEDistributionProcessingPipelineContext: 0x7fea76ca8ef0; archive = "<IDEArchive: 0x600075a9f840>", distributionMethod="<IDEDistributionMethodDevelopmentSigned: 0x600007ca70e0>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x600002466e40; teamID='366XTZF564', teamName='Jennifer Lundeen', teamType='Individual', username='decentishdev@gmail.com', isFreeProvisioningTeam='0'>">
+	<IDEDistributionContext: 0x7fea796a9780; archive = "<IDEArchive: 0x600075a9f840>", distributionMethod="<IDEDistributionMethodDevelopmentSigned: 0x600007ca70e0>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x600002466e40; teamID='366XTZF564', teamName='Jennifer Lundeen', teamType='Individual', username='decentishdev@gmail.com', isFreeProvisioningTeam='0'>">
+	<IDEDistributionContext: 0x7fea78b855b0; archive = "<IDEArchive: 0x600075a9f840>", distributionMethod="<IDEDistributionMethodDevelopmentSigned: 0x600007ca70e0>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x600002466e40; teamID='366XTZF564', teamName='Jennifer Lundeen', teamType='Individual', username='decentishdev@gmail.com', isFreeProvisioningTeam='0'>">
+	<IDEDistributionContext: 0x7fea78b7fd80; archive = "<IDEArchive: 0x600075a9f840>", distributionMethod="<IDEDistributionMethodDevelopmentSigned: 0x600007ca70e0>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x600002466e40; teamID='366XTZF564', teamName='Jennifer Lundeen', teamType='Individual', username='decentishdev@gmail.com', isFreeProvisioningTeam='0'>">
+	<IDEDistributionContext: 0x7fea78ba1710; archive = "<IDEArchive: 0x600075a9f840>", distributionMethod="<IDEDistributionMethodDevelopmentSigned: 0x600007ca70e0>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x600002466e40; teamID='366XTZF564', teamName='Jennifer Lundeen', teamType='Individual', username='decentishdev@gmail.com', isFreeProvisioningTeam='0'>">
+	<IDEDistributionContext: 0x7fea78ba9060; archive = "<IDEArchive: 0x600075a9f840>", distributionMethod="<IDEDistributionMethodDevelopmentSigned: 0x600007ca70e0>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x600002466e40; teamID='366XTZF564', teamName='Jennifer Lundeen', teamType='Individual', username='decentishdev@gmail.com', isFreeProvisioningTeam='0'>">
+	<IDEDistributionContext: 0x7fea90f22090; archive = "<IDEArchive: 0x600075a9f840>", distributionMethod="<IDEDistributionMethodDevelopmentSigned: 0x600007ca70e0>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x600002466e40; teamID='366XTZF564', teamName='Jennifer Lundeen', teamType='Individual', username='decentishdev@gmail.com', isFreeProvisioningTeam='0'>">
+	<IDEDistributionContext: 0x7fea7892ba60; archive = "<IDEArchive: 0x600075a9f840>", distributionMethod="<IDEDistributionMethodDevelopmentSigned: 0x600007ca70e0>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x600002466e40; teamID='366XTZF564', teamName='Jennifer Lundeen', teamType='Individual', username='decentishdev@gmail.com', isFreeProvisioningTeam='0'>">
+	<IDEDistributionContext: 0x7fea78305da0; archive = "<IDEArchive: 0x600075a9f840>", distributionMethod="<IDEDistributionMethodDevelopmentSigned: 0x600007ca70e0>", team="(null)">
+	<IDEDistributionContext: 0x7fea794a2ed0; archive = "<IDEArchive: 0x600075a9f840>", distributionMethod="<IDEDistributionMethodDevelopmentSigned: 0x600007ca70e0>", team="(null)">
+	<IDEDistributionContext: 0x7fea76c98f60; archive = "<IDEArchive: 0x600075a9f840>", distributionMethod="<IDEDistributionMethodDevelopmentSigned: 0x600007ca70e0>", team="(null)">
+	<IDEDistributionContext: 0x7fea7915e4a0; archive = "<IDEArchive: 0x600075a9f840>", distributionMethod="<IDEDistributionMethodDevelopmentSigned: 0x600007ca70e0>", team="(null)">
+	<IDEDistributionContext: 0x7fea79644860; archive = "<IDEArchive: 0x600075a9f840>", distributionMethod="(null)", team="(null)">
+	<IDEDistributionContext: 0x7fea796f0f80; archive = "<IDEArchive: 0x600075a9f840>", distributionMethod="(null)", team="(null)">
+</IDEDistributionProcessingPipelineContext: 0x7fea796bcd00>
+2024-07-23 19:17:56 +0000  Processing step: IDEDistributionCreateDestRootStep
+2024-07-23 19:17:56 +0000  Processing step: IDEDistributionCopyItemStep
+2024-07-23 19:17:56 +0000  Running /usr/bin/ditto '-V' '/Users/matthewlundeen/Library/Developer/Xcode/Archives/2024-07-23/Dendritic Learning 7-23-24, 2.16 PM.xcarchive/Products/Applications/Dendritic Learning.app' '/var/folders/b9/6smq_cts735_d_l0_dgcyv080000gn/T/XcodeDistPipeline.~~~vuXYDc/Root/Payload/Dendritic Learning.app'
+2024-07-23 19:17:56 +0000  >>> Copying /Users/matthewlundeen/Library/Developer/Xcode/Archives/2024-07-23/Dendritic Learning 7-23-24, 2.16 PM.xcarchive/Products/Applications/Dendritic Learning.app 
+2024-07-23 19:17:56 +0000  copying file ./_CodeSignature/CodeResources ... 
+2024-07-23 19:17:56 +0000  10239 bytes for ./_CodeSignature/CodeResources
+2024-07-23 19:17:56 +0000  copying file ./Dendritic Learning ... 
+2024-07-23 19:17:56 +0000  550960 bytes for ./Dendritic Learning
+2024-07-23 19:17:56 +0000  copying file ./AppIcon60x60@2x.png ... 
+2024-07-23 19:17:56 +0000  9768 bytes for ./AppIcon60x60@2x.png
+2024-07-23 19:17:56 +0000  copying file ./Base.lproj/Main.storyboardc/nc8-Oa-BiA-view-bk3-u4-ZxL.nib ... 
+2024-07-23 19:17:56 +0000  1225 bytes for ./Base.lproj/Main.storyboardc/nc8-Oa-BiA-view-bk3-u4-ZxL.nib
+copying file ./Base.lproj/Main.storyboardc/UIViewController-p2I-rF-R5p.nib ... 
+1289 bytes for ./Base.lproj/Main.storyboardc/UIViewController-p2I-rF-R5p.nib
+copying file ./Base.lproj/Main.storyboardc/FIP-K8-yah-view-Cwc-Eq-mnx.nib ... 
+1225 bytes for ./Base.lproj/Main.storyboardc/FIP-K8-yah-view-Cwc-Eq-mnx.nib
+copying file ./Base.lproj/Main.storyboardc/xrB-Kn-VpP-view-VAv-uT-3uf.nib ... 
+2024-07-23 19:17:56 +0000  1225 bytes for ./Base.lproj/Main.storyboardc/xrB-Kn-VpP-view-VAv-uT-3uf.nib
+copying file ./Base.lproj/Main.storyboardc/o57-tv-PwE-view-TUI-B2-tRt.nib ... 
+2024-07-23 19:17:56 +0000  1225 bytes for ./Base.lproj/Main.storyboardc/o57-tv-PwE-view-TUI-B2-tRt.nib
+2024-07-23 19:17:56 +0000  copying file ./Base.lproj/Main.storyboardc/p2I-rF-R5p-view-NVv-6G-daE.nib ... 
+2024-07-23 19:17:56 +0000  1225 bytes for ./Base.lproj/Main.storyboardc/p2I-rF-R5p-view-NVv-6G-daE.nib
+2024-07-23 19:17:56 +0000  copying file ./Base.lproj/Main.storyboardc/UIViewController-f2G-xL-ZWJ.nib ... 
+2024-07-23 19:17:56 +0000  1287 bytes for ./Base.lproj/Main.storyboardc/UIViewController-f2G-xL-ZWJ.nib
+2024-07-23 19:17:56 +0000  copying file ./Base.lproj/Main.storyboardc/UIViewController-BYZ-38-t0r.nib ... 
+2024-07-23 19:17:56 +0000  1295 bytes for ./Base.lproj/Main.storyboardc/UIViewController-BYZ-38-t0r.nib
+2024-07-23 19:17:56 +0000  copying file ./Base.lproj/Main.storyboardc/UIViewController-o57-tv-PwE.nib ... 
+2024-07-23 19:17:56 +0000  1681 bytes for ./Base.lproj/Main.storyboardc/UIViewController-o57-tv-PwE.nib
+2024-07-23 19:17:56 +0000  copying file ./Base.lproj/Main.storyboardc/5am-Nv-7bx-view-CBS-Yn-s6a.nib ... 
+2024-07-23 19:17:56 +0000  1225 bytes for ./Base.lproj/Main.storyboardc/5am-Nv-7bx-view-CBS-Yn-s6a.nib
+2024-07-23 19:17:56 +0000  copying file ./Base.lproj/Main.storyboardc/f2G-xL-ZWJ-view-tME-Ed-Uq7.nib ... 
+2024-07-23 19:17:56 +0000  1225 bytes for ./Base.lproj/Main.storyboardc/f2G-xL-ZWJ-view-tME-Ed-Uq7.nib
+2024-07-23 19:17:56 +0000  copying file ./Base.lproj/Main.storyboardc/UIViewController-xrB-Kn-VpP.nib ... 
+2024-07-23 19:17:56 +0000  1285 bytes for ./Base.lproj/Main.storyboardc/UIViewController-xrB-Kn-VpP.nib
+2024-07-23 19:17:56 +0000  copying file ./Base.lproj/Main.storyboardc/BYZ-38-t0r-view-8bC-Xf-vdC.nib ... 
+2024-07-23 19:17:56 +0000  1225 bytes for ./Base.lproj/Main.storyboardc/BYZ-38-t0r-view-8bC-Xf-vdC.nib
+2024-07-23 19:17:56 +0000  copying file ./Base.lproj/Main.storyboardc/UIViewController-nc8-Oa-BiA.nib ... 
+2024-07-23 19:17:56 +0000  1287 bytes for ./Base.lproj/Main.storyboardc/UIViewController-nc8-Oa-BiA.nib
+2024-07-23 19:17:56 +0000  copying file ./Base.lproj/Main.storyboardc/UIViewController-hw7-sh-ECA.nib ... 
+1453 bytes for ./Base.lproj/Main.storyboardc/UIViewController-hw7-sh-ECA.nib
+copying file ./Base.lproj/Main.storyboardc/UIViewController-5am-Nv-7bx.nib ... 
+1297 bytes for ./Base.lproj/Main.storyboardc/UIViewController-5am-Nv-7bx.nib
+copying file ./Base.lproj/Main.storyboardc/hw7-sh-ECA-view-l6C-GA-Qkv.nib ... 
+1225 bytes for ./Base.lproj/Main.storyboardc/hw7-sh-ECA-view-l6C-GA-Qkv.nib
+copying file ./Base.lproj/Main.storyboardc/UIViewController-FIP-K8-yah.nib ... 
+2024-07-23 19:17:56 +0000  1704 bytes for ./Base.lproj/Main.storyboardc/UIViewController-FIP-K8-yah.nib
+2024-07-23 19:17:56 +0000  copying file ./Base.lproj/Main.storyboardc/Info.plist ... 
+2024-07-23 19:17:56 +0000  861 bytes for ./Base.lproj/Main.storyboardc/Info.plist
+2024-07-23 19:17:56 +0000  copying file ./Base.lproj/Main.storyboardc/UIViewController-Xpx-KQ-zv9.nib ... 
+2024-07-23 19:17:56 +0000  1285 bytes for ./Base.lproj/Main.storyboardc/UIViewController-Xpx-KQ-zv9.nib
+2024-07-23 19:17:56 +0000  copying file ./Base.lproj/Main.storyboardc/Xpx-KQ-zv9-view-GAw-r7-n12.nib ... 
+2024-07-23 19:17:56 +0000  1225 bytes for ./Base.lproj/Main.storyboardc/Xpx-KQ-zv9-view-GAw-r7-n12.nib
+2024-07-23 19:17:56 +0000  copying file ./Base.lproj/LaunchScreen.storyboardc/UIViewController-01J-lp-oVM.nib ... 
+2024-07-23 19:17:56 +0000  924 bytes for ./Base.lproj/LaunchScreen.storyboardc/UIViewController-01J-lp-oVM.nib
+2024-07-23 19:17:56 +0000  copying file ./Base.lproj/LaunchScreen.storyboardc/01J-lp-oVM-view-DNI-3m-PNL.nib ... 
+2024-07-23 19:17:56 +0000  1722 bytes for ./Base.lproj/LaunchScreen.storyboardc/01J-lp-oVM-view-DNI-3m-PNL.nib
+2024-07-23 19:17:56 +0000  copying file ./Base.lproj/LaunchScreen.storyboardc/Info.plist ... 
+2024-07-23 19:17:56 +0000  258 bytes for ./Base.lproj/LaunchScreen.storyboardc/Info.plist
+2024-07-23 19:17:56 +0000  copying file ./Assets.car ... 
+2024-07-23 19:17:57 +0000  1447695 bytes for ./Assets.car
+2024-07-23 19:17:57 +0000  copying file ./AppIcon76x76@2x~ipad.png ... 
+2024-07-23 19:17:57 +0000  12912 bytes for ./AppIcon76x76@2x~ipad.png
+2024-07-23 19:17:57 +0000  copying file ./LilGrotesk[wght].ttf ... 
+2024-07-23 19:17:57 +0000  155912 bytes for ./LilGrotesk[wght].ttf
+2024-07-23 19:17:57 +0000  copying file ./embedded.mobileprovision ... 
+2024-07-23 19:17:57 +0000  18719 bytes for ./embedded.mobileprovision
+2024-07-23 19:17:57 +0000  copying file ./Info.plist ... 
+2024-07-23 19:17:57 +0000  2319 bytes for ./Info.plist
+2024-07-23 19:17:57 +0000  copying file ./PkgInfo ... 
+2024-07-23 19:17:57 +0000  8 bytes for ./PkgInfo
+2024-07-23 19:17:57 +0000  /usr/bin/ditto exited with 0
+2024-07-23 19:17:57 +0000  Processing step: IDEDistributionEmbedProfileStep
+2024-07-23 19:17:57 +0000  Processing step: IDEDistributionInfoPlistStep
+2024-07-23 19:17:57 +0000  Skipping step: IDEDistributionInfoPlistStep because it said so
+2024-07-23 19:17:57 +0000  Processing step: IDEDistributionAppThinningPlistStep
+2024-07-23 19:17:57 +0000  Skipping step: IDEDistributionAppThinningPlistStep because it said so
+2024-07-23 19:17:57 +0000  Processing step: IDEDistributionCompileBitcodeStep
+2024-07-23 19:17:57 +0000  Skipping step: IDEDistributionCompileBitcodeStep because it said so
+2024-07-23 19:17:57 +0000  Processing step: IDEDistributionCodeSlimmingStep
+2024-07-23 19:17:57 +0000  Processing step: IDEDistributionCopyBCSymbolMapsStep
+2024-07-23 19:17:57 +0000  Skipping step: IDEDistributionCopyBCSymbolMapsStep because it said so
+2024-07-23 19:17:57 +0000  Processing step: IDEDistributionSymbolsStep
+2024-07-23 19:17:57 +0000  Skipping step: IDEDistributionSymbolsStep because it said so
+2024-07-23 19:17:57 +0000  Processing step: IDEDistributionAppThinningStep
+2024-07-23 19:17:57 +0000  Skipping step: IDEDistributionAppThinningStep because it said so
+2024-07-23 19:17:57 +0000  Processing step: IDEDistributionArchThinningStep
+2024-07-23 19:17:57 +0000  Running /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo '/var/folders/b9/6smq_cts735_d_l0_dgcyv080000gn/T/XcodeDistPipeline.~~~vuXYDc/Root/Payload/Dendritic Learning.app/Dendritic Learning' '-verify_arch' 'arm64e'
+2024-07-23 19:17:57 +0000  /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo exited with 1
+2024-07-23 19:17:57 +0000  Skipping architecture thinning for item "Dendritic Learning" because arch "arm64e" wasn't found
+2024-07-23 19:17:57 +0000  Processing step: IDEDistributionODRStep
+2024-07-23 19:17:57 +0000  Processing step: IDEDistributionStripXattrsStep
+2024-07-23 19:17:57 +0000  Skipping stripping extended attributes because the codesign step will strip them.
+2024-07-23 19:17:57 +0000  Processing step: IDEDistributionCodesignStep
+2024-07-23 19:17:57 +0000  Entitlements for <IDEDistributionItem: 0x600075a1d740; bundleID='com.dendritic-learning.dendriticlearning', path='<DVTFilePath:0x60007d7d21b0:'/Users/matthewlundeen/Library/Developer/Xcode/Archives/2024-07-23/Dendritic Learning 7-23-24, 2.16 PM.xcarchive/Products/Applications/Dendritic Learning.app'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0x600021993700; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0x600008b43c00; name='Apple Development: Jennifer Lundeen (RTUD58QFD9)', hash='F4D56984568F32F94B592846AD444D18DFF36A53', serialNumber='73B5C2F5D26AC59FCD5E663C204A9F3C', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2024-03-16 19:17:49 +0000''>', entitlements='{
+    "application-identifier" = "366XTZF564.com.dendritic-learning.dendriticlearning";
+    "com.apple.developer.team-identifier" = 366XTZF564;
+    "get-task-allow" = 1;
+}', teamID='366XTZF564', identifier='com.dendritic-learning.dendriticlearning', executablePath='<DVTFilePath:0x60007d7af330:'/Users/matthewlundeen/Library/Developer/Xcode/Archives/2024-07-23/Dendritic Learning 7-23-24, 2.16 PM.xcarchive/Products/Applications/Dendritic Learning.app/Dendritic Learning'>', hardenedRuntime='0'>'>: {
+    "application-identifier" = "366XTZF564.com.dendritic-learning.dendriticlearning";
+    "com.apple.developer.team-identifier" = 366XTZF564;
+    "get-task-allow" = 1;
+}
+2024-07-23 19:17:57 +0000  Associated App Clip Identifiers Filter: Skipping because "com.apple.developer.associated-appclip-app-identifiers" is not present
+2024-07-23 19:17:57 +0000  Entitlements for <IDEDistributionItem: 0x600075a1d740; bundleID='com.dendritic-learning.dendriticlearning', path='<DVTFilePath:0x60007d7d21b0:'/Users/matthewlundeen/Library/Developer/Xcode/Archives/2024-07-23/Dendritic Learning 7-23-24, 2.16 PM.xcarchive/Products/Applications/Dendritic Learning.app'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0x600021993700; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0x600008b43900; name='Apple Development: Jennifer Lundeen (RTUD58QFD9)', hash='F4D56984568F32F94B592846AD444D18DFF36A53', serialNumber='73B5C2F5D26AC59FCD5E663C204A9F3C', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2024-03-16 19:17:49 +0000''>', entitlements='{
+    "application-identifier" = "366XTZF564.com.dendritic-learning.dendriticlearning";
+    "com.apple.developer.team-identifier" = 366XTZF564;
+    "get-task-allow" = 1;
+}', teamID='366XTZF564', identifier='com.dendritic-learning.dendriticlearning', executablePath='<DVTFilePath:0x60007d7af330:'/Users/matthewlundeen/Library/Developer/Xcode/Archives/2024-07-23/Dendritic Learning 7-23-24, 2.16 PM.xcarchive/Products/Applications/Dendritic Learning.app/Dendritic Learning'>', hardenedRuntime='0'>'> are: {
+    "application-identifier" = "366XTZF564.com.dendritic-learning.dendriticlearning";
+    "com.apple.developer.team-identifier" = 366XTZF564;
+    "get-task-allow" = 1;
+}
+2024-07-23 19:17:57 +0000  Writing entitlements for <IDEDistributionItem: 0x600075a1d740; bundleID='com.dendritic-learning.dendriticlearning', path='<DVTFilePath:0x60007d7d21b0:'/Users/matthewlundeen/Library/Developer/Xcode/Archives/2024-07-23/Dendritic Learning 7-23-24, 2.16 PM.xcarchive/Products/Applications/Dendritic Learning.app'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0x600021993700; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0x600008b43a80; name='Apple Development: Jennifer Lundeen (RTUD58QFD9)', hash='F4D56984568F32F94B592846AD444D18DFF36A53', serialNumber='73B5C2F5D26AC59FCD5E663C204A9F3C', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2024-03-16 19:17:49 +0000''>', entitlements='{
+    "application-identifier" = "366XTZF564.com.dendritic-learning.dendriticlearning";
+    "com.apple.developer.team-identifier" = 366XTZF564;
+    "get-task-allow" = 1;
+}', teamID='366XTZF564', identifier='com.dendritic-learning.dendriticlearning', executablePath='<DVTFilePath:0x60007d7af330:'/Users/matthewlundeen/Library/Developer/Xcode/Archives/2024-07-23/Dendritic Learning 7-23-24, 2.16 PM.xcarchive/Products/Applications/Dendritic Learning.app/Dendritic Learning'>', hardenedRuntime='0'>'> to: /var/folders/b9/6smq_cts735_d_l0_dgcyv080000gn/T/XcodeDistPipeline.~~~vuXYDc/entitlements~~~UJ7cTt
+2024-07-23 19:17:57 +0000  Running /usr/bin/codesign '-vvv' '--force' '--sign' 'F4D56984568F32F94B592846AD444D18DFF36A53' '--entitlements' '/var/folders/b9/6smq_cts735_d_l0_dgcyv080000gn/T/XcodeDistPipeline.~~~vuXYDc/entitlements~~~UJ7cTt' '--generate-entitlement-der' '--preserve-metadata=identifier,flags,runtime' '/var/folders/b9/6smq_cts735_d_l0_dgcyv080000gn/T/XcodeDistPipeline.~~~vuXYDc/Root/Payload/Dendritic Learning.app'
+2024-07-23 19:17:57 +0000  /var/folders/b9/6smq_cts735_d_l0_dgcyv080000gn/T/XcodeDistPipeline.~~~vuXYDc/Root/Payload/Dendritic Learning.app: replacing existing signature
+2024-07-23 19:17:57 +0000  /var/folders/b9/6smq_cts735_d_l0_dgcyv080000gn/T/XcodeDistPipeline.~~~vuXYDc/Root/Payload/Dendritic Learning.app: signed app bundle with Mach-O thin (arm64) [com.dendritic-learning.dendriticlearning]
+2024-07-23 19:17:57 +0000  /usr/bin/codesign exited with 0
+2024-07-23 19:17:57 +0000  Processing step: IDEDistributionZipODRItemStep
+2024-07-23 19:17:57 +0000  Skipping step: IDEDistributionZipODRItemStep because it said so
+2024-07-23 19:17:57 +0000  Processing step: IDEDistributionCreateIPAStep
+2024-07-23 19:17:57 +0000  Running /usr/bin/ditto '-V' '-c' '-k' '--norsrc' '/var/folders/b9/6smq_cts735_d_l0_dgcyv080000gn/T/XcodeDistPipeline.~~~vuXYDc/Root' '/var/folders/b9/6smq_cts735_d_l0_dgcyv080000gn/T/XcodeDistPipeline.~~~vuXYDc/Packages/Dendritic Learning.ipa'
+2024-07-23 19:17:57 +0000  >>> Copying /var/folders/b9/6smq_cts735_d_l0_dgcyv080000gn/T/XcodeDistPipeline.~~~vuXYDc/Root 
+2024-07-23 19:17:57 +0000  copying file ./Payload/Dendritic Learning.app/_CodeSignature/CodeResources ... 
+2024-07-23 19:17:57 +0000  10239 bytes for ./Payload/Dendritic Learning.app/_CodeSignature/CodeResources
+2024-07-23 19:17:57 +0000  copying file ./Payload/Dendritic Learning.app/Dendritic Learning ... 
+2024-07-23 19:17:57 +0000  550960 bytes for ./Payload/Dendritic Learning.app/Dendritic Learning
+copying file ./Payload/Dendritic Learning.app/AppIcon60x60@2x.png ... 
+2024-07-23 19:17:57 +0000  9768 bytes for ./Payload/Dendritic Learning.app/AppIcon60x60@2x.png
+2024-07-23 19:17:57 +0000  copying file ./Payload/Dendritic Learning.app/Base.lproj/Main.storyboardc/nc8-Oa-BiA-view-bk3-u4-ZxL.nib ... 
+2024-07-23 19:17:57 +0000  1225 bytes for ./Payload/Dendritic Learning.app/Base.lproj/Main.storyboardc/nc8-Oa-BiA-view-bk3-u4-ZxL.nib
+2024-07-23 19:17:57 +0000  copying file ./Payload/Dendritic Learning.app/Base.lproj/Main.storyboardc/UIViewController-p2I-rF-R5p.nib ... 
+2024-07-23 19:17:57 +0000  1289 bytes for ./Payload/Dendritic Learning.app/Base.lproj/Main.storyboardc/UIViewController-p2I-rF-R5p.nib
+copying file ./Payload/Dendritic Learning.app/Base.lproj/Main.storyboardc/FIP-K8-yah-view-Cwc-Eq-mnx.nib ... 
+2024-07-23 19:17:57 +0000  1225 bytes for ./Payload/Dendritic Learning.app/Base.lproj/Main.storyboardc/FIP-K8-yah-view-Cwc-Eq-mnx.nib
+copying file ./Payload/Dendritic Learning.app/Base.lproj/Main.storyboardc/xrB-Kn-VpP-view-VAv-uT-3uf.nib ... 
+2024-07-23 19:17:57 +0000  1225 bytes for ./Payload/Dendritic Learning.app/Base.lproj/Main.storyboardc/xrB-Kn-VpP-view-VAv-uT-3uf.nib
+copying file ./Payload/Dendritic Learning.app/Base.lproj/Main.storyboardc/o57-tv-PwE-view-TUI-B2-tRt.nib ... 
+1225 bytes for ./Payload/Dendritic Learning.app/Base.lproj/Main.storyboardc/o57-tv-PwE-view-TUI-B2-tRt.nib
+copying file ./Payload/Dendritic Learning.app/Base.lproj/Main.storyboardc/p2I-rF-R5p-view-NVv-6G-daE.nib ... 
+1225 bytes for ./Payload/Dendritic Learning.app/Base.lproj/Main.storyboardc/p2I-rF-R5p-view-NVv-6G-daE.nib
+copying file ./Payload/Dendritic Learning.app/Base.lproj/Main.storyboardc/UIViewController-f2G-xL-ZWJ.nib ... 
+1287 bytes for ./Payload/Dendritic Learning.app/Base.lproj/Main.storyboardc/UIViewController-f2G-xL-ZWJ.nib
+copying file ./Payload/Dendritic Learning.app/Base.lproj/Main.storyboardc/UIViewController-BYZ-38-t0r.nib ... 
+1295 bytes for ./Payload/Dendritic Learning.app/Base.lproj/Main.storyboardc/UIViewController-BYZ-38-t0r.nib
+copying file ./Payload/Dendritic Learning.app/Base.lproj/Main.storyboardc/UIViewController-o57-tv-PwE.nib ... 
+1681 bytes for ./Payload/Dendritic Learning.app/Base.lproj/Main.storyboardc/UIViewController-o57-tv-PwE.nib
+copying file ./Payload/Dendritic Learning.app/Base.lproj/Main.storyboardc/5am-Nv-7bx-view-CBS-Yn-s6a.nib ... 
+1225 bytes for ./Payload/Dendritic Learning.app/Base.lproj/Main.storyboardc/5am-Nv-7bx-view-CBS-Yn-s6a.nib
+copying file ./Payload/Dendritic Learning.app/Base.lproj/Main.storyboardc/f2G-xL-ZWJ-view-tME-Ed-Uq7.nib ... 
+1225 bytes for ./Payload/Dendritic Learning.app/Base.lproj/Main.storyboardc/f2G-xL-ZWJ-view-tME-Ed-Uq7.nib
+copying file ./Payload/Dendritic Learning.app/Base.lproj/Main.storyboardc/UIViewController-xrB-Kn-VpP.nib ... 
+2024-07-23 19:17:57 +0000  1285 bytes for ./Payload/Dendritic Learning.app/Base.lproj/Main.storyboardc/UIViewController-xrB-Kn-VpP.nib
+copying file ./Payload/Dendritic Learning.app/Base.lproj/Main.storyboardc/BYZ-38-t0r-view-8bC-Xf-vdC.nib ... 
+2024-07-23 19:17:57 +0000  1225 bytes for ./Payload/Dendritic Learning.app/Base.lproj/Main.storyboardc/BYZ-38-t0r-view-8bC-Xf-vdC.nib
+copying file ./Payload/Dendritic Learning.app/Base.lproj/Main.storyboardc/UIViewController-nc8-Oa-BiA.nib ... 
+2024-07-23 19:17:57 +0000  1287 bytes for ./Payload/Dendritic Learning.app/Base.lproj/Main.storyboardc/UIViewController-nc8-Oa-BiA.nib
+copying file ./Payload/Dendritic Learning.app/Base.lproj/Main.storyboardc/UIViewController-hw7-sh-ECA.nib ... 
+2024-07-23 19:17:57 +0000  1453 bytes for ./Payload/Dendritic Learning.app/Base.lproj/Main.storyboardc/UIViewController-hw7-sh-ECA.nib
+2024-07-23 19:17:57 +0000  copying file ./Payload/Dendritic Learning.app/Base.lproj/Main.storyboardc/UIViewController-5am-Nv-7bx.nib ... 
+2024-07-23 19:17:57 +0000  1297 bytes for ./Payload/Dendritic Learning.app/Base.lproj/Main.storyboardc/UIViewController-5am-Nv-7bx.nib
+copying file ./Payload/Dendritic Learning.app/Base.lproj/Main.storyboardc/hw7-sh-ECA-view-l6C-GA-Qkv.nib ... 
+2024-07-23 19:17:57 +0000  1225 bytes for ./Payload/Dendritic Learning.app/Base.lproj/Main.storyboardc/hw7-sh-ECA-view-l6C-GA-Qkv.nib
+2024-07-23 19:17:57 +0000  copying file ./Payload/Dendritic Learning.app/Base.lproj/Main.storyboardc/UIViewController-FIP-K8-yah.nib ... 
+2024-07-23 19:17:57 +0000  1704 bytes for ./Payload/Dendritic Learning.app/Base.lproj/Main.storyboardc/UIViewController-FIP-K8-yah.nib
+copying file ./Payload/Dendritic Learning.app/Base.lproj/Main.storyboardc/Info.plist ... 
+2024-07-23 19:17:57 +0000  861 bytes for ./Payload/Dendritic Learning.app/Base.lproj/Main.storyboardc/Info.plist
+copying file ./Payload/Dendritic Learning.app/Base.lproj/Main.storyboardc/UIViewController-Xpx-KQ-zv9.nib ... 
+2024-07-23 19:17:57 +0000  1285 bytes for ./Payload/Dendritic Learning.app/Base.lproj/Main.storyboardc/UIViewController-Xpx-KQ-zv9.nib
+2024-07-23 19:17:57 +0000  copying file ./Payload/Dendritic Learning.app/Base.lproj/Main.storyboardc/Xpx-KQ-zv9-view-GAw-r7-n12.nib ... 
+2024-07-23 19:17:57 +0000  1225 bytes for ./Payload/Dendritic Learning.app/Base.lproj/Main.storyboardc/Xpx-KQ-zv9-view-GAw-r7-n12.nib
+2024-07-23 19:17:57 +0000  copying file ./Payload/Dendritic Learning.app/Base.lproj/LaunchScreen.storyboardc/UIViewController-01J-lp-oVM.nib ... 
+2024-07-23 19:17:57 +0000  924 bytes for ./Payload/Dendritic Learning.app/Base.lproj/LaunchScreen.storyboardc/UIViewController-01J-lp-oVM.nib
+copying file ./Payload/Dendritic Learning.app/Base.lproj/LaunchScreen.storyboardc/01J-lp-oVM-view-DNI-3m-PNL.nib ... 
+2024-07-23 19:17:57 +0000  1722 bytes for ./Payload/Dendritic Learning.app/Base.lproj/LaunchScreen.storyboardc/01J-lp-oVM-view-DNI-3m-PNL.nib
+2024-07-23 19:17:57 +0000  copying file ./Payload/Dendritic Learning.app/Base.lproj/LaunchScreen.storyboardc/Info.plist ... 
+2024-07-23 19:17:57 +0000  258 bytes for ./Payload/Dendritic Learning.app/Base.lproj/LaunchScreen.storyboardc/Info.plist
+copying file ./Payload/Dendritic Learning.app/Assets.car ... 
+2024-07-23 19:17:57 +0000  1447695 bytes for ./Payload/Dendritic Learning.app/Assets.car
+copying file ./Payload/Dendritic Learning.app/AppIcon76x76@2x~ipad.png ... 
+2024-07-23 19:17:57 +0000  12912 bytes for ./Payload/Dendritic Learning.app/AppIcon76x76@2x~ipad.png
+copying file ./Payload/Dendritic Learning.app/LilGrotesk[wght].ttf ... 
+2024-07-23 19:17:57 +0000  155912 bytes for ./Payload/Dendritic Learning.app/LilGrotesk[wght].ttf
+copying file ./Payload/Dendritic Learning.app/embedded.mobileprovision ... 
+2024-07-23 19:17:57 +0000  18719 bytes for ./Payload/Dendritic Learning.app/embedded.mobileprovision
+copying file ./Payload/Dendritic Learning.app/Info.plist ... 
+2319 bytes for ./Payload/Dendritic Learning.app/Info.plist
+copying file ./Payload/Dendritic Learning.app/PkgInfo ... 
+8 bytes for ./Payload/Dendritic Learning.app/PkgInfo
+2024-07-23 19:17:57 +0000  /usr/bin/ditto exited with 0
+2024-07-23 19:17:57 +0000  Processing step: IDEDistributionAppStoreInformationStep
+2024-07-23 19:17:57 +0000  Skipping step: IDEDistributionAppStoreInformationStep because it said so
+2024-07-23 19:17:57 +0000  Processing step: IDEDistributionGenerateProcessedDistributionItems
+2024-07-23 19:17:57 +0000  IDEDistributionItem init <DVTFilePath:0x60007d7af4f0:'/var/folders/b9/6smq_cts735_d_l0_dgcyv080000gn/T/XcodeDistPipeline.~~~vuXYDc/Root/Payload/Dendritic Learning.app'>
+2024-07-23 19:17:57 +0000  Processing step: IDEDistributionCreateManifestStep

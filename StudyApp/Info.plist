@@ -2,13 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSSpeechRecognititionUsageDescription</key>
-	<string>Used for speech recognition in learn mode</string>
-	<key>UIAppFonts</key>
-	<array>
-		<string>CabinetGrotesk-Variable.ttf</string>
-		<string>LilGrotesk[wght].ttf</string>
-	</array>
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
@@ -25,6 +18,13 @@
 			<key>LSHandlerRank</key>
 			<string>None</string>
 		</dict>
+	</array>
+	<key>NSSpeechRecognititionUsageDescription</key>
+	<string>Used for speech recognition in learn mode</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>CabinetGrotesk-Variable.ttf</string>
+		<string>LilGrotesk[wght].ttf</string>
 	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
@@ -54,9 +54,5 @@
 			<dict/>
 		</dict>
 	</array>
-	<key>LSSupportsOpeningDocumentsInPlace</key>
-	<true/>
-	<key>UISupportsDocumentBrowser</key>
-	<true/>
 </dict>
 </plist>

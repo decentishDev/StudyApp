@@ -295,9 +295,10 @@ class WebViewerVC: UIViewController, UIScrollViewDelegate {
                 }
             }
             web[i][4] = newOrder
-            
-            
-            
+            //print("////////////")
+        }
+        
+        for (i, term) in web.enumerated() {
             var previousOrder: [Int] = []
             for (bI, button) in (rectangles[i].subviews[1] as! UIStackView).arrangedSubviews.enumerated() {
                 //if(bI != (rectangles[i].subviews[1] as! UIStackView).arrangedSubviews.count - 1){
@@ -311,7 +312,6 @@ class WebViewerVC: UIViewController, UIScrollViewDelegate {
                     //print(web[previousOrder[bI]][2])
                 //}
             }
-            //print("////////////")
         }
         for (rectI, movedView) in rectangles.enumerated(){
 //            let rectI = rectangles.firstIndex(of: movedView)

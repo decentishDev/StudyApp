@@ -141,7 +141,7 @@ class StandardSetVC: UIViewController {
             shareIcon.translatesAutoresizingMaskIntoConstraints = false
             con(shareIcon, 30, 30)
             shareButton.addSubview(shareIcon)
-            shareIcon.image = UIImage(systemName: "arrow.down.square.fill")
+            shareIcon.image = UIImage(systemName: "arrowshape.turn.up.right.circle.fill")
             shareIcon.leadingAnchor.constraint(equalTo: shareButton.leadingAnchor).isActive = true
             shareIcon.tintColor = Colors.highlight
             shareIcon.contentMode = .scaleAspectFit
@@ -151,7 +151,7 @@ class StandardSetVC: UIViewController {
             conH(shareText, 30)
             shareText.leadingAnchor.constraint(equalTo: shareIcon.trailingAnchor, constant: 10).isActive = true
             shareText.trailingAnchor.constraint(equalTo: shareButton.trailingAnchor).isActive = true
-            shareText.text = "Download"
+            shareText.text = "Share"
             shareText.font = UIFont(name: "LilGrotesk-Bold", size: 20)
             shareText.textColor = Colors.highlight
             
@@ -387,18 +387,18 @@ class StandardSetVC: UIViewController {
         performSegue(withIdentifier: "standardSetVC_unwind", sender: nil)
     }
     
-    @objc func export(sender: UIButton){
+    @objc func export(sender: UIButton) {
         var cardsDictionary: [String: Any] = (defaults.object(forKey: "sets") as! [Dictionary<String, Any>])[set]
         cardsDictionary.removeValue(forKey: "flashcards")
         cardsDictionary.removeValue(forKey: "learn")
-        if let image = cardsDictionary["image"] as? String{
-            if image != ""{
+        if let image = cardsDictionary["image"] as? String {
+            if image != "" {
                 cardsDictionary["image"] = defaults.object(forKey: image) as! Data
             }
         }
-        var cards = self.cards 
+        var cards = self.cards
         for (i, term) in cards.enumerated() {
-            if term[0] as! String == "d" || term[0] as! String == "i"{
+            if term[0] as! String == "d" || term[0] as! String == "i" {
                 cards[i][1] = defaults.value(forKey: cards[i][1] as! String)
             }
             
@@ -419,13 +419,14 @@ class StandardSetVC: UIViewController {
         do {
             try data.write(to: fileURL)
             
-            let documentPicker = UIDocumentPickerViewController(url: fileURL, in: .exportToService)
-            documentPicker.shouldShowFileExtensions = true
-            self.present(documentPicker, animated: true, completion: nil)
+            let activityViewController = UIActivityViewController(activityItems: [fileURL], applicationActivities: nil)
+            activityViewController.popoverPresentationController?.sourceView = sender
+            self.present(activityViewController, animated: true, completion: nil)
         } catch {
             print("Error exporting cards: \(error.localizedDescription)")
         }
     }
+
     
     @IBAction func cancel (_ unwindSegue: UIStoryboardSegue){
         

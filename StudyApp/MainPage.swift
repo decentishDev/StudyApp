@@ -94,6 +94,12 @@ class MainPage: UIViewController, NewSetDelegate {
             defaults.setValue(false, forKey: "fingerDrawing")
 //            let image = UIImage(named: "samuel-branch-ZPVisr0s_hQ-unsplash.jpg")?.pngData()
 //            sets.append(["American Revolution", "web", image])
+            
+            let popupVC = WelcomeVC()
+            popupVC.modalPresentationStyle = .overCurrentContext
+            popupVC.modalTransitionStyle = .crossDissolve
+            
+            present(popupVC, animated: true, completion: nil)
         }
         
         for subview in stackView.arrangedSubviews {

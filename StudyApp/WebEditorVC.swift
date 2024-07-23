@@ -333,11 +333,7 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
             i.removeFromSuperview()
         }
         addedButtons = []
-        for i in 0..<100{
-            DispatchQueue.main.asyncAfter(deadline: .now() + (0.01 * Double(i))){
-                self.updateLines()
-            }
-        }
+        updateLines100()
         //updateLines()
     }
     
@@ -388,9 +384,10 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
                 }
             }
             web[i][4] = newOrder
-            
-            
-            
+            //print("////////////")
+        }
+        
+        for (i, term) in web.enumerated() {
             var previousOrder: [Int] = []
             for (bI, button) in (rectangles[i].subviews[1] as! UIStackView).arrangedSubviews.enumerated() {
                 //if(bI != (rectangles[i].subviews[1] as! UIStackView).arrangedSubviews.count - 1){
@@ -404,7 +401,6 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
                     //print(web[previousOrder[bI]][2])
                 //}
             }
-            //print("////////////")
         }
         for (rectI, movedView) in rectangles.enumerated(){
             let outgoing = web[rectI][4] as? [Int]
@@ -573,11 +569,7 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
             }
             //updateLines()
         }
-        for i in 0..<100{
-            DispatchQueue.main.asyncAfter(deadline: .now() + (0.01 * Double(i))){
-                self.updateLines()
-            }
-        }
+        updateLines100()
         //updateLines()
     }
     
@@ -633,11 +625,17 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
         selectedButton?.setImage(UIImage(systemName: "record.circle"), for: .normal)
         selectedButton?.tintColor = Colors.text
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1){
-            self.updateLines()
-        }
+        updateLines100()
         save()
         addedButtons = []
+    }
+    
+    func updateLines100(){
+        for i in 0..<100{
+            DispatchQueue.main.asyncAfter(deadline: .now() + (0.01 * Double(i))){
+                self.updateLines()
+            }
+        }
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
@@ -676,9 +674,7 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
             }
         }
         sender.removeFromSuperview()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1){
-            self.updateLines()
-        }
+        updateLines100()
         save()
     }
     
@@ -722,9 +718,7 @@ class WebEditorVC: UIViewController, UIScrollViewDelegate, EditorDelegate, UITex
         }
         
         save()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1){
-            self.updateLines()
-        }
+        updateLines100()
     }
     
     @objc func changeImage(_ sender: UIButton) {

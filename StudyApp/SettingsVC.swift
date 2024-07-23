@@ -152,6 +152,18 @@ class SettingsVC: UIViewController {
         pencilSwitch.addTarget(self, action: #selector(self.pencilSwitched(sender:)), for: .valueChanged)
         pencilSwitch.isUserInteractionEnabled = true
         //pencilSwitch.backgroundColor = .green
+        
+        let breakView03 = UIView()
+        breakView03.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        breakView03.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        stackView.addArrangedSubview(breakView03)
+        
+        let contactLabel = UILabel()
+        contactLabel.text = "Questions, comments, or concerns? Contact us at dendriticlearning@gmail.com"
+        contactLabel.font = UIFont(name: "LilGrotesk-Regular", size: 20)
+        contactLabel.sizeToFit()
+        contactLabel.textColor = Colors.text
+        stackView.addArrangedSubview(contactLabel)
     }
 
     @objc func themeButton(sender: UIButton){

@@ -136,7 +136,7 @@ class WebSetVC: UIViewController {
             shareIcon.translatesAutoresizingMaskIntoConstraints = false
             con(shareIcon, 30, 30)
             shareButton.addSubview(shareIcon)
-            shareIcon.image = UIImage(systemName: "arrow.down.square.fill")
+            shareIcon.image = UIImage(systemName: "arrowshape.turn.up.right.circle.fill")
             shareIcon.leadingAnchor.constraint(equalTo: shareButton.leadingAnchor).isActive = true
             shareIcon.tintColor = Colors.highlight
             shareIcon.contentMode = .scaleAspectFit
@@ -146,7 +146,7 @@ class WebSetVC: UIViewController {
             conH(shareText, 30)
             shareText.leadingAnchor.constraint(equalTo: shareIcon.trailingAnchor, constant: 10).isActive = true
             shareText.trailingAnchor.constraint(equalTo: shareButton.trailingAnchor).isActive = true
-            shareText.text = "Download"
+            shareText.text = "Share"
             shareText.font = UIFont(name: "LilGrotesk-Regular", size: 20)
             shareText.textColor = Colors.highlight
             
@@ -251,9 +251,9 @@ class WebSetVC: UIViewController {
         do {
             try data.write(to: fileURL)
             
-            let documentPicker = UIDocumentPickerViewController(url: fileURL, in: .exportToService)
-            documentPicker.shouldShowFileExtensions = true
-            self.present(documentPicker, animated: true, completion: nil)
+            let activityViewController = UIActivityViewController(activityItems: [fileURL], applicationActivities: nil)
+            activityViewController.popoverPresentationController?.sourceView = sender
+            self.present(activityViewController, animated: true, completion: nil)
         } catch {
             print("Error exporting cards: \(error.localizedDescription)")
         }

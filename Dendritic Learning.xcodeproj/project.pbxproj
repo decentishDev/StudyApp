@@ -11,6 +11,7 @@
 		8D074AEB2BC4BC84000E6D9A /* FlashcardsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D074AEA2BC4BC84000E6D9A /* FlashcardsVC.swift */; };
 		8D0B58C82C0F678A00AA08F2 /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D0B58C72C0F678A00AA08F2 /* SettingsVC.swift */; };
 		8D0EC1442BEDB0CD00717BA4 /* StandardEditorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D0EC1432BEDB0CD00717BA4 /* StandardEditorVC.swift */; };
+		8D27F4932C50199B0032B519 /* WelcomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D27F4922C50199B0032B519 /* WelcomeVC.swift */; };
 		8D31BD4B2C194ED900676C85 /* LilGrotesk[wght].ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8D31BD4A2C194ED800676C85 /* LilGrotesk[wght].ttf */; };
 		8D32254E2BFA4D2E00E7F216 /* DrawingEditorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D32254D2BFA4D2E00E7F216 /* DrawingEditorVC.swift */; };
 		8D3EE64A2BEEEA4400ADBD49 /* layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3EE6492BEEEA4400ADBD49 /* layout.swift */; };
@@ -36,10 +37,11 @@
 		8D074AEA2BC4BC84000E6D9A /* FlashcardsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlashcardsVC.swift; sourceTree = "<group>"; };
 		8D0B58C72C0F678A00AA08F2 /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
 		8D0EC1432BEDB0CD00717BA4 /* StandardEditorVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardEditorVC.swift; sourceTree = "<group>"; };
+		8D27F4922C50199B0032B519 /* WelcomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeVC.swift; sourceTree = "<group>"; };
 		8D31BD4A2C194ED800676C85 /* LilGrotesk[wght].ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "LilGrotesk[wght].ttf"; path = "../../../Downloads/LilGrotesk[wght].ttf"; sourceTree = "<group>"; };
 		8D32254D2BFA4D2E00E7F216 /* DrawingEditorVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingEditorVC.swift; sourceTree = "<group>"; };
 		8D3EE6492BEEEA4400ADBD49 /* layout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = layout.swift; sourceTree = "<group>"; };
-		8D4CDF792BB1DCD300474FCC /* StudyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StudyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D4CDF792BB1DCD300474FCC /* Dendritic Learning.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Dendritic Learning.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D4CDF7C2BB1DCD300474FCC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8D4CDF7E2BB1DCD300474FCC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		8D4CDF832BB1DCD300474FCC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -80,7 +82,7 @@
 		8D4CDF7A2BB1DCD300474FCC /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8D4CDF792BB1DCD300474FCC /* StudyApp.app */,
+				8D4CDF792BB1DCD300474FCC /* Dendritic Learning.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -111,6 +113,7 @@
 				8D9B64082BF410A800ACD28A /* WebViewerVC.swift */,
 				8D32254D2BFA4D2E00E7F216 /* DrawingEditorVC.swift */,
 				8D0B58C72C0F678A00AA08F2 /* SettingsVC.swift */,
+				8D27F4922C50199B0032B519 /* WelcomeVC.swift */,
 			);
 			path = StudyApp;
 			sourceTree = "<group>";
@@ -118,9 +121,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		8D4CDF782BB1DCD300474FCC /* StudyApp */ = {
+		8D4CDF782BB1DCD300474FCC /* Dendritic Learning */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 8D4CDF8D2BB1DCD800474FCC /* Build configuration list for PBXNativeTarget "StudyApp" */;
+			buildConfigurationList = 8D4CDF8D2BB1DCD800474FCC /* Build configuration list for PBXNativeTarget "Dendritic Learning" */;
 			buildPhases = (
 				8D4CDF752BB1DCD300474FCC /* Sources */,
 				8D4CDF762BB1DCD300474FCC /* Frameworks */,
@@ -130,9 +133,9 @@
 			);
 			dependencies = (
 			);
-			name = StudyApp;
+			name = "Dendritic Learning";
 			productName = StudyApp;
-			productReference = 8D4CDF792BB1DCD300474FCC /* StudyApp.app */;
+			productReference = 8D4CDF792BB1DCD300474FCC /* Dendritic Learning.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -150,7 +153,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 8D4CDF742BB1DCD300474FCC /* Build configuration list for PBXProject "StudyApp" */;
+			buildConfigurationList = 8D4CDF742BB1DCD300474FCC /* Build configuration list for PBXProject "Dendritic Learning" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -163,7 +166,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				8D4CDF782BB1DCD300474FCC /* StudyApp */,
+				8D4CDF782BB1DCD300474FCC /* Dendritic Learning */,
 			);
 		};
 /* End PBXProject section */
@@ -192,6 +195,7 @@
 				8D89FD132BD07BDA0038F597 /* WebTermEditorVC.swift in Sources */,
 				8D32254E2BFA4D2E00E7F216 /* DrawingEditorVC.swift in Sources */,
 				8D89FD112BD073280038F597 /* Colors.swift in Sources */,
+				8D27F4932C50199B0032B519 /* WelcomeVC.swift in Sources */,
 				8D91B5552BCF476F003A625B /* WebEditorVC.swift in Sources */,
 				8D9B64092BF410A900ACD28A /* WebViewerVC.swift in Sources */,
 				8D4CDF7D2BB1DCD300474FCC /* AppDelegate.swift in Sources */,
@@ -361,17 +365,19 @@
 				INFOPLIST_FILE = StudyApp/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Dendritic;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
+				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportsDocumentBrowser = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.decentish.StudyApp;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.dendritic-learning.dendriticlearning";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -391,17 +397,19 @@
 				INFOPLIST_FILE = StudyApp/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Dendritic;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
+				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportsDocumentBrowser = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.decentish.StudyApp;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.dendritic-learning.dendriticlearning";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -412,7 +420,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		8D4CDF742BB1DCD300474FCC /* Build configuration list for PBXProject "StudyApp" */ = {
+		8D4CDF742BB1DCD300474FCC /* Build configuration list for PBXProject "Dendritic Learning" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8D4CDF8B2BB1DCD800474FCC /* Debug */,
@@ -421,7 +429,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		8D4CDF8D2BB1DCD800474FCC /* Build configuration list for PBXNativeTarget "StudyApp" */ = {
+		8D4CDF8D2BB1DCD800474FCC /* Build configuration list for PBXNativeTarget "Dendritic Learning" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8D4CDF8E2BB1DCD800474FCC /* Debug */,
