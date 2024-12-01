@@ -239,6 +239,7 @@ class WebSetVC: UIViewController {
         if let image = cardsDictionary["images"] as? String{
             cardsDictionary["images"] = defaults.object(forKey: image) as! Data
         }
+        cardsDictionary["version"] = getVersion()
         guard let data = try? NSKeyedArchiver.archivedData(withRootObject: cardsDictionary, requiringSecureCoding: false) else {
             print("Failed to archive data.")
             return

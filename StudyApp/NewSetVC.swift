@@ -42,7 +42,7 @@ class NewSetVC: UIViewController, UIDocumentPickerDelegate {
         newStandard.addTarget(self, action: #selector(newStandard(_:)), for: .touchUpInside)
         newStandard.layer.cornerRadius = 10
         centeredView.addSubview(newStandard)
-        let standardIcon = UIImageView(image: UIImage(systemName: "plus.app.fill"))
+        let standardIcon = UIImageView(image: UIImage(systemName: "rectangle.grid.2x2.fill"))
         standardIcon.frame = CGRect(x: 15, y: 15, width: 45, height: 45)
         standardIcon.tintColor = Colors.highlight
         standardIcon.contentMode = .scaleAspectFit
@@ -59,7 +59,7 @@ class NewSetVC: UIViewController, UIDocumentPickerDelegate {
         newWeb.addTarget(self, action: #selector(newWeb(_:)), for: .touchUpInside)
         newWeb.layer.cornerRadius = 10
         centeredView.addSubview(newWeb)
-        let webIcon = UIImageView(image: UIImage(systemName: "plus.app.fill"))
+        let webIcon = UIImageView(image: UIImage(systemName: "flowchart.fill"))
         webIcon.frame = CGRect(x: 15, y: 15, width: 45, height: 45)
         webIcon.tintColor = Colors.highlight
         webIcon.contentMode = .scaleAspectFit
@@ -148,12 +148,12 @@ class NewSetVC: UIViewController, UIDocumentPickerDelegate {
 //                        images.append(image)
 //                        defaults.setValue(images, forKey: "images")
 //                    }
-                    if let version = decodedCards["version"] as? Int{
-                        if(version == 0){
+                    if let version = decodedCards["version"] as? String {
+                        if(version == "0.3"){
                             
                         }
                     }
-                    
+                    print(decodedCards)
                     if decodedCards["type"] as! String == "standard"{
                         if var cards = decodedCards["set"] as? [[Any]]{
                             for (i, term) in cards.enumerated() {
@@ -183,7 +183,6 @@ class NewSetVC: UIViewController, UIDocumentPickerDelegate {
                             decodedCards["learn"] = oldLearn
                         }
                     }
-                    print(decodedCards["image"])
                     if var image = decodedCards["image"] as? Data{
                         let id = generateRandomID(16)
                         defaults.setValue(image, forKey: id)

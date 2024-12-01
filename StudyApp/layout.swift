@@ -68,27 +68,22 @@ func centerDrawing(_ canvasView: PKCanvasView) {
     }
 	
 func dateString() -> String {
-        // Get the current date
         let currentDate = Date()
         
-        // Create a DateFormatter for the full month name
         let monthFormatter = DateFormatter()
         monthFormatter.dateFormat = "MMMM"
         
-        // Create a DateFormatter for the day of the month
         let dayFormatter = DateFormatter()
         dayFormatter.dateFormat = "d"
         
-        // Create a DateFormatter for the year
+
         let yearFormatter = DateFormatter()
         yearFormatter.dateFormat = "yyyy"
-        
-        // Get the month, day, and year as strings
+
         let monthString = monthFormatter.string(from: currentDate)
         let dayString = dayFormatter.string(from: currentDate)
         let yearString = yearFormatter.string(from: currentDate)
         
-        // Get the day as an integer to determine the suffix
         let dayInt = Int(dayString) ?? 0
         let daySuffix: String
         switch dayInt {
@@ -107,7 +102,6 @@ func dateString() -> String {
             }
         }
         
-        // Combine the date components into the desired format
         let formattedDate = "\(monthString) \(dayString)\(daySuffix), \(yearString)"
         
         return formattedDate
@@ -143,4 +137,8 @@ func generateRandomID(_ length: Int) -> String {
     }
 
     return randomID
+}
+
+func getVersion() -> String {
+    return "0.3"
 }

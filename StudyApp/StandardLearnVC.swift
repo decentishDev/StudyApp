@@ -111,7 +111,8 @@ class StandardLearnVC: UIViewController, PKCanvasViewDelegate, UITextFieldDelega
         settingsButton.setImage(UIImage(systemName: "gearshape.fill"), for: .normal)
         settingsButton.contentMode = .scaleAspectFit
         settingsButton.addTarget(self, action: #selector(self.SettingsButton(sender:)), for: .touchUpInside)
-        settingsButton.tintColor = Colors.highlight
+        settingsButton.tintColor = Colors.highlight.withAlphaComponent(0.5)
+        settingsButton.isEnabled = false
         view.addSubview(settingsButton)
         cardCounter.frame = CGRect(x: 60, y: 20, width: view.frame.width - 120, height: 20)
         cardCounter.font = .systemFont(ofSize: 15)
@@ -135,7 +136,7 @@ class StandardLearnVC: UIViewController, PKCanvasViewDelegate, UITextFieldDelega
         CardImage.contentMode = .scaleAspectFit
         view.addSubview(CardImage)
         TextField.frame = CGRect(x: 50, y: topHeight - keyboard + 20, width: view.frame.width - 110, height: 50)
-        TextField.font = UIFont(name: "LilGrotesk-Regular", size: 35)
+        TextField.font = UIFont(name: "LilGrotesk-Regular", size: 30)
         TextField.textColor = Colors.text
         TextField.placeholder = "Type your answer here . . ."
         TextField.delegate = self

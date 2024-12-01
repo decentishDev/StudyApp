@@ -40,13 +40,21 @@ class WelcomeVC: UIViewController {
         topLabel.textColor = Colors.text
         centeredView.addSubview(topLabel)
         
-        let middleLabel = UILabel(frame: CGRect(x: 40, y: 120, width: 520, height: 360))
-        middleLabel.text = "Through non-linear web sets, drawing tools, writing recognition, and uninterrupted simple features, we aim to improve your study habits.\n\nThis is the first public version of the offline version of the app. We're currently working on a lot of new features, but feel free to contact us about any bugs or issues you encounter.\n\nThank you for downloading."
+        let middleLabel = UILabel(frame: CGRect(x: 40, y: 120, width: 520, height: 300))
+        middleLabel.text = "\tThrough non-linear web sets, drawing tools, writing recognition, and uninterrupted simple features, we aim to improve your study habits.\n\n\tThis is the D214 beta version of the app. We're currently working on a lot of new features, but feel free to contact us about any bugs or issues you encounter."
         middleLabel.numberOfLines = 0
-        middleLabel.textAlignment = .center
+        middleLabel.textAlignment = .left
         middleLabel.font = UIFont(name: "LilGrotesk-Regular", size: 20)
         middleLabel.textColor = Colors.text
         centeredView.addSubview(middleLabel)
+        
+        let bottomLabel = UILabel(frame: CGRect(x: 40, y: 380, width: 520, height: 60))
+        bottomLabel.text = "Thank you for downloading."
+        bottomLabel.numberOfLines = 0
+        bottomLabel.textAlignment = .center
+        bottomLabel.font = UIFont(name: "LilGrotesk-Regular", size: 20)
+        bottomLabel.textColor = Colors.text
+        centeredView.addSubview(bottomLabel)
     }
     
     @objc func startButton(_ sender: UIButton){

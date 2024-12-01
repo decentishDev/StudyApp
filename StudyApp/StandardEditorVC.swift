@@ -373,13 +373,12 @@ deinit {
                 button7.setImage(UIImage(systemName: "circle"), for: .normal)
             }else if(cards[i][2] as! String == "d-r"){
                 button4.tintColor = Colors.highlight
-                button7.setImage(UIImage(systemName: "circle.fill"), for: .normal)
+                button7.setImage(UIImage(systemName: "checkmark.circle.fill"), for: .normal)
             }else{
                 button4.tintColor = Colors.darkHighlight
                 recognize.isHidden = true
                 button7.isHidden = true
                 button7.setImage(UIImage(systemName: "circle"), for: .normal)
-                
             }
             
             buttonsView.addSubview(button1)
@@ -418,25 +417,33 @@ deinit {
         let button1 = UIButton()
         button1.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
         button1.setImage(UIImage(systemName: "text.alignleft"), for: .normal)
-        button1.tintColor = Colors.highlight
         button1.addTarget(self, action: #selector(changeDefaultInput(_:)), for: .touchUpInside)
         button1.accessibilityIdentifier = "1" + String(cards.count)
         let button2 = UIButton()
         button2.frame = CGRect(x: 30, y: 0, width: 30, height: 30)
         button2.setImage(UIImage(systemName: "photo"), for: .normal)
-        button2.tintColor = Colors.darkHighlight
         button2.addTarget(self, action: #selector(changeDefaultInput(_:)), for: .touchUpInside)
         button2.accessibilityIdentifier = "2" + String(cards.count)
         let button3 = UIButton()
         button3.frame = CGRect(x: 60, y: 0, width: 30, height: 30)
         button3.setImage(UIImage(systemName: "pencil.and.scribble"), for: .normal)
-//        if(cards[i][0] as! String == "d"){
-//            button3.tintColor = Colors.highlight
-//        }else{
-            button3.tintColor = Colors.darkHighlight
-//        }
         button3.addTarget(self, action: #selector(changeDefaultInput(_:)), for: .touchUpInside)
         button3.accessibilityIdentifier = "3" + String(cards.count)
+        
+        if(defaultTerm == "t"){
+            button1.tintColor = Colors.highlight
+            button2.tintColor = Colors.darkHighlight
+            button3.tintColor = Colors.darkHighlight
+        }else if(defaultTerm == "i"){
+            button1.tintColor = Colors.darkHighlight
+            button2.tintColor = Colors.highlight
+            button3.tintColor = Colors.darkHighlight
+        }else{
+            button1.tintColor = Colors.darkHighlight
+            button2.tintColor = Colors.darkHighlight
+            button3.tintColor = Colors.highlight
+        }
+        
         let button4 = UIButton()
         button4.frame = CGRect(x: ((view.frame.width - 100) / 2), y: 0, width: 30, height: 30)
         button4.setImage(UIImage(systemName: "text.alignleft"), for: .normal)
@@ -452,11 +459,6 @@ deinit {
         let button6 = UIButton()
         button6.frame = CGRect(x: ((view.frame.width - 100) / 2) + 30, y: 0, width: 30, height: 30)
         button6.setImage(UIImage(systemName: "pencil.and.scribble"), for: .normal)
-//        if(cards[i][2] as! String == "i"){
-//            button6.tintColor = Colors.highlight
-//        }else{
-            button6.tintColor = Colors.darkHighlight
-//        }
         button6.addTarget(self, action: #selector(changeDefaultInput(_:)), for: .touchUpInside)
         button6.accessibilityIdentifier = "5" + String(cards.count)
         let recognize = UILabel(frame: CGRect(x: ((view.frame.width - 100) / 2) + 60, y: 0, width: 100, height: 30))
@@ -470,19 +472,21 @@ deinit {
         button7.addTarget(self, action: #selector(changeDefaultInput(_:)), for: .touchUpInside)
         button7.accessibilityIdentifier = "6" + String(cards.count)
         
-//        if(cards[i][2] as! String == "t"){
+        button7.setImage(UIImage(systemName: "circle"), for: .normal)
+        
+        if(defaultDefinition == "t"){
             button4.tintColor = Colors.highlight
-            button7.setImage(UIImage(systemName: "circle"), for: .normal)
-//        }else if(cards[i][2] as! String == "d-r"){
-//            button4.tintColor = Colors.highlight
-//            button7.setImage(UIImage(systemName: "checkmark.circle.fill"), for: .normal)
-//        }else{
-//            button4.tintColor = Colors.darkHighlight
-//            recognize.isHidden = true
-//            button7.isHidden = true
-//            button7.setImage(UIImage(systemName: "circle"), for: .normal)
-            
-//        }
+            button6.tintColor = Colors.darkHighlight
+        }else if(defaultDefinition == "d-r"){
+            button4.tintColor = Colors.highlight
+            button6.tintColor = Colors.darkHighlight
+            button7.setImage(UIImage(systemName: "checkmark.circle.fill"), for: .normal)
+        }else{
+            button4.tintColor = Colors.darkHighlight
+            button6.tintColor = Colors.highlight
+            recognize.isHidden = true
+            button7.isHidden = true
+        }
         
         buttonsView.addSubview(button1)
         buttonsView.addSubview(button2)
@@ -711,7 +715,7 @@ deinit {
             button7.setImage(UIImage(systemName: "circle"), for: .normal)
         }else if(cards[i][2] as! String == "d-r"){
             button4.tintColor = Colors.highlight
-            button7.setImage(UIImage(systemName: "circle.fill"), for: .normal)
+            button7.setImage(UIImage(systemName: "checkmark.circle.fill"), for: .normal)
         }else{
             button4.tintColor = Colors.darkHighlight
             recognize.isHidden = true
@@ -897,7 +901,7 @@ deinit {
                 sender.setImage(UIImage(systemName: "circle"), for: .normal)
                 cards[i][2] = "t"
             }else{
-                sender.setImage(UIImage(systemName: "circle.fill"), for: .normal)
+                sender.setImage(UIImage(systemName: "checkmark.circle.fill"), for: .normal)
                 cards[i][2] = "d-r"
             }
         default:
@@ -929,7 +933,7 @@ deinit {
             defaultDefinition = "t"
             sender.superview!.subviews[5].isHidden = false
             sender.superview!.subviews[6].isHidden = false
-            sender.setImage(UIImage(systemName: "circle.fill"), for: .normal)
+            sender.setImage(UIImage(systemName: "checkmark.circle.fill"), for: .normal)
         case "5":
             sender.tintColor = Colors.highlight
             sender.superview!.subviews[3].tintColor = Colors.darkHighlight
@@ -937,11 +941,11 @@ deinit {
             sender.superview!.subviews[6].isHidden = true
             defaultDefinition = "d"
         case "6":
-            if(sender.imageView!.image == UIImage(systemName: "circle.fill")){
+            if(sender.imageView!.image == UIImage(systemName: "checkmark.circle.fill")){
                 sender.setImage(UIImage(systemName: "circle"), for: .normal)
                 defaultDefinition = "t"
             }else{
-                sender.setImage(UIImage(systemName: "circle.fill"), for: .normal)
+                sender.setImage(UIImage(systemName: "checkmark.circle.fill"), for: .normal)
                 defaultDefinition = "d-r"
             }
         default:

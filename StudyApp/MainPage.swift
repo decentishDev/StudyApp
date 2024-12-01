@@ -153,10 +153,31 @@ class MainPage: UIViewController, NewSetDelegate {
         titleLabel.font = UIFont(name: "LilGrotesk-Black", size: 30)
         topBar.addSubview(titleLabel)
         titleLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        titleLabel.widthAnchor.constraint(equalToConstant: 400).isActive = true
+        titleLabel.widthAnchor.constraint(equalToConstant: 250).isActive = true
         titleLabel.leadingAnchor.constraint(equalTo: icon.trailingAnchor, constant: 10).isActive = true
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         //titleLabel.backgroundColor = .green
+        
+        let betaView = UIView()
+        betaView.backgroundColor = Colors.highlight
+        betaView.layer.cornerRadius = 10
+        topBar.addSubview(betaView)
+        betaView.heightAnchor.constraint(equalToConstant: 27).isActive = true
+        betaView.widthAnchor.constraint(equalToConstant: 58).isActive = true
+        betaView.leadingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 10).isActive = true
+        betaView.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor).isActive = true
+        betaView.translatesAutoresizingMaskIntoConstraints = false
+        let betaText = UILabel()
+        betaText.text = "BETA"
+        betaText.textColor = Colors.background
+        betaText.font = UIFont(name: "LilGrotesk-Black", size: 17)
+        betaText.textAlignment = .center
+        betaView.addSubview(betaText)
+        betaText.heightAnchor.constraint(equalToConstant: 27).isActive = true
+        betaText.widthAnchor.constraint(equalToConstant: 58).isActive = true
+        betaText.centerXAnchor.constraint(equalTo: betaView.centerXAnchor).isActive = true
+        betaText.centerYAnchor.constraint(equalTo: betaView.centerYAnchor).isActive = true
+        betaText.translatesAutoresizingMaskIntoConstraints = false
         
         let settingsIcon = UIImageView()
         //settingsButton.setImage(UIImage(systemName: "gear"), for: .normal)

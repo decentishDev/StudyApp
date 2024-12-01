@@ -52,7 +52,6 @@ class WebStudyVC: UIViewController, UITextFieldDelegate {
         web = data["set"] as! [[Any]]
         
         if(web.count > 0){
-            
             let backButton = UIButton()
             backButton.frame = CGRect(x: 20, y: 20, width: 20, height: 20)
             backButton.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
@@ -63,9 +62,10 @@ class WebStudyVC: UIViewController, UITextFieldDelegate {
             let settingsButton = UIButton()
             settingsButton.frame = CGRect(x: view.layer.frame.width - 40, y: 20, width: 20, height: 20)
             settingsButton.setImage(UIImage(systemName: "gearshape.fill"), for: .normal)
-            settingsButton.tintColor = Colors.highlight
+            settingsButton.tintColor = Colors.highlight.withAlphaComponent(0.5)
             settingsButton.contentMode = .scaleAspectFit
             settingsButton.addTarget(self, action: #selector(self.SettingsButton(sender:)), for: .touchUpInside)
+            settingsButton.isEnabled = false
             view.addSubview(settingsButton)
             termCounter.frame = CGRect(x: 60, y: 20, width: view.frame.width - 120, height: 20)
             termCounter.font = UIFont(name: "LilGrotesk-Bold", size: 15)

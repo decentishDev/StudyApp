@@ -406,7 +406,8 @@ class StandardSetVC: UIViewController {
                 cards[i][3] = defaults.value(forKey: cards[i][3] as! String)
             }
         }
-        cardsDictionary["sets"] = cards
+        cardsDictionary["set"] = cards
+        cardsDictionary["version"] = getVersion()
         guard let data = try? NSKeyedArchiver.archivedData(withRootObject: cardsDictionary, requiringSecureCoding: false) else {
             print("Failed to archive data.")
             return

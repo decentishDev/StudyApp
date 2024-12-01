@@ -91,12 +91,12 @@ class FlashcardsVC: UIViewController {
         }
         
         IncorrectView.backgroundColor = Colors.secondaryBackground
-        IncorrectView.layer.cornerRadius = 10
+        IncorrectView.layer.cornerRadius = 20
         CardView.backgroundColor = Colors.secondaryBackground
-        CardView.layer.cornerRadius = 10
+        CardView.layer.cornerRadius = 20
         
         CorrectView.backgroundColor = Colors.secondaryBackground
-        CorrectView.layer.cornerRadius = 10
+        CorrectView.layer.cornerRadius = 20
         
         view.addSubview(CorrectView)
         view.addSubview(IncorrectView)
@@ -124,7 +124,7 @@ class FlashcardsVC: UIViewController {
         CardView.addSubview(CardLabel)
         CardDrawing.frame = CGRect(x: 0, y: 0, width: (view.frame.width - 161), height: 2*(view.frame.width - 161)/3)
         CardDrawing.isUserInteractionEnabled = false
-        CardDrawing.layer.cornerRadius = 10
+        CardDrawing.layer.cornerRadius = 20
         CardDrawing.backgroundColor = .clear
         CardDrawing.tool = Colors.pen
         CardDrawing.overrideUserInterfaceStyle = .light
@@ -199,9 +199,10 @@ class FlashcardsVC: UIViewController {
         let settingsButton = UIButton()
         settingsButton.frame = CGRect(x: view.layer.frame.width - 40, y: 20, width: 20, height: 20)
         settingsButton.setImage(UIImage(systemName: "gearshape.fill"), for: .normal)
-        settingsButton.tintColor = Colors.highlight
+        settingsButton.tintColor = Colors.highlight.withAlphaComponent(0.5)
         settingsButton.contentMode = .scaleAspectFit
         settingsButton.addTarget(self, action: #selector(self.SettingsButton(sender:)), for: .touchUpInside)
+        settingsButton.isEnabled = false
         view.addSubview(settingsButton)
         cardCounter.frame = CGRect(x: 60, y: 20, width: view.frame.width - 120, height: 20)
         cardCounter.font = UIFont(name: "LilGrotesk-Bold", size: 15)
@@ -211,7 +212,7 @@ class FlashcardsVC: UIViewController {
         view.addSubview(cardCounter)
         
         OverlayCard.frame = CardView.frame
-        OverlayCard.layer.cornerRadius = 10
+        OverlayCard.layer.cornerRadius = 20
         OverlayCard.backgroundColor = Colors.secondaryBackground
         OverlayLabel.font = UIFont(name: "LilGrotesk-Regular", size: 40)
         OverlayLabel.textAlignment = .center
@@ -221,7 +222,7 @@ class FlashcardsVC: UIViewController {
         OverlayCard.addSubview(OverlayLabel)
         OverlayDrawing.frame = CGRect(x: 0, y: 0, width: (view.frame.width - 161), height: 2*(view.frame.width - 161)/3)
         OverlayDrawing.isUserInteractionEnabled = false
-        OverlayDrawing.layer.cornerRadius = 10
+        OverlayDrawing.layer.cornerRadius = 20
         OverlayDrawing.backgroundColor = .clear
         OverlayDrawing.tool = Colors.pen
         OverlayDrawing.overrideUserInterfaceStyle = .light
