@@ -388,9 +388,9 @@ class StandardLearnVC: UIViewController, PKCanvasViewDelegate, UITextFieldDelega
             let current = getNormalizedString(from: TextField.text ?? "")
             
             if goal == current {
+                correctAnim(cardOrder[index])
                 index += 1
                 nextTerm()
-                correctAnim(cardOrder[index])
             } else {
                 incorrectAnim(cardOrder[index])
             }
